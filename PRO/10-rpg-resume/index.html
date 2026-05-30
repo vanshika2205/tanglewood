@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanshika's Quest: Gamified RPG Resume & Portfolio</title>
+  <!-- Retro Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Retro Scanline Overlay for the entire screen (toggleable) -->
+  <div class="global-crt-effect pointer-events-none"></div>
+
+  <!-- Background Ambience Overlay -->
+  <div class="cyber-space-bg">
+    <div class="ambient-stars"></div>
+  </div>
+
+  <!-- Main Game Frame Cabin Container -->
+  <main class="arcade-chassis">
+    
+    <!-- Top Cabinet Header Marquee -->
+    <div class="cabinet-marquee">
+      <div class="marquee-lights">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="marquee-text">
+        <span class="glitch-text" data-text="VANSHIKA'S QUEST">VANSHIKA'S QUEST</span>
+      </div>
+      <div class="marquee-lights">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- The CRT Monitor Chassis -->
+    <div class="crt-bezel">
+      <div class="bezel-inner">
+        
+        <!-- CRT Screen Tube (Curved, Scanlines, Flickering, Gloss) -->
+        <div class="crt-screen" id="crt-screen">
+          
+          <!-- Screen Glare / Reflection -->
+          <div class="crt-glare"></div>
+
+          <!-- Utility Control Bar (BGM Toggle, Audio Indicator, Fullscreen) -->
+          <div class="screen-controls-bar">
+            <div class="led-indicator-group">
+              <span class="led led-green pulsing" title="CPU Core Active"></span>
+              <span class="led-label">CRT SYSTEM READY</span>
+            </div>
+            <div class="control-actions">
+              <button id="btn-sound-toggle" class="control-btn" title="Toggle 8-Bit BGM">
+                <span class="icon">🔊</span> <span class="label">BGM: ON</span>
+              </button>
+              <button id="btn-fullscreen" class="control-btn" title="Toggle Fullscreen">
+                <span class="icon">⛶</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- The Game Space Window -->
+          <div class="game-viewport">
+            
+            <!-- Map Overlay Area: Displays HUD, Quest Cards, Tavern Scroll, Inventory -->
+            <div class="hud-layer">
+              
+              <!-- Player Stats Bar -->
+              <div class="hud-panel char-stats-card">
+                <div class="avatar-frame">
+                  <div class="pixel-avatar" id="hud-avatar"></div>
+                </div>
+                <div class="stats-text-area">
+                  <div class="char-header">
+                    <span class="char-name">Vanshika</span>
+                    <span class="char-class">LV. <span id="hud-level-val">1</span></span>
+                  </div>
+                  <!-- Passion HP Bar -->
+                  <div class="stat-row">
+                    <span class="stat-label">HP</span>
+                    <div class="bar-container hp-container">
+                      <div class="bar-fill hp-fill" id="hp-bar-fill" style="width: 100%;"></div>
+                      <span class="bar-text">100 / 100</span>
+                    </div>
+                  </div>
+                  <!-- Experience XP Bar -->
+                  <div class="stat-row">
+                    <span class="stat-label">XP</span>
+                    <div class="bar-container xp-container">
+                      <div class="bar-fill xp-fill" id="xp-bar-fill" style="width: 0%;"></div>
+                      <span class="bar-text" id="xp-percent-text">0%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inventory Pocket -->
+              <div class="hud-panel inventory-pocket">
+                <h4 class="hud-title">INVENTORY</h4>
+                <div class="inventory-slots">
+                  <div class="inv-slot active" id="slot-resume" title="Mythic Scroll of Resume (Download PDF)">
+                    <div class="inv-icon">📜</div>
+                    <span class="inv-qty">x1</span>
+                  </div>
+                  <div class="inv-slot locked" title="Quest Badge: Symphony Studio" id="badge-symphony">
+                    <div class="inv-icon">🎹</div>
+                  </div>
+                  <div class="inv-slot locked" title="Quest Badge: Cyberpunk Dashboard" id="badge-dashboard">
+                    <div class="inv-icon">💻</div>
+                  </div>
+                  <div class="inv-slot locked" title="Quest Badge: Lo-Fi VibeSpace" id="badge-vibes">
+                    <div class="inv-icon">☕</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notification Toast Banner -->
+              <div class="game-toast-container" id="toast-container"></div>
+
+              <!-- LEVEL UP Fanfare Banner Overlay -->
+              <div class="level-up-overlay hidden" id="level-up-banner">
+                <div class="level-up-glow"></div>
+                <h1 class="lvl-up-text">LEVEL UP!</h1>
+                <p class="lvl-up-sub">Vanshika's Tech Power Increased!</p>
+              </div>
+
+            </div>
+
+            <!-- Dialogue Speech Box (NPC wizard, instructions, prompts) -->
+            <div class="dialogue-box" id="dialogue-box">
+              <div class="dialogue-avatar">
+                <div class="pixel-npc" id="dialogue-npc-sprite"></div>
+              </div>
+              <div class="dialogue-content">
+                <div class="speaker-name" id="speaker-name">GUIDE BOT</div>
+                <div class="speaker-text" id="speaker-text">Welcome adventurer! Move with WASD/Arrows or the screen D-pad. Explore the Forest of Skills, Cave of Projects, Temple of Experience, and Contact Tavern to gain XP and Level Up!</div>
+                <div class="dialogue-arrow">▶</div>
+              </div>
+            </div>
+
+            <!-- RPG Canvas Screen -->
+            <canvas id="game-canvas"></canvas>
+
+          </div> <!-- /game-viewport -->
+
+        </div> <!-- /crt-screen -->
+      </div> <!-- /bezel-inner -->
+    </div> <!-- /crt-bezel -->
+
+    <!-- Arcade Controller Panel (D-PAD & Tactile Physical Buttons) -->
+    <div class="arcade-deck">
+      
+      <!-- Left side: Digital 8-Way D-Pad -->
+      <div class="controller-dpad-section">
+        <div class="dpad-housing">
+          <button class="dpad-btn dpad-up" id="btn-move-up" title="Move Up">▲</button>
+          <button class="dpad-btn dpad-left" id="btn-move-left" title="Move Left">◀</button>
+          <div class="dpad-center"></div>
+          <button class="dpad-btn dpad-right" id="btn-move-right" title="Move Right">▶</button>
+          <button class="dpad-btn dpad-down" id="btn-move-down" title="Move Down">▼</button>
+        </div>
+        <div class="deck-label">JOYPAD MOVEMENT</div>
+      </div>
+
+      <!-- Center-Right: Coin Slots & Action buttons -->
+      <div class="controller-actions-section">
+        <div class="coin-slots-container">
+          <div class="coin-slot">
+            <div class="coin-entry"></div>
+            <div class="coin-light active">25¢ INSERT COIN</div>
+          </div>
+        </div>
+        
+        <div class="action-buttons-group">
+          <div class="btn-cluster">
+            <button class="arcade-action-btn action-a" id="btn-action-a" title="Action A: Interact / Select">
+              <span class="btn-top">A</span>
+            </button>
+            <span class="action-label">INTERACT / OK</span>
+          </div>
+          
+          <div class="btn-cluster">
+            <button class="arcade-action-btn action-b" id="btn-action-b" title="Action B: Close Modals / Cancel">
+              <span class="btn-top">B</span>
+            </button>
+            <span class="action-label">BACK / CLOSE</span>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /arcade-deck -->
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL SCREENS (REPRESENTING QUEST LOOT)    -->
+  <!-- ========================================== -->
+
+  <!-- 1. SKILL FOREST MODAL: Interactive Skills -->
+  <div class="rpg-modal hidden" id="modal-skills">
+    <div class="modal-backdrop"></div>
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        <h3 class="modal-title">🌲 FORESTS OF SKILL - NODE EXPLORER</h3>
+        <button class="modal-close-btn" onclick="closeActiveModal()">❌</button>
+      </div>
+      <div class="modal-body">
+        <div class="skills-split-layout">
+          <!-- Canvas for skill graph -->
+          <div class="skills-graph-card">
+            <p class="section-notice">Hover or Click glowing skill crystals to scan details:</p>
+            <div class="skill-graph-container">
+              <canvas id="skill-tree-canvas"></canvas>
+            </div>
+          </div>
+          <!-- Right: Status display -->
+          <div class="skills-details-card">
+            <h4 class="hud-title text-accent">CRYSTAL SCANNER</h4>
+            <div id="skill-scanner-empty" class="scanner-default">
+              <div class="scan-radar"></div>
+              <p>NO NODE ACTIVATED. SELECT A NODE IN THE CHART TO LOAD STAT DATA.</p>
+            </div>
+            <div id="skill-scanner-active" class="scanner-data hidden">
+              <div class="selected-node-header">
+                <span class="node-icon" id="scan-node-icon">🔮</span>
+                <div>
+                  <h3 id="scan-node-name">Frontend Craft</h3>
+                  <span class="node-badge" id="scan-node-rank">Rank: Arch-Mage</span>
+                </div>
+              </div>
+              
+              <div class="skills-progress-list" id="scan-subskills-list">
+                <!-- Injected dynamically: specific sub-skills bars -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PROJECT CHEST OPEN MODAL: Chest Loot Cards -->
+  <div class="rpg-modal hidden" id="modal-projects">
+    <div class="modal-backdrop"></div>
+    <div class="modal-wrapper project-modal-wrapper">
+      <div class="modal-header">
+        <h3 class="modal-title">🏆 LEGENDARY QUEST LOOT UNLOCKED</h3>
+        <button class="modal-close-btn" onclick="closeActiveModal()">❌</button>
+      </div>
+      <div class="modal-body">
+        <div class="project-quest-card">
+          <div class="chest-card-left">
+            <div class="chest-grand-icon" id="chest-grand-icon">🎁</div>
+            <div class="quest-rarity-badge" id="chest-quest-rarity">LEGENDARY MYTHIC</div>
+          </div>
+          <div class="chest-card-right">
+            <h2 class="project-title" id="chest-project-title">Symphony Studio</h2>
+            <div class="stack-badges" id="chest-project-stack">
+              <span>Web Audio API</span>
+              <span>Canvas 2D</span>
+              <span>Step Sequencer</span>
+            </div>
+            <p class="project-desc" id="chest-project-desc">
+              An ultra-premium, interactive Browser DAW & Beatmaker application. Plays procedural synth leads, heavy bass chord lines, detuned sawtooth sweeps, and features a piano roll sequencer interface!
+            </p>
+            <div class="quest-rewards-box">
+              <span class="rewards-title">🎁 QUEST REWARDS UNLOCKED:</span>
+              <ul class="rewards-list">
+                <li>🌟 +25 XP Exploration Points</li>
+                <li>🎵 Sound Synthesis Code Badge</li>
+                <li>🎮 Interactive Step-Sequencer Achievement</li>
+              </ul>
+            </div>
+            <div class="quest-action-row">
+              <a href="#" id="chest-project-link" target="_blank" class="pixel-btn play-quest-btn">
+                <span>ENTER QUEST (LAUNCH DEMO)</span>
+              </a>
+              <button class="pixel-btn cancel-btn" onclick="closeActiveModal()">
+                <span>CLOSE CHEST</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. TEMPLE OF EXPERIENCE: Active & Finished Quest Logs -->
+  <div class="rpg-modal hidden" id="modal-experience">
+    <div class="modal-backdrop"></div>
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        <h3 class="modal-title">⛪ THE TEMPLE OF CHRONOLOGY - QUEST LOG</h3>
+        <button class="modal-close-btn" onclick="closeActiveModal()">❌</button>
+      </div>
+      <div class="modal-body">
+        <p class="section-notice">Scroll or select quests to view detailed achievements & milestones:</p>
+        <div class="quest-logs-container">
+          
+          <!-- Quest Item 1 (Active) -->
+          <div class="quest-item active-quest">
+            <div class="quest-item-header">
+              <div class="quest-item-title-row">
+                <span class="quest-status-pin active">ACTIVE</span>
+                <h4>Quest 1: Senior Frontend Architect & Innovator</h4>
+              </div>
+              <span class="quest-date">2024 - PRESENT</span>
+            </div>
+            <div class="quest-item-body">
+              <p class="quest-company">📍 Symphony Web Systems & Creative Guild</p>
+              <ul class="quest-milestones">
+                <li>🛠️ Architected scalable, modular frontend code bases in React & HTML5 Canvas, boosting UI interaction responsiveness by 40%.</li>
+                <li>🔊 Built offline-first procedural sound engines and DSP equalizers, providing frictionless sound visualizers.</li>
+                <li>🎨 Established reusable design systems with micro-interactions, leading to stunning responsive grids.</li>
+              </ul>
+              <div class="loot-rewards-footer">
+                <span>🎖️ UNLOCKED REWARDS:</span>
+                <div class="reward-tags">
+                  <span class="tag-gold">Architect Title</span>
+                  <span class="tag-silver">Webpack Rune</span>
+                  <span class="tag-bronze">+100 Passion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quest Item 2 (Completed) -->
+          <div class="quest-item completed-quest">
+            <div class="quest-item-header">
+              <div class="quest-item-title-row">
+                <span class="quest-status-pin completed">COMPLETED</span>
+                <h4>Quest 2: Creative Technologist & Interaction Wizard</h4>
+              </div>
+              <span class="quest-date">2022 - 2024</span>
+            </div>
+            <div class="quest-item-body">
+              <p class="quest-company">📍 Cyberpunk Task Hub & Interactive Media Lab</p>
+              <ul class="quest-milestones">
+                <li>⚡ Pioneered high-fps HTML5 Canvas dashboard utilities with real-time hardware status metrics.</li>
+                <li>📊 Integrated optimized LocalStorage state machines to retain player settings and customizable themes.</li>
+                <li>📱 Designed fluid responsive layouts that dynamically resize on mobile, preventing UI cutoff.</li>
+              </ul>
+              <div class="loot-rewards-footer">
+                <span>🎖️ UNLOCKED REWARDS:</span>
+                <div class="reward-tags">
+                  <span class="tag-gold">Matrix Vision</span>
+                  <span class="tag-silver">Responsive Gem</span>
+                  <span class="tag-bronze">+50 Speed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quest Item 3 (Completed) -->
+          <div class="quest-item completed-quest">
+            <div class="quest-item-header">
+              <div class="quest-item-title-row">
+                <span class="quest-status-pin completed">COMPLETED</span>
+                <h4>Quest 3: UI Engineer & Lo-Fi Alchemist</h4>
+              </div>
+              <span class="quest-date">2020 - 2022</span>
+            </div>
+            <div class="quest-item-body">
+              <p class="quest-company">📍 Cozy Space & Chillroom Productions</p>
+              <ul class="quest-milestones">
+                <li>☕ Engineered custom HTML audio players with real-time ambient noise mixers (rain, coffee shop chatter, keyboard clacks).</li>
+                <li>🌙 Implemented dynamic CSS-driven Day/Night aesthetic timers with glowing stars and ambient animations.</li>
+                <li>⏱️ Programmed persistent Pomodoro widgets with circular SVG timer gauges.</li>
+              </ul>
+              <div class="loot-rewards-footer">
+                <span>🎖️ UNLOCKED REWARDS:</span>
+                <div class="reward-tags">
+                  <span class="tag-gold">Cozy Master</span>
+                  <span class="tag-silver">Ambient Ring</span>
+                  <span class="tag-bronze">+25 focus</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CONTACT TAVERN: Quest Submission parchment form -->
+  <div class="rpg-modal hidden" id="modal-contact">
+    <div class="modal-backdrop"></div>
+    <div class="modal-wrapper contact-modal-wrapper">
+      <div class="modal-header">
+        <h3 class="modal-title">🍺 THE CONTACT TAVERN - SUBMIT QUEST</h3>
+        <button class="modal-close-btn" onclick="closeActiveModal()">❌</button>
+      </div>
+      <div class="modal-body">
+        <div class="tavern-split-layout">
+          <!-- Left dialogue side -->
+          <div class="tavern-npc-section">
+            <div class="dialogue-bubble">
+              <p id="npc-tavern-text">"Hark, traveler! You wish to send a message scroll to the legendary Arch-Mage Vanshika? Fill the magical parchment below, and my messenger owl shall deliver it instantly!"</p>
+            </div>
+            <div class="tavern-npc-frame">
+              <div class="npc-tavern-wizard"></div>
+              <span class="npc-tavern-name">BARTENDER ELDRIN</span>
+            </div>
+          </div>
+          <!-- Right form side -->
+          <div class="tavern-form-section">
+            <form class="parchment-form" id="quest-submit-form" onsubmit="event.preventDefault(); submitQuestForm();">
+              <h4 class="form-scroll-title">📜 QUEST MESSAGE SCROLL</h4>
+              
+              <div class="form-group">
+                <label for="adventurer-name">ADVENTURER NAME:</label>
+                <input type="text" id="adventurer-name" required placeholder="Type your noble title..." class="pixel-input">
+              </div>
+
+              <div class="form-group">
+                <label for="adventurer-email">CORRESPONDENCE EMAIL:</label>
+                <input type="email" id="adventurer-email" required placeholder="name@domain.com" class="pixel-input">
+              </div>
+
+              <div class="form-group">
+                <label for="adventurer-message">QUEST DESCRIPTION:</label>
+                <textarea id="adventurer-message" required placeholder="Describe your quest or request for alliance..." class="pixel-input" rows="4"></textarea>
+              </div>
+
+              <button type="submit" class="pixel-btn submit-quest-btn">
+                <span>SUBMIT QUEST MESSAGE</span>
+              </button>
+            </form>
+            
+            <div class="form-success-area hidden" id="quest-success-screen">
+              <div class="owl-flight">🦉</div>
+              <h3>QUEST REGISTERED!</h3>
+              <p>The messenger owl has taken flight. Vanshika will receive your quest report at the earliest dawn!</p>
+              <button class="pixel-btn play-quest-btn" onclick="resetQuestForm()">
+                <span>SEND ANOTHER SCROLL</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Game Javascript code -->
+  <script src="app.js"></script>
+</body>
+</html>

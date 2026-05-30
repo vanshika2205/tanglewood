@@ -1,0 +1,24 @@
+{
+  "name": "samtulan",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "bcryptjs": "^3.0.3",
+    "mongoose": "^8.4.0",
+    "next": "14.2.3",
+    "next-auth": "^4.24.13",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3"
+  }
+}

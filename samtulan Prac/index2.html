@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Samtulan</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13a4ec",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101c22",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .modal {
+      display: none;
+    }
+    #feedback-modal:target {
+      display: flex;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex min-h-screen">
+<aside class="w-64 shrink-0 bg-background-light dark:bg-background-dark p-4 flex flex-col justify-between border-r border-primary/20 dark:border-primary/30">
+<div class="flex flex-col gap-8">
+<h1 class="text-2xl font-bold text-primary px-3">Samtulan</h1>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-primary/20 dark:bg-primary/30 text-primary font-bold" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Study Tips</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">work</span>
+<span>Skill Development</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">event</span>
+<span>Daily Challenges</span>
+</a>
+</nav>
+<div class="mt-8 px-3">
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-lg text-center">
+<span class="material-symbols-outlined text-primary text-3xl">workspace_premium</span>
+<p class="text-sm font-medium text-black/80 dark:text-white/80 mt-2">Go Ad-Free!</p>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Enjoy uninterrupted learning with Premium.</p>
+<a class="mt-4 inline-block w-full h-9 px-4 rounded bg-primary text-white font-bold text-xs flex items-center justify-center gap-2" href="#">
+<span>Upgrade Now</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="w-full h-10 px-4 rounded bg-primary text-white font-bold text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">upload</span>
+<span>Upload</span>
+</button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Help</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#feedback-modal">
+<span class="material-symbols-outlined">feedback</span>
+<span>Feedback</span>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-6">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<div class="relative w-full max-w-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40">search</span>
+<input class="w-full h-12 pl-10 pr-4 rounded-lg bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40" placeholder="Search for educational content..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end">
+<span class="text-sm text-black/60 dark:text-white/60">Daily Goal</span>
+<div class="w-40 h-2 bg-primary/20 rounded-full mt-1">
+<div class="w-3/4 h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<img alt="User Avatar" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVmnYpEXDCMLNJc0DTalm0OMruOivjS7vqgsdyx9up0H-okynFzX7XYQhW68pJVjeH41bqSXLkfcf6Kk_cOf5xSLrE7A1txuu00jIkNv6JuavA8yl4nmnDvxfeoKVTdLTzFuCQbiXpslaTHSP6GF2w1qjmb0rZtxmuUGmp7vCyse0JL93LplZZrwxCaa9fUpIH71EMxfOiOmf9cp_xNQbVOXWohjPpncYs7kUcYWudQaAX3mZTd9rTE7sOcossYJ2xok_JrDjCaw"/>
+</div>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 -mx-6 px-6">
+<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-white shrink-0">All</button>
+<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary shrink-0">Study Tips</button>
+<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary shrink-0">Skill Development</button>
+<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary shrink-0">Productivity Hacks</button>
+<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary shrink-0">Coding Tutorials</button>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-black dark:text-white mb-4">Recommended</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-49X-iA6zSnl_mUpiHoHEKuma6qOQ1C5CQQg-iR93K75oh9FW2_b8Q12R0DiqfsuJpWSygDf_WSSzt0ox5uj3-VFlbn0bUV8U9eqngT-mCWg-Ka_3vRswq4vqnqBGlGVI9sR69VggDkeLrliLcX-n1moiwPU5vc2Bkaft0UDpzs_d9D56sM2SGEwENOe51_ppSs4hvmcX6DrGK_KGqqom6jLVFDZhkZbR1dZJrzKn9YkTkOUBtHmLUCZwLnNHrtVEiFbNIrCQ0A"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">12:34</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Effective Note-Taking Strategies</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Learn how to take effective notes</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq9qUk1W1Jc4yn53Ec93VcqIgx22xMEhriTm5UCGd7N4XDwc3vP2ZhOTmridB4wz19Wd0Lpcuw8-DCiiH8BL4ZoCqi2kk55kPFOr0oeHG-BbXa3wQLr5Trb8i3N_4Qfueiwt-yojFwBCYD4iyGoXtzRO1kh8QttdW6e7lZJgHUNhBsdxiVBiVND4DXfHGw8d4CSDGj4l1sWBtfFojl4t3gQbse7wjb2zXAm8LIHlnUy60IYkabX6rBiC7qCk--vZM2YHlKpf7Log"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">08:15</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Mastering Time Management</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Manage your time effectively</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyDorLfFkohbtd2P4t4QxQFnfSDS9ihGaQ9rHgId24W0k8egjQaD3g6ivgd9Dv_NOYvuQSvJY_QwBnyf9MNq445oDDjWG70nNsQB2_PJFUcPPL3bdYKeVK-yVxBDALNUief4Gif4CK0WHrGVl8ZRw3WfXZdpmcvk4ApXoyE4j_uWn-h4DpILgusMeb1jAoddLcbTc4D4RbCoQrfyzlGzEd4RwybR3uv6LYSOA_b7bLMu-7Ddae8sKK5dmXu2CH6G_yxn4Q1Dyhpw"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">25:01</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Coding Basics for Beginners</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Learn coding basics</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4v72xu99Zgp8IiZAG33jXxlHK4H7-RQZLsDmM5EgjtQ4q_lpj-V29HJjgP3qQGUGbOVY6B8G6YdoHaG8rfxPTqZoe9-Rxb_K2Al384cJgpAHc092xttOudmZvYK0YgCpO75nm4lzJz1jlzY0KEb8bhtdaI2WWS52FcinhXldkNwkGXUwc0e4EBFDGeqrxp06xYCTW3VCZYj7XRigmMgpRq344W3KdkH3aSAspwcYw6-LzpgMLahXibLdWeE4WEhef855_b_cPOA"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">15:52</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Boost Your Productivity with Pomodoro</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Boost your productivity</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-black dark:text-white mb-4">Popular</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByrjTee2QYhtyWk2F37UTnW0pgIxjAbNjT3wF50WaPaPJg8zUUB0ZNA4xIgf5XD7jQfwmmydvyY__630LjYTnI0Yw_0ueloyMSwJgATOP9J_6WorVcH3Lbs7kW3sskiKk6BgzAv7jT-77GlQmZ_RUkEXE6BiLr71EZgomU5bj76lfATlcVF8VOf8GJhzOTb0O95NSskD15imiYvi6Y97vbM8Ru6cLb-KIMBW0QRBZWP4vaNlL0R2A8sg7QNh5Qrf4R090IiLOTOw"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">30:00</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Learn a New Language in 30 Days</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Learn a new language</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDnnF4x9HxVUgtN2e3EeE-aSGnKidxTKF7_KvA3I34OCxv_Q8eCXZAUUZbsQWpF_QoCXkSsCJ7twbt5WZ-mGKpjqlobA9JG83XepggW5nogTzCwUfLq3tAv-yRJWEt4TN1XYk9GmxZ_-2a2BrDmy9YAnh7Mor9O2HOU3a1lR6hS3GY8q9N0ffnhAwaY-TXHRjHcYHbvxavoNNuaFhWES7xf5j1eN4oAmSGXxKfGnRn_G6fUIsWsmZ0Uhr-O4AWvDK2Vn0YpHeXmA"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">18:22</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">The Art of Public Speaking</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Learn public speaking</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJWchCXUaiMpV6E24VgUalNRLdXd_a6xxKxIQaaWKUElCrUUhd1esSNUKg6oR1gnAYNFc77mfUPCQKxNPzUxysoarEGeisZeuDus1s-gc7Ei5RDX3QEF2fspZLcjYpPOzNNnC4QrWaENu9PjGh4rgd3rJMpustX8QEd4YE42q1YoIXEge6gsobKnss0_Gr_7hUou8gv_rkYdkw7hUA1iKZRcm-YMcvKKkq-pJ2aj0-shsAb1DN2HzbyEioVwMADE0C9D3QNh8_2A"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">12:34</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Effective Note-Taking Strategies</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Learn how to take effective notes</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg">
+<img alt="Video thumbnail" class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB33S7lSjdnGofKtt9aihZV2fOqFHBaFBzcbkzrVbt95sTD2_kLuANywRkCWJ9zp50iqeIBIdggsH6uC1WB-TpZTRjVm2LEUMSc0Z_srZsyNPAoRO0A2MQXNVZ7Y8IzMbbntZi1PyC0I0R2tjMLlDb5H9TRNY7C_RobxSBNEYoDwMw_PcwTfIweGgIVFkt64ZNCoYMdKbUcsvBKpwdpzx4Ep93xdiPc1lcp8E3X0OnZcNteA15bHlhAEMkX3o92-xfj1l0gdqTbhw"/>
+<div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">08:15</div>
+</div>
+<div class="mt-3">
+<h3 class="font-bold text-base text-black dark:text-white">Mastering Time Management</h3>
+<p class="text-sm text-black/60 dark:text-white/60">Manage your time effectively</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="modal fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center" id="feedback-modal">
+<div class="bg-background-light dark:bg-background-dark rounded-xl shadow-2xl w-full max-w-md m-4">
+<div class="p-6 border-b border-primary/20 dark:border-primary/30 flex justify-between items-center">
+<h2 class="text-xl font-bold text-black dark:text-white">Feedback &amp; Reporting</h2>
+<a class="text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">close</span>
+</a>
+</div>
+<div class="p-6">
+<form class="flex flex-col gap-4">
+<div>
+<label class="block text-sm font-medium text-black/80 dark:text-white/80 mb-1" for="category">Category</label>
+<select class="w-full h-12 px-4 rounded-lg bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-black dark:text-white" id="category" name="category">
+<option>General Feedback</option>
+<option>Technical Issue</option>
+<option>Inappropriate Content</option>
+<option>Other</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-black/80 dark:text-white/80 mb-1" for="feedback">Your Message</label>
+<textarea class="w-full p-4 rounded-lg bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40" id="feedback" name="feedback" placeholder="Please describe the issue or your feedback..." rows="4"></textarea>
+</div>
+<div class="flex justify-end gap-3">
+<a class="h-10 px-6 rounded-lg text-sm font-bold flex items-center justify-center text-black/60 dark:text-white/60 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">Cancel</a>
+<button class="h-10 px-6 rounded-lg bg-primary text-white font-bold text-sm flex items-center justify-center" type="submit">Submit</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body></html>

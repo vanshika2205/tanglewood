@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#d2d5d7",
+              "on-tertiary-fixed": "#433500",
+              "surface-tint": "#c4c7c9",
+              "secondary-dim": "#05a9e3",
+              "on-surface": "#dfe4ff",
+              "tertiary-fixed": "#fed01b",
+              "surface-container-highest": "#0a2257",
+              "surface-dim": "#070d1f",
+              "tertiary": "#ffe083",
+              "on-tertiary": "#645000",
+              "outline": "#6073ad",
+              "surface-container": "#0a1839",
+              "primary-container": "#444749",
+              "outline-variant": "#32457c",
+              "surface-container-high": "#0b1d48",
+              "on-secondary-fixed": "#00445e",
+              "on-primary-fixed-variant": "#595c5e",
+              "secondary-container": "#004059",
+              "surface-variant": "#0a2257",
+              "surface-container-low": "#09122b",
+              "tertiary-dim": "#eec200",
+              "tertiary-container": "#fed01b",
+              "surface-bright": "#082768",
+              "on-primary-fixed": "#3c4042",
+              "error-dim": "#bb5551",
+              "inverse-on-surface": "#4f5469",
+              "on-primary": "#3d4142",
+              "primary-fixed": "#e0e3e5",
+              "on-error-container": "#ff9993",
+              "on-secondary": "#002b3d",
+              "surface-container-lowest": "#000000",
+              "background": "#070d1f",
+              "secondary-fixed-dim": "#a2dcff",
+              "on-secondary-container": "#63caff",
+              "secondary": "#22b1ec",
+              "primary-dim": "#b6b9bb",
+              "primary": "#c4c7c9",
+              "inverse-surface": "#faf8ff",
+              "on-background": "#dfe4ff",
+              "inverse-primary": "#5c5f61",
+              "on-tertiary-container": "#594700",
+              "on-error": "#490106",
+              "on-secondary-fixed-variant": "#006286",
+              "error-container": "#7f2927",
+              "on-tertiary-fixed-variant": "#645000",
+              "error": "#ee7d77",
+              "on-primary-container": "#ced1d2",
+              "tertiary-fixed-dim": "#eec200",
+              "on-surface-variant": "#96a9e6",
+              "secondary-fixed": "#c4e7ff",
+              "surface": "#070d1f"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #070d1f;
+            color: #dfe4ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#070d1f]/80 backdrop-blur-xl no-border bg-gradient-to-b from-[#09122b] to-transparent">
+<div class="flex justify-between items-center px-6 h-16 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-4">
+<button class="text-[#c4c7c9] hover:bg-white/5 transition-colors p-2 rounded-full md:hidden">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-xl font-bold tracking-tighter text-[#c4c7c9] font-['Manrope']">Lumina</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-white font-['Manrope'] font-bold tracking-tight text-sm" href="#">Home</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-1 rounded-full text-sm" href="#">Trending</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-1 rounded-full text-sm" href="#">Subscriptions</a>
+</nav>
+<div class="relative group">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 w-64 transition-all duration-300 focus-within:ring-1 ring-outline">
+<span class="material-symbols-outlined text-slate-400 text-lg" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500 font-body ml-2" placeholder="Search curated wisdom..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-[#c4c7c9] hover:bg-white/5 transition-colors p-2 rounded-full md:hidden">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/15 flex items-center justify-center overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="User profile avatar close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnAxmFortqJHrvvU0BhtTNJPveBwttaRxjTJ5PphIPnW_bBYuuMh9yZre6GLPW83naBWKd1-y-PnasDgZbRr14iG08wo1tuUU8lu9xXSZVRus-ejG6l7q51WmGHD2JyiyLO4C26501pdNWJMfVIF95oEdYiiUpppwjCR9UW2Mp-w_mLbXUS7krxypusgroAi6g7SIJyau0kEPRs8XglKUQJzUIZZkquplnfhXQwqi9xz41YzDLwkwjoGTgribHR88_Maao6rKh-r_2"/>
+</div>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer (Sidebar for Desktop) -->
+<aside class="hidden md:flex h-full w-64 fixed left-0 top-0 bg-[#09122b] flex-col py-8 px-4 gap-2 no-border shadow-2xl shadow-black/50 z-40 mt-16">
+<div class="flex flex-col gap-1 mb-6">
+<a class="flex items-center gap-4 py-3 px-4 bg-white/5 text-white border-l-2 border-[#c4c7c9] font-['Inter'] text-sm font-medium transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 text-slate-400 hover:bg-white/10 font-['Inter'] text-sm font-medium transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span>Trending</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 text-slate-400 hover:bg-white/10 font-['Inter'] text-sm font-medium transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="subscriptions">subscriptions</span>
+<span>Subscriptions</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 text-slate-400 hover:bg-white/10 font-['Inter'] text-sm font-medium transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>History</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant/10 pt-6 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center font-bold text-on-surface">AC</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-[#c4c7c9]">Academic Curator</span>
+<span class="text-[10px] uppercase tracking-widest text-slate-500">Premium Tier</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20 pb-24 md:pb-8 px-4 md:px-8">
+<!-- Category-based Chips -->
+<section class="flex items-center gap-3 overflow-x-auto hide-scrollbar py-4 mb-4 sticky top-16 bg-background/95 backdrop-blur-sm z-30">
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-primary text-on-primary text-xs font-semibold tracking-wide transition-all">All</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">Coding</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">Science</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">Fitness</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">DIY</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">Philosophy</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-medium transition-all">Engineering</button>
+</section>
+<!-- Video Feed (Bento/Asymmetric Grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+<!-- Featured Card (Large) -->
+<div class="sm:col-span-2 lg:col-span-2 flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container group-hover:scale-[1.01] transition-transform duration-300">
+<img alt="Quantum Physics" class="w-full h-full object-cover" data-alt="Abstract visualization of quantum physics particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8iP-_Mcb6v5-zraGqkrJkhPflOfdsMTfgRsjE1lTGQ6lhW4Q2dqjFKNGCfV3qTkBGg5cIbAJNIs-gJhOzo9bvzbBqFaiTQsqHbgOO-uz6Lq89HSJe1HCKhC_235xKK4OgoE1EnmTr_Zl51apmsByytAJWJFc2JFqj4P0JYMdIXWWJL0IumprbtnEcvH09PySu2CV5LjWenzZVJMBjMyMQ_UKQQTLpz7DW53kQ_ZYsIFulcF_KTqLfbhEukWDAl7zYrcpg2MtaxWs1"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white tracking-widest">18:42</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#070d1f] via-transparent opacity-40"></div>
+</div>
+<div class="flex gap-4 mt-1">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex-shrink-0 overflow-hidden ring-1 ring-outline-variant/20">
+<img alt="Author" class="w-full h-full object-cover" data-alt="Portrait of a scientist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFTLBxKmXhte_R_dooJj51_JKpiJ-MYgN2iYuigdWrxpkQkMK3FWIGyvOJVZEIulN_fXV4PGSUJ65CVOgubRkzBm2xOkuqP_QqLQ9kFJdhLa1FAigKNosPKuDlB-Ook6hOOoHV5gTyRQYZmxNY-vhdbByaHc4VQ5_UwXyKxAx3PtGK4RZ_J3bc_3kfybl9u3N9Bq_lxNlr17qbclZpPOsP8bwwyQrGZpYA-6_7y3xqVoh8kCtiTSFoMwh1zVXd3NiegBVOtZDskF9s"/>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline font-bold text-lg leading-snug group-hover:text-primary transition-colors">The Quantum Mechanics of Everyday Objects</h3>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-on-surface-variant">Dr. Aris Thorne</span>
+<span class="w-1 h-1 rounded-full bg-secondary"></span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-500 font-body">
+<span>1.2M views</span>
+<span class="w-0.5 h-0.5 rounded-full bg-slate-700"></span>
+<span>2 days ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Standard Cards -->
+<div class="flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container">
+<img alt="Coding" class="w-full h-full object-cover" data-alt="Close up of clean code on a dark screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF0-qGuM7kJ-LIsDI94i-yJ4oGVcSmP0xzRLVainYCp7gBm08bSWb898XjLRqfZqj41yFlTacSb4XYOLUu5qCeRqW0dUw4sFTJmKPZPCVfV9fmyTfjzm0cXMHMkyu9ZwT-GbS5uiceqWwek46ymOT-3wYsPx5-o5iY6K_3QN0tAFIGYCtE0nZTrcpleb3CzNhG3pEIt-vQQiO7QsENYycwEHvwfF6Nfn4sSW_WizqGLuBzcKvodS4l6WdRj_TNXfeHtlIGthYSLJ77"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">12:05</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 overflow-hidden">
+<img alt="Author" class="w-full h-full object-cover" data-alt="Female software engineer portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOJh1Oq1_sT0R1F46_j7ZEQ8c_rhqQOCkyn3YcBAxIAAXG9d5anWyTJCv6VQEcOGbbRM8ImptoUNKDZiaFTi5hQUbdYpkLOjDcvFre-RzudUoYYulQXE4YeKpHfZZI6tT4-Iheg04ta61pYyrvVMEesjtFW8v4b-hdzpHDZP5feNax9etXoF01WEUFijJamCDiiNFymZkUuswCQvY2nn1U5b1PWhW-bbAs8zp2gx5uWWVdVDltvz1ATCIhelR-F8pl3WrZCvok-VX9"/>
+</div>
+<div class="flex flex-col gap-0.5">
+<h4 class="font-headline font-semibold text-sm leading-tight text-on-surface line-clamp-2">Refactoring Legacy Systems: A Pragmatic Guide</h4>
+<span class="text-xs text-on-surface-variant mt-1">CodeCraft Academy</span>
+<span class="text-[10px] text-slate-500">45K views • 8 hours ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container">
+<img alt="Fitness" class="w-full h-full object-cover" data-alt="Athletic training in a moody dark gym" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD__yR9k6v8UVHyqDHHB0Q3H1hFopc6coRsho2-RI6oC1Hnw_txIrDRGzIcYs2qfvAy1lMmgXuRnDTXgitVqRLL-wGiCDXt1HXrSaSbhSn3oNfET7uldspsnBtqSo1FekvM4nFswqSNW8HQYezIk-TcUZn46JGooArO0O99p5xHe1YZOQCVlWmxgruic0xv8wmeKxHaIxeTUonxGWzMpFZeOmh6hx63rwLDUkvi1SoTM2R77XUpiYyQXw0nGa9e0ILFEQGPMeIFVFzY"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">24:15</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 overflow-hidden">
+<img alt="Author" class="w-full h-full object-cover" data-alt="Fitness coach portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz2LmL12uRN1ejJ_OoXbczeXRroygumbGOyd_wi0crMUOyF2Wm293FSV1AtyGlXHwCpeOwOf1_dnmcqRXHLYYaUxkdeV5YbJJ8DUusA7sL52CvnNOS_jt8km8HbDLnLScuvJyVkk1aImWoIk51zmPakaYW302bj_uu_dY3J2L3aJ8mVuWDkDI5CPTcgWEYevyzgmHDZ4FxqP6Zra3hsjt7PgmbBdagmE_Mj1OaaaLui3bbzHEJBDww3YWlhvxvwK2cs1dHBpnIi-C3"/>
+</div>
+<div class="flex flex-col gap-0.5">
+<h4 class="font-headline font-semibold text-sm leading-tight text-on-surface line-clamp-2">Neural Adaptation: How Your Brain Builds Strength</h4>
+<span class="text-xs text-on-surface-variant mt-1">BioMetrics Labs</span>
+<span class="text-[10px] text-slate-500">892K views • 1 week ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container">
+<img alt="Engineering" class="w-full h-full object-cover" data-alt="Mechanical parts and blueprints on a table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_xgCmAct99p8NzmS4jz8p7pOcw60A88zea0EgeFqVWBMOyxivDV9SPT2ptYkrRSE9NlIWGGOR6cAFi2BqPZ6ZOmw3WKTE52H60dBzprTVfErgu0IV5JhXI4rbXUx0VwiXMlke_i22vCA3HjIlOYpNBz0hegjkP8pq-kZ-yvGAsZVLkE7uYFemBad8k1Bm3wbdcJJF1ho4cGYB5fuXjLtd_FxV9czO23keKFq-lp2opybxE8z7vbAlH5D8UlqKUIO80nkGs2FkacIZ"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">09:30</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 overflow-hidden">
+<div class="w-full h-full bg-surface-bright flex items-center justify-center font-bold text-[10px]">SE</div>
+</div>
+<div class="flex flex-col gap-0.5">
+<h4 class="font-headline font-semibold text-sm leading-tight text-on-surface line-clamp-2">Designing the Future: Asymmetric Architecture</h4>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-xs text-on-surface-variant">Symmetry Edge</span>
+<span class="material-symbols-outlined text-secondary text-[12px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="text-[10px] text-slate-500">12K views • 3 hours ago</span>
+</div>
+</div>
+</div>
+<!-- Trust-Driven Curated Section (Editorial Style) -->
+<div class="sm:col-span-2 lg:col-span-4 bg-surface-container-low rounded-2xl p-6 flex flex-col md:flex-row gap-8 items-center border border-outline-variant/10">
+<div class="flex-1">
+<div class="inline-flex items-center gap-2 bg-surface-bright/20 px-3 py-1 rounded-full mb-4">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-[10px] font-bold tracking-widest text-tertiary uppercase">Lumina Curated</span>
+</div>
+<h2 class="text-2xl md:text-3xl font-headline font-extrabold text-white mb-4 tracking-tight leading-tight">The Ethics of Distributed Intelligence</h2>
+<p class="text-on-surface-variant text-sm md:text-base max-w-xl mb-6 font-body leading-relaxed">Explore the latest long-form essay by Professor Julian Vane on how decentralized networks are reshaping human collective decision making.</p>
+<div class="flex items-center gap-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold px-6 py-2.5 rounded-lg text-sm transition-transform hover:scale-95">Watch Now</button>
+<button class="text-white hover:text-primary-dim transition-colors text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="bookmark_add">bookmark_add</span>
+                            Save to Library
+                        </button>
+</div>
+</div>
+<div class="w-full md:w-1/3 aspect-video rounded-xl overflow-hidden shadow-2xl shadow-black/40 rotate-1 group hover:rotate-0 transition-all duration-500">
+<img alt="Ethics AI" class="w-full h-full object-cover" data-alt="Abstract golden and blue neural network visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2P3Su24aqvceueNi3-xwyRDoA16KIulrKP226bz-Dt3Y3ScFG32CoS45PxRyO7WxmbH3Ys6HFNUEf13Q-DfvSBFh7nScc5Hs98y9CatHW4TSarY2zxmlJnD7wzUPGUTvPoJkitM8Hmned2OO01NQ3wF_OZbS3gd1pgyHmcvBK8NzeVFDQIQhyM1u1o_jP-C112pCXnJ_dpwnPHJg1Lj6RO6IBiI3_eW4LoluKF397KWpJOGFG7qAVQcwYakZDP_vtAXIbEZ5n5Qi_"/>
+</div>
+</div>
+<!-- More Grid Items -->
+<div class="flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container">
+<img alt="Science" class="w-full h-full object-cover" data-alt="Lab equipment with blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeb1cs-DR3MoA8ohLw5zluij6efd9LlT6GcSGFHfRiKsdVY_1bf2JYdnsetMtLMypyvEmWcBZSmxqpZFfBGe1zZeq0MsyWE1cOwgAhDmTGRUjC43KKZDbT_q_wXME1ztKVwLwdIdWS1pKKyEVZDif4VELk979vuQCqwmiOHO2F3GkwGaF8YayOYJIY0z8r2PyDyhcVdXY_h1s5vzdmt0XmE7k7knG9CcwTRiTFESwdUxbBB7F1cdtE_mKW8fU_QywgOXvGcqaME6GU"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">41:02</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 overflow-hidden">
+<img alt="Author" class="w-full h-full object-cover" data-alt="Young man with glasses portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeqSmRU15wry5n0PCKzILXfWJ2YasjGOuDYPVpx6EU6cpqllk9mFnLQpF7-yrkPJPFqm87H1esVkrIk8UFaJeGXLMd5Wf4ZeCW95Z5mF5JqNpnbqjhxajCfpgDP4hmfEe8dFdZMFi-8Rj_EV7-ZEv0hfg1wnd8MBV_gFKhcpoveQkMpkKU3WABHfFtflTOGHSy50Urz0m8GHNLVD0Tb-69ND4RscfeCQnR4RkvrGLoDCjdXikNoV-HkKY0txKxmQmkeaXEpQjETYcZ"/>
+</div>
+<div class="flex flex-col gap-0.5">
+<h4 class="font-headline font-semibold text-sm leading-tight text-on-surface line-clamp-2">Bio-Digital Convergence: The Next Frontier</h4>
+<span class="text-xs text-on-surface-variant mt-1">SynthBio Foundation</span>
+<span class="text-[10px] text-slate-500">210K views • 4 days ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 group">
+<div class="relative aspect-video rounded-xl overflow-hidden bg-surface-container">
+<img alt="Tech" class="w-full h-full object-cover" data-alt="Microchips and circuit boards" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtIoWZWwDM3wfSAAVw5789yYNcQ8SwKLhguxWDkSlxisHqOzqE9RohfWF1gpbI4lGIXrW9TQMzpuPzUYHUWhLEwCYPtC6igDZtm6MbGCryp3n9IjuPCXZy8nrym6sJjR6u0sFcyBRgtb1eW8dhMfznf35viTOKIVzrZosd5ZhAHy3DuDs61ND4nuHpLHbXu42VD-QsgjSjxHaW7xhClO9SiK6Yep7cnTfUhOipz4e4iD14DdpXiN1pesEDl7UXj7suy6J1M5HICjNm"/>
+<div class="absolute bottom-3 right-3 bg-black/80 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">15:55</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 overflow-hidden">
+<img alt="Author" class="w-full h-full object-cover" data-alt="Woman with professional look portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkzLC-Hk_tanQ2-eqevAldpA7pibjKA_9fI55lzvMuHOfExL1X-cuzTd76gbv9rw9RCUHKeSZ73S-Fn1C5zc6jYcZkpuDg0uRp5RuF1-VJCpxoWAxOndD5lrnuOgxUNLx9B2W3T1sE36PHk3O-pOZnMS2G2JQIWafwf3HSrCYIAVap2Rr04BWSlaHUctYmdU6tcFmop8lUEYDX0DS6eFlB0tR2kh5PNdhfhutZffaIRVEIbtiPhPjmPheOUlWhS_swbHAT_oGrZd8M"/>
+</div>
+<div class="flex flex-col gap-0.5">
+<h4 class="font-headline font-semibold text-sm leading-tight text-on-surface line-clamp-2">Why 3nm Chips Are Harder Than We Thought</h4>
+<span class="text-xs text-on-surface-variant mt-1">Silicon Insight</span>
+<span class="text-[10px] text-slate-500">67K views • 1 day ago</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-[#070d1f]/80 backdrop-blur-xl no-border bg-gradient-to-t from-[#09122b] to-transparent flex justify-around items-center h-20 pb-4">
+<div class="flex flex-col items-center justify-center text-white bg-white/10 rounded-xl px-4 py-1 scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest mt-1">Browse</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="video_library">video_library</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest mt-1">Library</span>
+</div>
+</nav>
+<!-- Floating Action Button (Only on top-level screens where relevant) -->
+<button class="fixed bottom-24 right-6 md:bottom-8 md:right-8 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50">
+<span class="material-symbols-outlined text-2xl" data-icon="add" style="font-variation-settings: 'wght' 600;">add</span>
+</button>
+</body></html>

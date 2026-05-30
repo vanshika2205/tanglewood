@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Samtulan - Video Playback</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;600;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13c8ec",
+              "background-light": "#f6f8f8",
+              "background-dark": "#101f22",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    [x-cloak] { display: none !important; }
+  </style>
+<script defer="" src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-black dark:text-white" x-data="{ reportModalOpen: false }">
+<div class="flex flex-col min-h-screen">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+<h2 class="text-lg font-bold">Samtulan</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Explore</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Shorts</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Subscriptions</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4">
+<label class="relative hidden sm:block w-full max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-black/50 dark:text-white/50">search</span>
+<input class="form-input w-full rounded-full border-primary/30 bg-background-light dark:bg-background-dark py-2 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary" placeholder="Search" type="text"/>
+</label>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">video_call</span>
+</button>
+<button class="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+<button class="size-10 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdaSIWgtntE3OM5pIkWKeojDyy5wZ2DuUlBE_HAPRSDiIpkTGUI_mH-0i74SV9rXEaM_sPHXnSblx6GtXpQwLtl0VArWj4qwTBzOHLxx5_gGq8yyY_uS31t3yWO_YiyR_TzsuXikirC7gShucmnsGsm3k-2WgCPRyjLLo87ft7AkdCT1V6wYsFxnNzBNqhwuf7nu19bxUY2I5PBo79ARPfixjlkxqHzTcA2KrkUwDyUpN3i82TCcqDpATPmLwMUk-RTfAc3ZWbMA");'></button>
+</div>
+</header>
+<main class="flex flex-1 flex-col lg:flex-row gap-6 p-6">
+<div class="flex-1">
+<div class="aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center relative">
+<img alt="Video thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtcpOPGla-BCJZVzf0z658fcXsXIDBU1IqqTUp7ILAR20WRDH4nDDimJOdbXBuPHarQ4tUI_Whmb-ygsZHcNQpxk5Cd4zpbtfaeqtZMwux0xQ754P0yMGMfiZYH_X4UGAcW60OmFzaHxOhWypW3MCA5gmDIOUArz4u1CL-cajvoHnytHZTktHLpWbCcATadOlI8ddoOpqIhtRbd958V8jyFFn_BQJWfPP0yl1oTqMiWHzdxNm97FK8LGW-uq-xUuthgrhiyjggjA"/>
+<button class="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">play_arrow</span>
+</button>
+</div>
+<div class="py-4">
+<h1 class="text-2xl font-bold">Mastering Python: A Comprehensive Guide for Beginners</h1>
+<p class="text-sm text-black/60 dark:text-white/60 mt-1">12K views · 2 weeks ago</p>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-primary/10 dark:bg-primary/20 my-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">workspace_premium</span>
+<div>
+<h3 class="font-semibold text-primary">Enjoy Ad-Free Learning</h3>
+<p class="text-sm text-black/70 dark:text-white/70">Upgrade to Premium for an uninterrupted, ad-free experience.</p>
+</div>
+</div>
+<a class="bg-primary text-white font-semibold px-6 py-2 rounded-full hover:bg-opacity-80 transition-colors whitespace-nowrap" href="#">Upgrade Now</a>
+</div>
+<div class="flex items-center gap-4 py-2 border-y border-primary/20">
+<div class="flex-shrink-0">
+<img alt="Uploader avatar" class="size-14 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh1DQO6TRNr_482jcZMcEnNcBZkZ9CvaF8hXqAMwvIbXf4M9DSinwYf3SFtibyo9kXPBE3_LSOK8M3wjLVk6Yu64ozPj5S9EY9pvbQY1h67P6CXyR0NYGc0PJimcgf0uNsxfCGxsWsYjKgyi0bnrglv-zpoTnQLqrdzMPpGvgWhK74vamwbsKZeonL1evYiWapus1xseAv5SFaIUQ0v63mMMBi-kEStF_ovXXeWRzsgD2reLYs7RT3D7L0bdwjIpBpWjtTGjNhHA"/>
+</div>
+<div class="flex-1">
+<p class="font-semibold">Tech Tutorials</p>
+<p class="text-sm text-black/60 dark:text-white/60">100K subscribers</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-primary text-white font-semibold px-6 py-2 rounded-full hover:bg-opacity-80 transition-colors">Subscribe</button>
+<button @click="reportModalOpen = true" class="flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-base">flag</span>
+<span class="text-sm font-medium">Report</span>
+</button>
+</div>
+</div>
+<div class="mt-6 p-4 rounded-lg bg-primary/10 dark:bg-primary/20">
+<h3 class="text-lg font-bold mb-2">Source</h3>
+<p class="text-sm leading-relaxed">This video is based on the official Python documentation and tutorials from reputable coding platforms. For further reading, visit the Python website and explore their extensive resources.</p>
+</div>
+<div class="mt-4 p-4 rounded-lg bg-primary/10 dark:bg-primary/20">
+<h3 class="text-lg font-bold mb-2">Description</h3>
+<p class="text-sm leading-relaxed">In this comprehensive Python tutorial, we'll cover everything from basic syntax to advanced concepts. Whether you're a complete beginner or have some programming experience, this guide will help you master Python and build real-world applications. We'll explore data structures, control flow, object-oriented programming, and more. By the end of this course, you'll have a solid foundation in Python and be ready to tackle your own projects.</p>
+</div>
+<div class="mt-8">
+<h3 class="text-xl font-bold mb-4">Comments</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<img alt="Commenter avatar" class="size-10 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByQ8j8imZKFhmvilC-dNMU3rX92z6rHCoc3yJLcWyzz9bYNZNS4_J4JOK29UGLsq1UxerX-Ju6ykKDUVgDdSZ_z4ffiXmslKWkWYzpJOl9uqnB4_okLne6VkY5Fa5VMkXn7mgcgN0XOWkNpVO_q9983aI0UMpGBqLywHSm7B0b3m772ETkvdbXGP-rCKh-O-TIpknTPS3GqmVta-KVMroSHx0In5w5SOurU9RNry5pzX9u-NggX8lUvoxIUTDdvAqsAXW-ksiRvQ"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<p class="font-semibold text-sm">Sophia Clark</p>
+<p class="text-xs text-black/60 dark:text-white/60">1 week ago</p>
+</div>
+<p class="mt-1 text-sm">This tutorial is incredibly helpful! The explanations are clear and concise, making it easy to follow along even for someone with no prior coding experience. Thank you for creating such a valuable resource!</p>
+<div class="flex items-center gap-4 mt-2 text-sm text-black/60 dark:text-white/60">
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_up</span> 25</button>
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_down</span> 2</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<img alt="Commenter avatar" class="size-10 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmW8OXF3Rv0eJi2KZDIngCKn4SR1AZNaGSbkjUS37JqD--IHdQWbUaTJKKkYn5mPIe-_1e4vzqizqk9GpcotFRQAvIsN7NdZFZIqJw5Kd7Wm0bxQ-caCL01nzT0OV9Q-2yPuVbUwVf1Qs8-f8b4arV4p53gNVtQBhXMveDJZjvxmLylaTbes69xMIOKr3IKzwcIlHmeTHagOnVDukGyXlwe3LY0TqtaNUz1CKniO2vFGD-8hGYkcdAkXJLyGAIbStzx2D59nvBSQ"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<p class="font-semibold text-sm">Ethan Bennett</p>
+<p class="text-xs text-black/60 dark:text-white/60">5 days ago</p>
+</div>
+<p class="mt-1 text-sm">I've been struggling with Python for a while, but this video finally made everything click. The way you break down complex topics into smaller, manageable parts is fantastic. Highly recommend this to anyone looking to learn Python!</p>
+<div class="flex items-center gap-4 mt-2 text-sm text-black/60 dark:text-white/60">
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_up</span> 18</button>
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_down</span> 1</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<img alt="Commenter avatar" class="size-10 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5M0OsQAlrijNYuQCY2WEmQwINLbJ39N_N4qpQgZbbFWeSu0nThhLic5-msBdoJ7iVi-6LBK8REAloeGEKEtZn0E2uVxnNQ6SyItm51sri3asbTHes3mzKXcXnwKWMOOfNdLkdrZNC_JCRCKjxe-7JA71RF2Ki-orUwyCmn2w53wD7SI7zMZ9ckSE5laEycDI83sBYBSIvEz19S5p6Zr5yonE0VskfiIRJWzgtwDnKJ62nTRznX7TgZ1slJiwmauNLswIS599duQ"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2">
+<p class="font-semibold text-sm">Olivia Hayes</p>
+<p class="text-xs text-black/60 dark:text-white/60">3 days ago</p>
+</div>
+<p class="mt-1 text-sm">As someone transitioning from another programming language, this tutorial was perfect for getting up to speed with Python. The examples are practical and relevant, and the pace is just right. Great job!</p>
+<div class="flex items-center gap-4 mt-2 text-sm text-black/60 dark:text-white/60">
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_up</span> 12</button>
+<button class="flex items-center gap-1 hover:text-primary"><span class="material-symbols-outlined text-base">thumb_down</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="w-full lg:w-[360px] lg:min-w-[360px]">
+<h3 class="text-xl font-bold mb-4">Recommended</h3>
+<div class="space-y-3">
+<a class="flex gap-3 items-start p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group" href="#">
+<img alt="Recommended video thumbnail" class="w-40 aspect-video rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcWMCevb2HZDvNFagloGG35rA9tsItlKlYMtRIXIoQTimducWE1Ry9yRqV00NoCenKjoveCtdksXTqCYvMtAlcIzxJYu1hGjQ3suV7usGc-W1wi2jrzIQs1bk7M3YJjGaU7JRktccFS9d0B3zTGqoAjNs90cyEIUY12ArY4Wq_AAdkox9BfFhpseRhyqVqp9h36-cS_3Awm6ChsehAgBqMzMlQoleghvuksP1__khoH_v8WUmwD6zD_4Z_t9juYGv1fW3CdCxeDQ"/>
+<div>
+<h4 class="font-semibold text-sm leading-snug group-hover:text-primary transition-colors">Advanced Python Techniques</h4>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Tech Tutorials</p>
+<p class="text-xs text-black/60 dark:text-white/60">20K views · 1 month ago</p>
+</div>
+</a>
+<a class="flex gap-3 items-start p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group" href="#">
+<img alt="Recommended video thumbnail" class="w-40 aspect-video rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDLyS7PxH5EAQaD-YMV8lmDH_6LewBZw4mMCV34rSUU0FyFZAmP2C51klGoIoMurSFSAsc1T4PrbID0Y8OE1ky9JrkxkcCJsN1tqJiRGVQ7e8VGv941Ere34dR0pYfbQv4t_5X8kv3zfgL3St0X9T38p_U17hu4HW_6BFmfRTUWpnS7JEJLhfNQqcx9GyH6oo-1trg0Au-R42PBHHsvJPymxNm3PyYiDNlMVwGZ9UulsScU6mixLZqkT7jwlh0t2bt-R92cb9alQ"/>
+<div>
+<h4 class="font-semibold text-sm leading-snug group-hover:text-primary transition-colors">Data Analysis with Python</h4>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Tech Tutorials</p>
+<p class="text-xs text-black/60 dark:text-white/60">15K views · 2 weeks ago</p>
+</div>
+</a>
+<a class="flex gap-3 items-start p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group" href="#">
+<img alt="Recommended video thumbnail" class="w-40 aspect-video rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDclROX3BYTGNIn0AAHA9amUSkX9rso2GlkSqc0eYziK_wb9p9L8ribyHjduc9tBqEvjVUSZ1L0xB6vW0VXfBtpFeB7U6gu_tv_0nkANPYEChEsv0j6icrDJ4JYiUz2y0IE77WVy-A0JYTNPAm898QJUt2Y70K7kOo1LOs0GosbTcwwJabwpNNUWPt-x052BDThH5mkSVvpOVp8UkMf5V6LKi3dCPqpjFg16Mt35Fnq76vmDaGfNpBUHLgiVKpHkzBhmdq4mg9pRQ"/>
+<div>
+<h4 class="font-semibold text-sm leading-snug group-hover:text-primary transition-colors">Machine Learning Basics</h4>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Tech Tutorials</p>
+<p class="text-xs text-black/60 dark:text-white/60">10K views · 3 weeks ago</p>
+</div>
+</a>
+<a class="flex gap-3 items-start p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group" href="#">
+<img alt="Recommended video thumbnail" class="w-40 aspect-video rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNcrsUYAgZZHs0H7K5fpDvoFemQvXXGDwTPrVkWaipkM5HKy1FRdUBKuLkPYNPDmlH86EVgljDmnD7cqfv53l5r4ruHoYr1TUAVh91-oMuYFpgBDwOmpzJhUU4S2ePl007uOOaMJWcK4sLiM069ilwmgjri5gQ7YFSMF1hldyA_PBAkcI8u9FAWXamIB1XmHDoEfK_igcB7wi-Qta9wGNlBmTQqq18F2WzUbfUP_fP_L26H-Wwq3fNcDr5UV2pSK2z3RYAQ0RHow"/>
+<div>
+<h4 class="font-semibold text-sm leading-snug group-hover:text-primary transition-colors">Web Development with Python</h4>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Tech Tutorials</p>
+<p class="text-xs text-black/60 dark:text-white/60">8K views · 1 week ago</p>
+</div>
+</a>
+<a class="flex gap-3 items-start p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group" href="#">
+<img alt="Recommended video thumbnail" class="w-40 aspect-video rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfiS2iGyzRfrDoCUrGDQKiny8ZjJR7nr_LMyjh6_626tkld4VNowveixemQoupS-rwpgkt_WapPjLnzGWyFH4dVe7mm1QXc5aPHWyB_Mgdk7DwfDk4JgIkR2yPrMBooQFTCTxIQ_o6kFECZ7rvX6hmQVKiLa3zEAP_wYzD_7w7YQD7AvxcPmH6aE33iuTgvLGmYEIjUNQmB2Ms1V5jLlj0WvP8-u1qN2l19I2vmOMyikodyTtu4pKPqiX_ss7q5CSkiaz0B8HK1g"/>
+<div>
+<h4 class="font-semibold text-sm leading-snug group-hover:text-primary transition-colors">Python for Automation</h4>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Tech Tutorials</p>
+<p class="text-xs text-black/60 dark:text-white/60">5K views · 2 days ago</p>
+</div>
+</a>
+</div>
+</aside>
+</main>
+</div>
+<div @keydown.escape.window="reportModalOpen = false" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" x-cloak="" x-show="reportModalOpen">
+<div @click.outside="reportModalOpen = false" class="bg-background-light dark:bg-background-dark rounded-xl shadow-lg w-full max-w-lg m-4">
+<div class="flex items-center justify-between p-4 border-b border-primary/20">
+<h3 class="text-xl font-bold">Report Video</h3>
+<button @click="reportModalOpen = false" class="text-black/50 dark:text-white/50 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 space-y-4">
+<p class="text-sm text-black/80 dark:text-white/80">Help us understand the problem. What issue are you reporting with this video?</p>
+<div class="space-y-2">
+<label class="block text-sm font-medium">Reason for reporting</label>
+<select class="form-select w-full rounded-md border-primary/30 bg-background-light dark:bg-background-dark focus:border-primary focus:ring-primary">
+<option>Inappropriate content</option>
+<option>Technical issue</option>
+<option>Source inaccuracy</option>
+<option>Spam or misleading</option>
+<option>Copyright infringement</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium" for="feedback">Additional Feedback (optional)</label>
+<textarea class="form-textarea w-full rounded-md border-primary/30 bg-background-light dark:bg-background-dark focus:border-primary focus:ring-primary" id="feedback" placeholder="Provide more details..." rows="3"></textarea>
+</div>
+</div>
+<div class="flex justify-end gap-3 p-4 bg-primary/10 dark:bg-primary/20 rounded-b-xl">
+<button @click="reportModalOpen = false" class="px-4 py-2 text-sm font-semibold rounded-full border border-primary/30 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Cancel</button>
+<button @click="reportModalOpen = false" class="px-6 py-2 text-sm font-semibold text-white bg-primary rounded-full hover:bg-opacity-80 transition-colors">Submit Report</button>
+</div>
+</div>
+</div>
+</body></html>

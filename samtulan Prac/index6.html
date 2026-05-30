@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Samtulan - My Subscription</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13c8ec",
+              "background-light": "#f6f8f8",
+              "background-dark": "#101f22",
+            },
+            fontFamily: {
+              display: ["Inter"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen flex-col">
+<header class="border-b border-gray-200/50 dark:border-gray-700/50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-gray-900 dark:text-white">
+<svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+<h1 class="text-xl font-bold">Samtulan</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Explore</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Create</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"> search </span>
+<input class="w-full rounded-full bg-gray-100 dark:bg-gray-800/50 border-transparent focus:border-primary focus:ring-primary pl-10 pr-4 py-2 text-sm" placeholder="Search" type="text"/>
+</div>
+<button class="relative rounded-full p-2 hover:bg-gray-200/60 dark:hover:bg-gray-700/60 transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300"> notifications </span>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMpJZq5VX8_yiDvDb0ZrUJOtN5Xg7JdeYmiF_6GWwM19M6wenq5j7kCg0qOP24eR65LlwFdNvb22RJRudxpczaaHWLXO1zKz1hLVxnzYmZ1WXORlnKRgZ8hDTC8NI3Z5akdaaAuYPCnULiXcWGQk4Ws8G_M5W-YXs5dZTrP5tdR1zHHo8XcE9BydjiHyTqL7yG-eKjezqbIfPplHIGei9ZaAJQsrswPqMtAaUUPp0NOvHiGS92hL_Yharf5BJCNHxVrq-M5nsOFg")'></div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="mx-auto max-w-4xl py-8 px-4 sm:px-6 lg:px-8">
+<div class="mb-8">
+<h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">My Subscription</h1>
+</div>
+<div class="space-y-8">
+<div class="rounded-xl border border-gray-200/80 dark:border-gray-700/60 bg-white/30 dark:bg-black/10 shadow-sm overflow-hidden">
+<div class="p-6 flex flex-col md:flex-row items-start gap-6">
+<div class="flex-grow">
+<p class="text-sm font-medium text-primary">Current Plan</p>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">Premium</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Next billing date: July 15, 2024</p>
+<ul class="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base"> check_circle </span>
+<span>Access to all premium content</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base"> check_circle </span>
+<span>Ad-free experience</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base"> check_circle </span>
+<span>Offline downloads</span>
+</li>
+</ul>
+</div>
+<div class="w-full md:w-56 h-36 rounded-lg bg-cover bg-center flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYDXnloAaltynFogSB7o6xsQWNT2L9N_H4lOLAU-f8YEfNvgsWwb5q3WQEOqWJHtOB900r9PW_p-eeYW36M6x9f2tlyDOUqLTxIbWSLhGirDYA5-E7O3ODH-nj32gPFZm-ChAMdMJCyqkcP0bEh17oMCeMoElTsUx9j6wVumX1OXlmETDiUW4n6mpU5JHQI3QsEhyYDa4X3Cux9GYiHhHtDJMuhdxInXPE69seLrnIiq8jV1JWGXR4eXoMjhmodWD2NGafeNrsuQ");'></div>
+</div>
+<div class="bg-gray-50 dark:bg-background-dark/50 px-6 py-4 flex flex-wrap items-center justify-start gap-3">
+<button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition-colors">Upgrade Plan</button>
+<button class="rounded-lg bg-gray-200 dark:bg-gray-700 px-4 py-2 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                  Downgrade
+                </button>
+<button class="ml-auto rounded-lg px-4 py-2 text-sm font-semibold text-red-600 dark:text-red-500 hover:bg-red-500/10 dark:hover:bg-red-500/10 transition-colors">
+                  Cancel Subscription
+                </button>
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Billing</h2>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your payment method and view your billing history.</p>
+</div>
+<div class="rounded-xl border border-gray-200/80 dark:border-gray-700/60 bg-white/30 dark:bg-black/10">
+<div class="divide-y divide-gray-200/80 dark:divide-gray-700/60">
+<div class="flex items-center justify-between p-4 sm:p-6">
+<div class="flex items-center gap-4">
+<img alt="Visa" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCzo0XFNf6NO4poYTBnWaOYYMyNuvsjdE-STU6wKqVA7oZ4QZFxfm5N9DfRf8LHmmQxoh69o1I2dn4EaaLqQNElfR07-0y4YMfsFZFIkZPwkrptJ76TbLOplyx5yREQTts4dTjYbkpxiU_0ZvyEIc4HOmmZJRrcYsuGcH_hC4wBZykesITE07je1aszzHYVih8rcLwDmCYZdcV4zJw5Gt6FAQtsz7-09JL4NjXT6ZN8_v6DjG9G9njLDbX4C1N0kI56EoUUpDXvw"/>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-200">Visa ending in 4242</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Expires 08/2026</p>
+</div>
+</div>
+<button class="rounded-lg px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Update</button>
+</div>
+<a class="flex items-center justify-between p-4 sm:p-6 hover:bg-gray-50 dark:hover:bg-background-dark/30 transition-colors" href="#">
+<div class="flex items-center gap-4">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300"> receipt_long </span>
+</div>
+<p class="font-medium text-gray-800 dark:text-gray-200">Billing History</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500"> chevron_right </span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-gray-200/50 dark:border-gray-700/50">
+<div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500 dark:text-gray-400">
+<p>© 2024 Samtulan. All rights reserved.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggarwal</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Ballet&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main">
+        
+        <!-- Fixed Header Backgrounds (Stay behind the video) -->
+        <div id="header"></div>
+        <div id="header2"></div>
+
+        <!-- Floating Brand Elements (Sit on top of the video) -->
+        <div id="logo">
+            <img src="assets/aggarwal logo.png" alt="Aggarwal Logo">
+        </div>
+
+        <div id="picture1">
+            <img src="assets/image copy 19.png" alt="">
+        </div>
+
+        <div id="picture2">
+            <img src="assets/image copy 23.png" alt="">
+        </div>
+
+        <!-- Floating Menu Links (Sit on top of the video) -->
+        <div id="text1">men</div>
+        <div id="text2">women</div>
+
+        <!-- Top Right Minimalist Auth Navigation (Moved outside header to float over the video) -->
+        <div class="auth-nav" id="auth-nav">
+            <button id="nav-login-btn" class="auth-nav-btn">Login</button>
+            <button id="nav-signup-btn" class="auth-nav-btn signup-accent">Sign Up</button>
+        </div>
+
+        <div id="page1">
+             <div class="video-brand-tag">Aggarwal</div>
+             <div class="video-card">
+                  <video id="heroVideo" autoplay muted playsinline disablePictureInPicture disableRemotePlayback preload="metadata">
+                      <!-- Sources are injected via JS for playlist continuation -->
+                      Your browser does not support HTML video.
+                  </video>
+             </div>
+        </div>
+
+        <!-- Pages 2, 3, 4 from Original KyJt.html -->
+        <div id="page2">
+            <div class="new-arrivals">
+                <h2>New Arrival</h2>
+                <div class="arrival-grid">
+                    <div class="arrival-item">
+                        <img src="assets/image copy 30.png" alt="New Arrival 30">
+                    </div>
+                    <div class="arrival-item">
+                        <img src="assets/image copy 18.png" alt="New Arrival 18">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page3">
+            <div class="new-arrivals1">
+                <h2>Most Loved</h2>
+                <div class="arrival-grid1">
+                    <div class="arrival-item1">
+                        <img src="assets/image copy 30.png" alt="Most Loved 30">
+                    </div>
+                    <div class="arrival-item1">
+                        <img src="assets/image copy 18.png" alt="New Arrival 18">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page4">
+            <div class="floating-footer">
+                <h2>Aggarwal</h2>
+                <p class="tagline">Elevating Men's & Women's Fashion since 1990.</p>
+                
+                <div class="contact-info">
+                    <p>📍 123 Fashion Street, New Delhi</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ hello@aggarwal.com</p>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+    <!-- Filter Sidebar (Slide Out) for Men/Women click -->
+    <aside id="filter-sidebar" class="sidebar hidden-sidebar">
+        <button id="close-sidebar" class="close-btn">&times;</button>
+        <h2 class="sidebar-title" id="sidebar-title">Filters</h2>
+        
+        <div class="filter-group">
+            <h3>Category</h3>
+            <label><input type="radio" name="category" value="Suits"> Suits</label>
+            <label><input type="radio" name="category" value="Shirts"> Shirts</label>
+            <label><input type="radio" name="category" value="Trousers"> Trousers</label>
+        </div>
+
+        <div class="filter-group">
+            <h3>Brand</h3>
+            <label><input type="radio" name="brand" value="Raymond"> Raymond</label>
+            <label><input type="radio" name="brand" value="Tasmania"> Tasmania</label>
+            <label><input type="radio" name="brand" value="Siyaram's"> Siyaram's</label>
+            <label><input type="radio" name="brand" value="Mistair"> Mistair</label>
+        </div>
+        
+        <button id="apply-filters-btn" class="primary-btn">Apply Filters</button>
+        <button id="clear-filters-btn" class="secondary-btn">Clear All</button>
+    </aside>
+
+    <!-- Dynamic Product Gallery (Overlay) -->
+    <div id="gallery-container" class="hidden-gallery">
+        <button id="close-gallery" class="close-gallery-btn">&times; Back to Home</button>
+        <div class="gallery-header">
+            <h2 id="gallery-title">Collection</h2>
+        </div>
+        <div id="gallery-grid" class="gallery-grid">
+            <!-- Images and Sliders injected via JS -->
+        </div>
+    </div>
+    <!-- Product Detail Modal (Overlay) -->
+    <div id="product-modal" class="hidden-modal">
+        <div class="product-modal-content">
+            <button id="close-product-modal" class="close-btn">&times;</button>
+            <div class="product-layout">
+                <!-- Left: Product Image -->
+                <div class="product-image-container">
+                    <img id="modal-product-img" src="" alt="Product Image">
+                </div>
+                
+                <!-- Right: Product Details -->
+                <div class="product-details">
+                    <h4 id="modal-product-brand" class="product-brand">Brand</h4>
+                    <h2 id="modal-product-title" class="product-title">Premium Product</h2>
+                    <div class="product-rating">⭐⭐⭐⭐⭐ <span>(124 reviews)</span></div>
+                    
+                    <div class="product-price">
+                        <span id="modal-product-price" class="current-price">₹4,999</span>
+                        <span class="original-price">₹8,999</span>
+                        <span class="discount">(45% OFF)</span>
+                    </div>
+                    
+                    <p class="product-description">
+                        Experience unmatched comfort and premium quality with our carefully crafted collection. Perfect for all occasions, tailored just for you.
+                    </p>
+                    
+                    <div class="size-selector">
+                        <h3>Select Size</h3>
+                        <div class="size-options">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn active-size">M</button>
+                            <button class="size-btn">L</button>
+                            <button class="size-btn">XL</button>
+                            <button class="size-btn">XXL</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <h3>Quantity</h3>
+                        <div class="qty-controls">
+                            <button class="qty-btn" id="qty-minus">-</button>
+                            <span id="qty-display">1</span>
+                            <button class="qty-btn" id="qty-plus">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="add-to-cart-btn" class="add-to-cart">Add to Bag</button>
+                        <button id="buy-now-btn" class="buy-now">Buy Now</button>
+                        <button id="wishlist-btn" class="wishlist-action-btn">❤️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal (Overlay) -->
+    <div id="login-modal" class="auth-modal-overlay hidden-auth-modal">
+        <div class="auth-modal-content">
+            <button id="close-login-modal" class="auth-close-btn">&times;</button>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Log in to unlock exclusive tailoring services and tracking.</p>
+            <form id="login-form" class="auth-form">
+                <div class="auth-input-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" required placeholder="name@example.com">
+                </div>
+                <div class="auth-input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-submit-btn">Sign In</button>
+            </form>
+            <p class="auth-switch-text">Don't have an account? <span id="switch-to-signup">Sign up</span></p>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal (Overlay) -->
+    <div id="signup-modal" class="auth-modal-overlay hidden-auth-modal">
+        <div class="auth-modal-content">
+            <button id="close-signup-modal" class="auth-close-btn">&times;</button>
+            <h2 class="auth-title">Create Account</h2>
+            <p class="auth-subtitle">Join Aggarwal to manage orders, wishlist, and cart.</p>
+            <form id="signup-form" class="auth-form">
+                <div class="auth-input-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Your Name">
+                </div>
+                <div class="auth-input-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" required placeholder="name@example.com">
+                </div>
+                <div class="auth-input-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Min 6 characters">
+                </div>
+                <button type="submit" class="auth-submit-btn">Create Account</button>
+            </form>
+            <p class="auth-switch-text">Already have an account? <span id="switch-to-login">Log in</span></p>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="hidden-toast">
+        Added to Bag successfully!
+    </div>
+
+    <script src="script.js?v=2.2"></script>
+</body>
+</html>

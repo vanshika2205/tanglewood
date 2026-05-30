@@ -1,0 +1,14 @@
+# Environment files
+.env
+.env.*
+
+# Node/Next.js
+node_modules/
+.next/
+
+# Logs
+*.log
+
+# macOS
+.DS_Store*.mov
+*.mov

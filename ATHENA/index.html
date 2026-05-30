@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGI-RUN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0f172a;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            position: relative;
+        }
+
+        .game-panel {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            border-left: 5px solid #475569;
+            border-right: 5px solid #475569;
+            transition: background 1s ease-in-out;
+            z-index: 10;
+        }
+
+        /* Lane Themes for Levels */
+        .theme-1 { background: linear-gradient(to bottom, #1e293b, #334155); }
+        .theme-2 { background: linear-gradient(to bottom, #2e1065, #4c1d95); } 
+        .theme-3 { background: linear-gradient(to bottom, #064e3b, #047857); } 
+        .theme-4 { background: linear-gradient(to bottom, #7f1d1d, #b91c1c); } 
+        .theme-5 { background: linear-gradient(to bottom, #000000, #171717); }
+
+        /* Lane Markers Animation */
+        .lines {
+            width: 10px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .line-left, .line-right { left: 33.33%; }
+        .line-right { left: 66.66%; }
+
+        /* HUD - Stats Board */
+        .score-board {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 15px 25px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            z-index: 100;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .score-board .level-text {
+            color: #fcd34d;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
+        }
+
+        /* Pause Button */
+        .pause-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            z-index: 100;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+        .pause-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Screens */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .screen h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #f8fafc;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+        }
+
+        .screen p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(14, 165, 233, 0.6);
+        }
+
+        /* MEME IMAGE CONTAINERS */
+        .player-wrapper {
+            position: absolute;
+            bottom: 50px;
+            width: 70px;
+            height: 70px;
+            z-index: 50;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 15px; 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: transform 0.1s ease-out;
+            background-color: rgba(255, 255, 255, 0.1); 
+        }
+
+        .enemy {
+            position: absolute;
+            top: -150px;
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            z-index: 40;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 0 10px rgba(0,0,0,0.8);
+            line-height: 1.1;
+            padding: 5px;
+        }
+
+        @keyframes enemyWalk {
+            0% { transform: rotate(-15deg) scale(1.2) translateY(0); }
+            100% { transform: rotate(15deg) scale(1.2) translateY(-10px); }
+        }
+
+        .enemy.walking {
+            animation: enemyWalk 0.25s infinite alternate ease-in-out;
+        }
+
+        .meme-enemy {
+            height: 120px !important;
+            width: 80px !important;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            border-radius: 15px !important;
+            background-position: center !important;
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Level Up Message Animation */
+        #levelUpMsg {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 52px;
+            font-weight: 900;
+            color: #fcd34d;
+            text-shadow: 0 0 40px #f59e0b, 0 0 10px #ffffff, 2px 2px 5px black;
+            z-index: 300;
+            pointer-events: none;
+            opacity: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .level-animate {
+            animation: levelBloom 2.5s forwards ease-out;
+        }
+
+        @keyframes levelBloom {
+            0% { transform: translate(-50%, -50%) scale(0.2) rotate(-10deg); opacity: 0; }
+            15% { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); opacity: 1; }
+            25% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; text-shadow: 0 0 60px #f59e0b, 0 0 20px white; }
+            80% { transform: translate(-50%, -50%) translateY(-20px) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) translateY(-50px) scale(1.5); opacity: 0; }
+        }
+
+        /* YouTube Troll Video Popup */
+        #memeVideoPopup {
+            position: absolute;
+            right: -400px; /* Hidden off-screen right */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 315px;
+            height: 560px;
+            border-radius: 20px;
+            border: 4px solid #ef4444;
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.6);
+            overflow: hidden;
+            transition: right 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            background: black;
+            pointer-events: none; /* Prevents clicks on the YouTube video UI */
+        }
+
+        #memeVideoPopup.show {
+            right: 50px;
+        }
+
+        @media (max-width: 1000px) {
+            #memeVideoPopup {
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -650px; 
+                transform: translateX(-50%) translateY(0);
+                transition: bottom 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                zoom: 0.9;
+            }
+            #memeVideoPopup.show {
+                bottom: 20px;
+            }
+            .controls {
+                z-index: 2000; /* keep controls above video if needed */
+            }
+        }
+
+        .hide { display: none !important; }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+        }
+        @media (min-width: 768px) { .controls { display: none; } }
+
+        .ctrl-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ctrl-btn:active { background: rgba(255, 255, 255, 0.5); }
+    </style>
+</head>
+<body>
+
+    <div class="game-panel theme-1" id="gameArea">
+        <div class="score-board">
+            <div class="level-text">Level <span id="levelVal">1</span></div>
+            <div>Score: <span id="scoreVal">0</span></div>
+        </div>
+        
+        <div id="pauseBtn" class="pause-btn hide">⏸️</div>
+
+        <div id="levelUpMsg">STONKS! 📈</div>
+
+        <div id="startScreen" class="screen">
+            <h1>ENGI-RUN</h1>
+            <p>Dodge the annoying memes! Use <b>Left/Right Arrows</b> to move.<br><br><i>Open the index.html file to add your own photos!</i></p>
+            <button id="startBtn">START</button>
+        </div>
+
+        <div id="gameOverScreen" class="screen hide">
+            <h1 id="gameOverTitle" style="color: #ef4444; text-shadow: 0 0 20px rgba(239,68,68,0.8);">WASTED!</h1>
+            <p><span id="gameOverMsg">You got caught.</span><br>Level <span id="finalLevel" style="color:#fcd34d; font-weight:bold;">1</span> | Score <span id="finalScore" style="font-weight: 700; color: white;">0</span></p>
+            <button id="restartBtn">Play Again</button>
+        </div>
+        
+        <div class="controls hide" id="touchControls">
+            <div class="ctrl-btn" id="btnLeft">←</div>
+            <div class="ctrl-btn" id="btnRight">→</div>
+        </div>
+    </div>
+
+    <!-- Video Popup Container -->
+    <div id="memeVideoPopup">
+        <iframe id="youtubeIframe" width="315" height="560" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- HTML5 Video Support for Local Files -->
+        <video id="localVideo" width="315" height="560" class="hide" style="object-fit: cover; border-radius: 20px;" autoplay></video>
+    </div>
+
+    <!-- Background Game Music -->
+    <audio id="bgMusic" loop></audio>
+
+    <script>
+        // ==========================================================
+        // 🔥 CUSTOMIZE YOUR MEME GAME HERE 🔥
+        // ==========================================================
+        const CONFIG = {
+            // Background Music (Save any audio file as bg-music.mp3 in the assets folder)
+            bgMusicUrl: "assets/bg-music.mp3",
+            
+            playerImage: "https://api.dicebear.com/7.x/adventurer/svg?seed=Felix", 
+            enemyImages: [
+                "https://api.dicebear.com/7.x/bottts/svg?seed=1",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=2",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=3"
+            ],
+            enemyLabels: [
+                "Mid Term 1", 
+                "Internal Prac", 
+                "Mid Term 2", 
+                "External Prac", 
+                "PBL", 
+                "Projects", 
+                "Assignments", 
+                "Externals"
+            ],
+            // LEVEL 2 (MODI JI) IMAGES
+            level2EnemyImages: [
+                "https://media1.tenor.com/m/cgYqBjzKDG0AAAAd/dance-dancing.gif",
+                "assets/image.png"
+            ],
+            
+            // LEVEL 3 (RAHUL GANDHI) IMAGES
+            level3EnemyImages: [ "assets/rahul.png" ],
+            
+            // LEVEL 4 (TEACHER 1) IMAGES
+            level4EnemyImages: [ "assets/teacher1.png" ],
+            // LEVEL 5 (TEACHER 2) IMAGES
+            level5EnemyImages: [ "assets/teacher2.png" ],
+            // LEVEL 6 (TEACHER 3) IMAGES
+            level6EnemyImages: [ "assets/teacher3.png" ],
+            
+            // Level 1 Game Over Original Meme
+            gameOverVideo1: "https://www.youtube.com/embed/XKv5U3o63Vs",
+            
+            // Level 2 Game Over Meme - CHNAGE TO A MODIJI YOUTUBE EMBED LINK!
+            gameOverVideo2: "https://www.youtube.com/embed/msLWM-fn9PQ",
+
+            // Game Over Memes for rest of the levels
+            gameOverVideo3: "https://www.youtube.com/embed/KVkm3SL34NY",
+            gameOverVideo4: "assets/WhatsApp Video 2026-04-18 at 11.22.34.mp4", // Teacher 1 (Level 4)
+            gameOverVideo5: "assets/chee.mp4", // Teacher 2 (Level 5)
+            gameOverVideo6: "https://www.youtube.com/embed/JxZpLg5w7Eo", // Teacher 3 (Level 6)
+
+            levelUpTexts: [
+                "LEVEL UP!",
+                "STONKS! 📈",
+                "GIGACHAD LEVEL! 🗿",
+                "SIGMA GRINDSET! 🐺",
+                "ACHHE DIN! ✨",
+                "MITRON! 🙏"
+            ]
+        };
+        // ==========================================================
+
+        const scoreVal = document.getElementById('scoreVal');
+        const levelVal = document.getElementById('levelVal');
+        const finalScore = document.getElementById('finalScore');
+        const finalLevel = document.getElementById('finalLevel');
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const startBtn = document.getElementById('startBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const gameArea = document.getElementById('gameArea');
+        const touchControls = document.getElementById('touchControls');
+        const levelUpMsg = document.getElementById('levelUpMsg');
+        
+        const memeVideoPopup = document.getElementById('memeVideoPopup');
+        const youtubeIframe = document.getElementById('youtubeIframe');
+        const localVideo = document.getElementById('localVideo');
+        const bgMusic = document.getElementById('bgMusic');
+
+        const pauseBtn = document.getElementById('pauseBtn');
+        const btnLeft = document.getElementById('btnLeft');
+        const btnRight = document.getElementById('btnRight');
+
+        let player = { speed: 6, score: 0, level: 1, inPlay: false, isPaused: false, x: 0, y: 0 };
+        let keys = { ArrowLeft: false, ArrowRight: false };
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        function playTone(freq, type, duration, vol) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) { } 
+        }
+
+        function playStartSnd() {
+            playTone(600, 'sine', 0.1, 0.1);
+            setTimeout(() => playTone(800, 'sine', 0.2, 0.1), 150);
+        }
+        function playCrashSnd() {
+            playTone(150, 'sawtooth', 0.5, 0.2);
+            setTimeout(() => playTone(100, 'square', 0.3, 0.2), 100);
+        }
+        function playLevelUpSnd() {
+            playTone(440, 'sine', 0.1, 0.1);
+            setTimeout(() => playTone(554, 'sine', 0.1, 0.1), 100);
+            setTimeout(() => playTone(659, 'sine', 0.3, 0.1), 200);
+            setTimeout(() => playTone(880, 'square', 0.6, 0.1), 300); 
+        }
+        function playPassSnd() { playTone(100, 'sine', 0.1, 0.05); }
+
+        document.addEventListener('keydown', (e) => { if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); keys[e.key]=true; }});
+        document.addEventListener('keyup', (e) => { if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); keys[e.key]=false; }});
+        
+        document.addEventListener('keydown', (e) => { if(e.key.toLowerCase()==='p'){ togglePause(); }});
+        pauseBtn.addEventListener('click', togglePause);
+        
+        function togglePause() {
+            if (!player.inPlay) return;
+            player.isPaused = !player.isPaused;
+            if (player.isPaused) {
+                pauseBtn.innerText = "▶️";
+                bgMusic.pause();
+            } else {
+                pauseBtn.innerText = "⏸️";
+                bgMusic.play().catch(err => console.log("Audio play failed: ", err));
+                window.requestAnimationFrame(gameLoop);
+            }
+        }
+
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', startGame);
+
+        btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys.ArrowLeft = true; });
+        btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); keys.ArrowLeft = false; });
+        btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys.ArrowRight = true; });
+        btnRight.addEventListener('touchend', (e) => { e.preventDefault(); keys.ArrowRight = false; });
+
+        function moveLines() {
+            document.querySelectorAll('.lines').forEach(item => {
+                if (item.y >= window.innerHeight + 100) item.y -= window.innerHeight + 150;
+                item.y += player.speed;
+                item.style.top = item.y + "px";
+            });
+        }
+
+        function isCollide(a, b) {
+            aRect = a.getBoundingClientRect();
+            bRect = b.getBoundingClientRect();
+            const paddingX = 15;
+            const paddingY = 15;
+            return !(((aRect.top + paddingY) > bRect.bottom) || ((aRect.bottom - paddingY) < bRect.top) || ((aRect.right - paddingX) < bRect.left) || ((aRect.left + paddingX) > bRect.right));
+        }
+
+        function moveEnemies(playerElem) {
+            document.querySelectorAll('.enemy').forEach(item => {
+                if (isCollide(playerElem, item)) endGame();
+                if (item.y >= window.innerHeight + 100) {
+                    item.y = -400; // Constant reset to keep mathematically perfect 400px spacing!
+                    
+                    playPassSnd();
+                    let areaRect = gameArea.getBoundingClientRect();
+                    let laneWidth = areaRect.width / 3;
+                    item.style.left = (Math.floor(Math.random() * 3) * laneWidth + (laneWidth/2) - 40) + 'px'; 
+                    
+                    if (player.level >= 6) {
+                        item.classList.add('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.level6EnemyImages[Math.floor(Math.random() * CONFIG.level6EnemyImages.length)]}')`;
+                        item.innerText = "";
+                    } else if (player.level >= 5) {
+                        item.classList.add('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.level5EnemyImages[Math.floor(Math.random() * CONFIG.level5EnemyImages.length)]}')`;
+                        item.innerText = "";
+                    } else if (player.level >= 4) {
+                        item.classList.add('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.level4EnemyImages[Math.floor(Math.random() * CONFIG.level4EnemyImages.length)]}')`;
+                        item.innerText = "";
+                    } else if (player.level >= 3) {
+                        item.classList.add('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.level3EnemyImages[Math.floor(Math.random() * CONFIG.level3EnemyImages.length)]}')`;
+                        item.innerText = "";
+                    } else if (player.level >= 2) {
+                        item.classList.add('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.level2EnemyImages[Math.floor(Math.random() * CONFIG.level2EnemyImages.length)]}')`;
+                        item.innerText = "";
+                    } else {
+                        item.classList.remove('walking', 'meme-enemy');
+                        item.style.backgroundImage = `url('${CONFIG.enemyImages[Math.floor(Math.random() * CONFIG.enemyImages.length)]}')`;
+                        item.innerText = CONFIG.enemyLabels[Math.floor(Math.random() * CONFIG.enemyLabels.length)];
+                    }
+                }
+                item.y += player.speed;
+                item.style.top = item.y + "px";
+            });
+        }
+
+        function gameLoop() {
+            if (player.inPlay && !player.isPaused) {
+                let playerElem = document.querySelector('.player-wrapper');
+                let areaRect = gameArea.getBoundingClientRect();
+
+                moveLines();
+                moveEnemies(playerElem);
+                
+                if (keys.ArrowLeft && player.x > 0) {
+                    player.x -= player.speed;
+                    playerElem.style.transform = 'rotate(-15deg)';
+                } else if (keys.ArrowRight && player.x < (areaRect.width - 70)) {
+                    player.x += player.speed;
+                    playerElem.style.transform = 'rotate(15deg)';
+                } else {
+                    playerElem.style.transform = 'rotate(0deg)';
+                }
+
+                playerElem.style.left = player.x + "px";
+
+                player.score++;
+                let displayScore = Math.floor(player.score / 10);
+                scoreVal.innerText = displayScore;
+
+                let currentLevel = Math.floor(displayScore / 50) + 1;
+                if (currentLevel > player.level) {
+                    if (currentLevel > 6) {
+                        endGame(true);
+                        return; // Stop the loop for victory
+                    }
+                    levelUp(currentLevel);
+                }
+
+                window.requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function levelUp(newLevel) {
+            player.level = newLevel;
+            levelVal.innerText = player.level;
+            
+            if (player.level >= 6) {
+                player.speed += 0.5; // Slight speed boost
+                document.querySelectorAll('.enemy').forEach(item => {
+                    item.classList.add('walking', 'meme-enemy');
+                    item.style.backgroundImage = `url('${CONFIG.level6EnemyImages[Math.floor(Math.random() * CONFIG.level6EnemyImages.length)]}')`;
+                    item.innerText = "";
+                });
+            } else if (player.level >= 5) {
+                player.speed += 0.5; // Slight speed boost
+                document.querySelectorAll('.enemy').forEach(item => {
+                    item.classList.add('walking', 'meme-enemy');
+                    item.style.backgroundImage = `url('${CONFIG.level5EnemyImages[Math.floor(Math.random() * CONFIG.level5EnemyImages.length)]}')`;
+                    item.innerText = "";
+                });
+            } else if (player.level >= 4) {
+                player.speed += 0.5; // Slight speed boost
+                document.querySelectorAll('.enemy').forEach(item => {
+                    item.classList.add('walking', 'meme-enemy');
+                    item.style.backgroundImage = `url('${CONFIG.level4EnemyImages[Math.floor(Math.random() * CONFIG.level4EnemyImages.length)]}')`;
+                    item.innerText = "";
+                });
+            } else if (player.level >= 3) {
+                player.speed += 0.5; // Slight speed boost
+                document.querySelectorAll('.enemy').forEach(item => {
+                    item.classList.add('walking', 'meme-enemy');
+                    item.style.backgroundImage = `url('${CONFIG.level3EnemyImages[Math.floor(Math.random() * CONFIG.level3EnemyImages.length)]}')`;
+                    item.innerText = "";
+                });
+            } else if (player.level >= 2) {
+                player.speed += 0.5; // Slight speed boost
+                document.querySelectorAll('.enemy').forEach(item => {
+                    item.classList.add('walking', 'meme-enemy');
+                    item.style.backgroundImage = `url('${CONFIG.level2EnemyImages[Math.floor(Math.random() * CONFIG.level2EnemyImages.length)]}')`;
+                    item.innerText = "";
+                });
+            } else {
+                player.speed += 0.5;
+            }
+            
+            playLevelUpSnd();
+            
+            let randomMsg = CONFIG.levelUpTexts[Math.floor(Math.random() * CONFIG.levelUpTexts.length)];
+            levelUpMsg.innerText = randomMsg;
+            levelUpMsg.classList.remove('hide', 'level-animate');
+            void levelUpMsg.offsetWidth; 
+            levelUpMsg.classList.add('level-animate');
+
+            let t = (player.level % 5);
+            gameArea.className = `game-panel theme-${t === 0 ? 5 : t}`;
+        }
+
+        function createEnemy() {
+            let areaRect = gameArea.getBoundingClientRect();
+            for (let i = 0; i < 4; i++) {
+                let enemy = document.createElement('div');
+                enemy.setAttribute('class', 'enemy');
+                enemy.style.backgroundImage = `url('${CONFIG.enemyImages[Math.floor(Math.random() * CONFIG.enemyImages.length)]}')`;
+                enemy.innerText = CONFIG.enemyLabels[Math.floor(Math.random() * CONFIG.enemyLabels.length)];
+                enemy.y = ((i + 1) * -400); 
+                enemy.style.top = enemy.y + "px";
+                let laneWidth = areaRect.width / 3;
+                enemy.style.left = (Math.floor(Math.random() * 3) * laneWidth + (laneWidth/2) - 40) + "px";
+                gameArea.appendChild(enemy);
+            }
+        }
+
+        function createLanes() {
+            for (let i = 0; i < 6; i++) {
+                let lLeft = document.createElement('div'); lLeft.setAttribute('class', 'lines line-left'); lLeft.y = (i * 200); lLeft.style.top = lLeft.y + "px"; gameArea.appendChild(lLeft);
+                let lRight = document.createElement('div'); lRight.setAttribute('class', 'lines line-right'); lRight.y = (i * 200); lRight.style.top = lRight.y + "px"; gameArea.appendChild(lRight);
+            }
+        }
+
+        function startGame() {
+            audioCtx.resume().then(() => playStartSnd());
+
+            // Start background music
+            bgMusic.src = CONFIG.bgMusicUrl;
+            bgMusic.currentTime = 0;
+            bgMusic.volume = 0.5; // Set volume to 50%
+            bgMusic.play().catch(err => console.log("No audio found or play prevented."));
+
+            // Hide everything on start
+            startScreen.classList.add('hide');
+            gameOverScreen.classList.add('hide');
+            levelUpMsg.classList.add('hide');
+            levelUpMsg.classList.remove('level-animate');
+            
+            // Hide troll video and clear its src so it fully unloads/stops playing
+            memeVideoPopup.classList.remove('show');
+            youtubeIframe.src = "";
+            localVideo.src = "";
+            localVideo.pause();
+
+            touchControls.classList.remove('hide');
+            pauseBtn.classList.remove('hide');
+            pauseBtn.innerText = "⏸️";
+
+            document.querySelectorAll('.lines, .enemy, .player-wrapper').forEach(e => e.remove());
+
+            player.inPlay = true; player.isPaused = false; player.score = 0; player.level = 1; player.speed = 6;
+            scoreVal.innerText = 0; levelVal.innerText = 1;
+            gameArea.className = 'game-panel theme-1';
+
+            createLanes();
+
+            let playerWrapper = document.createElement('div');
+            playerWrapper.setAttribute('class', 'player-wrapper');
+            playerWrapper.style.backgroundImage = `url('${CONFIG.playerImage}')`;
+            gameArea.appendChild(playerWrapper);
+
+            player.x = (gameArea.getBoundingClientRect().width / 2) - 35;
+            playerWrapper.style.left = player.x + "px";
+
+            createEnemy();
+            window.requestAnimationFrame(gameLoop);
+        }
+
+        function endGame(isWin = false) {
+            player.inPlay = false;
+            bgMusic.pause();
+            pauseBtn.classList.add('hide');
+
+            const gameOverTitle = document.getElementById('gameOverTitle');
+            const gameOverMsg = document.getElementById('gameOverMsg');
+
+            if (isWin) {
+                playLevelUpSnd();
+                gameOverTitle.innerText = "YOU SURVIVED!";
+                gameOverTitle.style.color = "#4ade80";
+                gameOverTitle.style.textShadow = "0 0 20px rgba(74,222,128,0.8)";
+                gameOverMsg.innerText = "You successfully completed all 6 levels.";
+                
+                let videoUrl = CONFIG.gameOverVideo6;
+                if (videoUrl.endsWith('.mp4')) {
+                    youtubeIframe.classList.add('hide');
+                    localVideo.classList.remove('hide');
+                    localVideo.src = videoUrl;
+                    localVideo.play().catch(e => console.log('Local video play failed:', e));
+                } else {
+                    localVideo.classList.add('hide');
+                    youtubeIframe.classList.remove('hide');
+                    videoUrl += "?autoplay=1&controls=0&modestbranding=1&disablekb=1&rel=0";
+                    youtubeIframe.src = videoUrl;
+                }
+                memeVideoPopup.classList.add('show');
+            } else {
+                playCrashSnd();
+                gameOverTitle.innerText = "WASTED!";
+                gameOverTitle.style.color = "#ef4444";
+                gameOverTitle.style.textShadow = "0 0 20px rgba(239,68,68,0.8)";
+                gameOverMsg.innerText = "You got caught.";
+
+                // Trigger Troll Video based on Level Drop
+                let videoUrl = "";
+                if (player.level >= 6) {
+                    videoUrl = CONFIG.gameOverVideo6;
+                } else if (player.level >= 5) {
+                    videoUrl = CONFIG.gameOverVideo5;
+                } else if (player.level >= 4) {
+                    videoUrl = CONFIG.gameOverVideo4;
+                } else if (player.level >= 3) {
+                    videoUrl = CONFIG.gameOverVideo3;
+                } else if (player.level >= 2) {
+                    videoUrl = CONFIG.gameOverVideo2;
+                } else {
+                    videoUrl = CONFIG.gameOverVideo1;
+                }
+                if (videoUrl.endsWith('.mp4')) {
+                    youtubeIframe.classList.add('hide');
+                    localVideo.classList.remove('hide');
+                    localVideo.src = videoUrl;
+                    localVideo.play().catch(e => console.log('Local video play failed:', e));
+                } else {
+                    localVideo.classList.add('hide');
+                    youtubeIframe.classList.remove('hide');
+                    videoUrl += "?autoplay=1&controls=0&modestbranding=1&disablekb=1&rel=0";
+                    youtubeIframe.src = videoUrl;
+                }
+                memeVideoPopup.classList.add('show');
+            }
+
+            gameOverScreen.classList.remove('hide');
+            touchControls.classList.add('hide');
+            finalScore.innerText = Math.floor(player.score / 10);
+            finalLevel.innerText = player.level;
+            
+            let playerElem = document.querySelector('.player-wrapper');
+            if(playerElem) {
+                if (isWin) {
+                    playerElem.style.transform = 'scale(1.5)';
+                } else {
+                    playerElem.style.transform = 'scale(1.5) rotate(70deg)';
+                    playerElem.style.filter = 'grayscale(0.8) contrast(1.5)';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

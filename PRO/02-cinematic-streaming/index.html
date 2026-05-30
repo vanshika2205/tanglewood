@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cinematic Streaming Hub: An ultra-premium, interactive media streaming platform (Netflix Redefined) with custom video player integration, dynamic carousels, persistent My List manager, and modal detail panels.">
+  <title>Cinematic Hub // Next-Gen Streaming</title>
+  <!-- Google Fonts: Outfit for sleek typography, Inter for readable details -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- App Main Layout Wrapper -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation Menu -->
+    <aside class="nav-sidebar">
+      <div class="sidebar-brand">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" class="logo-icon">
+          <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7.5v-3l4 1.5-4 1.5z"></path>
+        </svg>
+        <span>CINEMA HUB</span>
+      </div>
+      
+      <nav class="sidebar-links">
+        <button id="nav-btn-home" class="nav-link active">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Home Space</span>
+        </button>
+        <button id="nav-btn-mylist" class="nav-link">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          <span>My List</span>
+          <span class="mylist-badge" id="mylist-badge-count">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p>Premium Account</p>
+        <span class="badge-pro">PRO</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-frame">
+      
+      <!-- Top Header Navigation Dock -->
+      <header class="content-header">
+        <div class="search-box">
+          <input type="text" id="movie-search" placeholder="Search genres, titles, stars...">
+        </div>
+        
+        <div class="user-profile">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="Profile" class="avatar">
+          <span class="username">Vanshika</span>
+        </div>
+      </header>
+
+      <!-- Dynamic Screen Panels Container -->
+      <div class="screen-panels">
+        
+        <!-- PANEL A: HOME BOARD (Active by default) -->
+        <div id="panel-home" class="screen-panel active">
+          
+          <!-- Hero Billboard Showcase Section -->
+          <section class="hero-billboard" id="hero-billboard">
+            <div class="hero-shadow-overlay"></div>
+            <!-- Video background plays in loop behind header details -->
+            <video id="hero-video-bg" loop muted playsinline></video>
+            
+            <div class="hero-details">
+              <span class="billboard-badge">TRENDING ON CINEMA HUB</span>
+              <h2 id="hero-title">Cosmic Horizon</h2>
+              <p id="hero-desc">An immersive stellar journey into the deepest orbits of the galactic framework. Experience weightless visual peaks and floating atmospheric nebulas in direct cinema audio.</p>
+              
+              <div class="hero-actions">
+                <button id="btn-hero-play" class="action-btn play-btn">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span>Play Trailer</span>
+                </button>
+                <button id="btn-hero-mylist" class="action-btn secondary-btn">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>My List</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Movie Categories Carousels -->
+          <section class="slider-section">
+            <h3 class="section-title">🌟 DYNAMIC CINEMA HITS</h3>
+            <div class="movie-carousel" id="carousel-hits">
+              <!-- Cards dynamically created by JS -->
+            </div>
+          </section>
+
+          <section class="slider-section">
+            <h3 class="section-title">🌌 ATMOSPHERIC DRUMS & GLOWS</h3>
+            <div class="movie-carousel" id="carousel-ambient">
+              <!-- Cards dynamically created by JS -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- PANEL B: MY LIST COLLECTION (Hidden by default) -->
+        <div id="panel-mylist" class="screen-panel">
+          <div class="mylist-container">
+            <div class="mylist-header">
+              <h2>MY SAVED LIST</h2>
+              <p>Your premium collection of offline-ready looping soundspaces.</p>
+            </div>
+            
+            <!-- Grid displaying saved cards -->
+            <div class="mylist-grid" id="mylist-grid">
+              <!-- Empty state message will be replaced by cards if they exist -->
+              <div class="empty-state" id="mylist-empty-state">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h3>Your list is empty</h3>
+                <p>Browse through the home board and save tracks to your personal vault!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Dynamic Modal Showcase (Trailers, Ratings & Reviews) -->
+  <div class="modal-overlay" id="movie-modal">
+    <div class="modal-container">
+      
+      <!-- Close button -->
+      <button class="modal-close-btn" id="btn-close-modal">&times;</button>
+      
+      <!-- Video Player Hub (Turntable styling bypass) -->
+      <div class="modal-player-hub">
+        <video id="modal-video-player" playsinline></video>
+        
+        <!-- Custom Controls Overlay -->
+        <div class="player-controls-overlay">
+          <div class="player-progress-area">
+            <div class="player-slider-track" id="player-progress-track">
+              <div class="player-slider-fill" id="player-progress-fill"></div>
+            </div>
+          </div>
+          
+          <div class="player-control-dock">
+            <div class="dock-left">
+              <button id="btn-player-play" class="player-control-btn" title="Play/Pause">
+                <svg id="svg-player-play" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg id="svg-player-pause" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="hidden"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              </button>
+              <span id="player-time-display" class="player-time">0:00 / 0:00</span>
+            </div>
+            
+            <div class="dock-right">
+              <button id="btn-player-mute" class="player-control-btn" title="Mute/Unmute">
+                <svg id="svg-player-vol-high" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <svg id="svg-player-vol-muted" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+              </button>
+              <button id="btn-player-fs" class="player-control-btn" title="Fullscreen">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modal Details Grid -->
+      <div class="modal-details-grid">
+        <!-- Left Side: Film Meta details -->
+        <div class="details-left">
+          <div class="meta-row">
+            <span class="meta-year" id="modal-year">2026</span>
+            <span class="meta-age">13+</span>
+            <span class="meta-duration" id="modal-duration">0:45</span>
+            <span class="meta-hd">UHD 4K</span>
+          </div>
+          <h1 id="modal-title">Cosmic Horizon</h1>
+          <p id="modal-desc" class="modal-synopsis">Synopsis will load here dynamically...</p>
+        </div>
+        
+        <!-- Right Side: Star Ratings & Reviews -->
+        <div class="details-right">
+          <div class="star-rating-box">
+            <h4>RATE THIS VIBE:</h4>
+            <div class="stars-list" id="stars-list">
+              <span class="rating-star" data-rating="1">&#9733;</span>
+              <span class="rating-star" data-rating="2">&#9733;</span>
+              <span class="rating-star" data-rating="3">&#9733;</span>
+              <span class="rating-star" data-rating="4">&#9733;</span>
+              <span class="rating-star" data-rating="5">&#9733;</span>
+            </div>
+            <span class="average-rating-label" id="average-rating-label">Avg: 4.8 / 5</span>
+          </div>
+          
+          <div class="reviews-box">
+            <h4>COMMUNITY REVIEWS:</h4>
+            <!-- Reviews Scroll Container -->
+            <div class="reviews-scroller" id="reviews-scroller">
+              <!-- Populate dynamically -->
+            </div>
+            
+            <!-- Submit Review Form -->
+            <form id="review-form" class="review-form">
+              <input type="text" id="review-input" placeholder="Add your take on this cinema..." required>
+              <button type="submit" class="send-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Master JavaScript script -->
+  <script src="app.js"></script>
+</body>
+</html>

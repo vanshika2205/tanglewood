@@ -1,0 +1,1900 @@
+/* ==========================================================================
+   🎵 SYMPHONY STUDIO: Ultra-Premium Hardware Synth & Tactile Groovebox
+   ========================================================================== */
+
+/* ── CUSTOM FONTS & CORE DESIGN TOKENS ─────────────────────────────────── */
+:root {
+  --font-main: 'Rajdhani', sans-serif;
+  --font-led: 'Orbitron', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  
+  --trans-smooth: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --trans-dial: transform 0.08s ease-out;
+  --trans-fast: all 0.12s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --bevel-light: inset 1px 1px 1px rgba(255, 255, 255, 0.12), inset -1px -1px 1px rgba(0, 0, 0, 0.4);
+  --recess-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Theme A: Cyber SpaceX Deck (Matte White Chassis + Electric Cyan Glows) */
+.theme-acid-teal {
+  --bg-groovebox: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);  /* Pristine matte white-silver alloy */
+  --bg-panel: linear-gradient(180deg, #090d16 0%, #05070c 100%);      /* Deep space-black cards */
+  --bg-display: #020408;    /* LCD Pitch Black */
+  
+  --color-accent: #00f0ff;    /* SpaceX Electric Cyan */
+  --color-accent-rgb: 0, 240, 255;
+  --color-second: #10b981;    /* Lime Green */
+  --color-second-rgb: 16, 185, 129;
+  
+  --pad-drum: #00f0ff;
+  --pad-bass: #ec4899;
+  --pad-lead: #3b82f6;
+  --pad-fx: #00f0ff;
+  
+  --wood-grain-color: #cbd5e1;       /* Anodized Brushed Steel panels */
+  --wood-grain-highlight: #f1f5f9;
+  --panel-glowing-shadow: rgba(0, 240, 255, 0.15);
+  --text-active: #ffffff;
+}
+
+/* Theme B: Vaporwave Silicon (Grape Purple Shell + Neon Hot Pink Glows) */
+.theme-retro-pink {
+  --bg-groovebox: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%);  /* Grape Purple carbon chassis */
+  --bg-panel: linear-gradient(180deg, #0f0717 0%, #06020a 100%);      /* Dark charcoal cards */
+  --bg-display: #030105;
+  
+  --color-accent: #ff007f;    /* Blazing Hot Pink */
+  --color-accent-rgb: 255, 0, 127;
+  --color-second: #00f0ff;    /* Neon Cyan */
+  --color-second-rgb: 0, 240, 255;
+  
+  --pad-drum: #ff007f;
+  --pad-bass: #8b5cf6;
+  --pad-lead: #00f0ff;
+  --pad-fx: #ec4899;
+  
+  --wood-grain-color: #4c1d95;       /* Brushed Anodized Violet Oak */
+  --wood-grain-highlight: #6d28d9;
+  --panel-glowing-shadow: rgba(255, 0, 127, 0.15);
+  --text-active: #ffffff;
+}
+
+/* Theme C: Champagne Gold Studio (Walnut Wood cheeks + Sand-Brushed Gold Faceplate) */
+.theme-lofi-gold {
+  --bg-groovebox: linear-gradient(135deg, #d97706 0%, #b45309 100%);  /* Champagne Sand-Brushed Gold */
+  --bg-panel: linear-gradient(180deg, #17120a 0%, #0c0905 100%);      /* Matte Black modules */
+  --bg-display: #080603;    /* Amber LCD Display */
+  
+  --color-accent: #f59e0b;    /* Amber Gold Glow */
+  --color-accent-rgb: 245, 158, 11;
+  --color-second: #d97706;    /* Dark Amber Gold */
+  --color-second-rgb: 217, 119, 6;
+  
+  --pad-drum: #f59e0b;
+  --pad-bass: #7c2d12;
+  --pad-lead: #f59e0b;
+  --pad-fx: #7c2d12;
+  
+  --wood-grain-color: #451a03;       /* Premium Volumetric Walnut Cheeks */
+  --wood-grain-highlight: #78350f;
+  --panel-glowing-shadow: rgba(245, 158, 11, 0.15);
+  --text-active: #ffffff;
+}
+
+/* ── RESET & STRUCTURE OVERLAY BYPASS ──────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #050609;
+  font-family: var(--font-main);
+  overflow-y: auto; /* Allow vertical scrolling if the DAW height exceeds the screen */
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0; /* Add nice headroom padding on top and bottom */
+}
+
+/* ── ULTRA-PREMIUM CYBERNETIC BACKDROP EFFECTS ────────────────────────────── */
+.neon-grid-bg {
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(var(--color-accent-rgb), 0.05) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.05) 1.5px, transparent 1.5px);
+  background-size: 50px 50px;
+  background-position: center top;
+  z-index: 2;
+  transform: perspective(350px) rotateX(60deg) translateY(-100px) scale(2);
+  opacity: 0.65;
+  animation: gridSweep 15s linear infinite;
+  pointer-events: none;
+  transition: var(--trans-smooth);
+}
+@keyframes gridSweep {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 500px;
+  }
+}
+
+.crt-overlay {
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 6px 100%;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+#cosmic-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ── GROOVEBOX SYNTHESIZER CHASSIS FRAME ────────────────────────────────── */
+.studio-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 97vw;
+  max-width: 1300px;
+  min-height: 90vh; /* Set minimum height to fit screen */
+  height: auto;      /* Let heights adjust naturally to prevent cutoff */
+  background: var(--bg-groovebox);
+  border: 1.5px solid rgba(255, 255, 255, 0.04);
+  
+  /* Wood panel volumetric pop shadow & framing */
+  border-left: 18px solid var(--wood-grain-color);
+  border-right: 18px solid var(--wood-grain-color);
+  border-radius: 20px;
+  box-shadow: 
+    0 35px 80px rgba(0, 0, 0, 0.95),
+    inset 8px 0 12px -4px var(--wood-grain-highlight),
+    inset -8px 0 12px -4px var(--wood-grain-highlight),
+    0 0 50px rgba(var(--color-accent-rgb), 0.08), /* Dynamic halo ambient glow! */
+    inset 0 2px 2px rgba(255, 255, 255, 0.08);
+  
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  pointer-events: auto;
+  transition: var(--trans-smooth);
+}
+
+/* ── DECORATIVE METALLIC PANEL RIVETS & HARDWARE SCREWS ──────────────────── */
+/* Chrome screws at corners to reinforce physical hardware realism */
+.studio-card::before, .studio-card::after,
+.deck-panel::before, .deck-panel::after,
+.studio-header::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle at 35% 35%, #e2e8f0 0%, #475569 80%, #0f172a 100%);
+  border: 1px solid #1e293b;
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.6), inset 0.5px 0.5px 0.5px rgba(255,255,255,0.4);
+  z-index: 150;
+  pointer-events: none;
+}
+
+.studio-card::before { top: 8px; left: 8px; }
+.studio-card::after { top: 8px; right: 8px; }
+.deck-panel::before { top: 8px; left: 8px; }
+.deck-panel::after { top: 8px; right: 8px; }
+.studio-header::before { top: 8px; left: 8px; }
+
+/* Screws horizontal/vertical screwdriver cut slot detail */
+.studio-card::before, .deck-panel::before { transform: rotate(45deg); }
+.studio-card::after, .deck-panel::after { transform: rotate(-30deg); }
+
+/* ── TOP SECTION: FL STUDIO DAW TRANSPORT TOOLBAR ────────────────────────── */
+.daw-toolbar {
+  height: 82px;
+  background: #1e1e24; /* FL Studio dark carbon */
+  border: 2px solid #0f0f12;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.5);
+  border-radius: 12px;
+  padding: 0 20px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.studio-brand h1 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  color: #ff9f0a; /* FL logo warm orange */
+  text-shadow: 0 0 12px rgba(255,159,10,0.25);
+}
+.brand-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #cbd5e1;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin-top: 1px;
+}
+
+/* DAW Transport Panel controls */
+.daw-transport-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f1013;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1.5px solid #282b35;
+}
+.pat-song-toggle {
+  display: flex;
+  background: #07080a;
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid #1c1e24;
+  margin-right: 6px;
+}
+.pat-song-toggle button {
+  background: transparent;
+  border: none;
+  font-family: var(--font-main);
+  font-weight: 900;
+  font-size: 0.72rem;
+  color: #64748b;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: var(--trans-fast);
+}
+.pat-song-toggle button.active {
+  background: #f97316; /* FL orange active */
+  color: #fff;
+  box-shadow: 0 0 8px rgba(249,115,22,0.6);
+}
+.daw-trans-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1.5px solid #000;
+  background: #272730;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--bevel-light);
+  transition: var(--trans-fast);
+}
+.daw-trans-btn:hover {
+  color: #fff;
+  background: #32323e;
+}
+.daw-trans-btn.play.play-btn-active {
+  background: #10b981 !important; /* Green play active */
+  color: #fff !important;
+  box-shadow: 0 0 12px #10b981 !important;
+  border-color: #10b981 !important;
+}
+.daw-trans-btn.stop.active {
+  background: #ef4444 !important; /* Red stop active */
+  color: #fff !important;
+  box-shadow: 0 0 8px #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+.daw-trans-btn.rec.recording {
+  background: #ea580c !important; /* Orange recording active */
+  color: #fff !important;
+  box-shadow: 0 0 12px #ea580c !important;
+  border-color: #ea580c !important;
+}
+.daw-trans-btn.metro.active {
+  background: #06b6d4 !important; /* Metronome active cyan glow */
+  color: #fff !important;
+  box-shadow: 0 0 10px #06b6d4 !important;
+  border-color: #06b6d4 !important;
+}
+
+/* Glowing Time screen readout */
+.daw-lcd-screen {
+  background: #050608;
+  border: 2px solid #282b35;
+  border-radius: 6px;
+  padding: 4px 14px;
+  min-width: 145px;
+  text-align: center;
+  box-shadow: var(--recess-shadow);
+}
+.lcd-value {
+  font-family: var(--font-led);
+  font-size: 1.15rem;
+  color: #34d399; /* Glowing retro green counter */
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(52,211,153,0.65);
+}
+.lcd-label {
+  font-family: var(--font-main);
+  font-size: 0.55rem;
+  color: #475569;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  margin-top: 1px;
+}
+
+/* Global Audio Dashboard settings */
+.global-audio-dashboard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dashboard-control.daw-rack {
+  background: #050608;
+  border-radius: 6px;
+  padding: 4px 12px;
+  border: 2px solid #282b35;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 125px;
+  box-shadow: var(--recess-shadow);
+}
+.dashboard-control.daw-rack label {
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: #64748b;
+  margin-bottom: 0px;
+  letter-spacing: 0.5px;
+}
+.custom-select select {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 800;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 0;
+  width: 100%;
+}
+.custom-select select option {
+  background: #090d16;
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-weight: 800;
+}
+.daw-digital-box {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.daw-slider-mini {
+  width: 50px !important;
+  height: 3px !important;
+  margin-left: 8px;
+}
+
+/* Themes Dial Button Grid */
+.studio-theme-dials {
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
+}
+.theme-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+.theme-btn:hover {
+  color: #cbd5e1;
+}
+.theme-btn.active {
+  background: var(--bg-groovebox);
+  color: var(--color-accent);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── LAYOUT WORKSPACE PANELS ────────────────────────────────────────────── */
+.studio-main-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+  height: auto; /* Allow natural dynamic sizing to prevent cutoff */
+}
+
+.studio-card {
+  background: var(--bg-panel);
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: var(--trans-smooth);
+}
+
+/* Header strip decoration for panels */
+.card-header {
+  height: 48px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.card-header h2 {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  color: var(--color-second);
+}
+.card-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.06);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.card-body {
+  flex: 1;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 3D PHYSICAL MPC SILICON LAUNCHPAD ───────────────────────────────────── */
+.launchpad-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Soft Thick Recessed Silicon MPC pads */
+.launchpad-pad {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  aspect-ratio: 1.05;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  
+  /* 3D mechanical projection shadows */
+  box-shadow: 
+    0 6px 0px rgba(0, 0, 0, 0.5), 
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.6);
+  
+  transform: translateY(-4px); /* Shift up for the mechanical drop */
+  transition: var(--trans-fast);
+}
+
+.launchpad-pad:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 3D Physical Sinking on click/press */
+.launchpad-pad:active, .launchpad-pad.active {
+  transform: translateY(2px) !important;
+  box-shadow: 
+    0 1px 0px rgba(0, 0, 0, 0.7),
+    inset 0 2px 5px rgba(0,0,0,0.8),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.03);
+}
+
+.pad-label {
+  font-family: var(--font-main);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.8px;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+.pad-id-tag {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #4b5563;
+  font-weight: 700;
+}
+
+/* Drum Instrument Kit branding accent tags colors */
+.launchpad-pad[data-type="drum"] .pad-label { color: var(--pad-drum); }
+.launchpad-pad[data-type="bass"] .pad-label { color: var(--pad-bass); }
+.launchpad-pad[data-type="lead"] .pad-label { color: var(--pad-lead); }
+.launchpad-pad[data-type="fx"] .pad-label { color: var(--pad-fx); }
+
+/* Hyper back-lighting neon glow indicators for active launch loops */
+.launchpad-pad.active[data-type="drum"] {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.22) 0%, rgba(0, 240, 255, 0.08) 100%);
+  border-color: #00f0ff;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 8px rgba(0, 240, 255, 0.4);
+}
+.launchpad-pad.active[data-type="bass"] {
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.22) 0%, rgba(255, 0, 127, 0.08) 100%);
+  border-color: #ff007f;
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.55), inset 0 0 8px rgba(255, 0, 127, 0.4);
+}
+.launchpad-pad.active[data-type="lead"] {
+  background: linear-gradient(135deg, rgba(255, 238, 0, 0.22) 0%, rgba(255, 238, 0, 0.08) 100%);
+  border-color: #ffee00;
+  box-shadow: 0 0 25px rgba(255, 238, 0, 0.55), inset 0 0 8px rgba(255, 238, 0, 0.4);
+}
+.launchpad-pad.active[data-type="fx"] {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border-color: #10b981;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.55), inset 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.launchpad-legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  border-top: 1.5px solid rgba(0, 0, 0, 0.35);
+  padding-top: 12px;
+}
+.legend-dot {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.color-drum::before { background-color: var(--pad-drum); }
+.color-bass::before { background-color: var(--pad-bass); }
+.color-lead::before { background-color: var(--pad-lead); }
+.color-fx::before { background-color: var(--pad-fx); }
+
+/* ── STEP SEQUENCER COGNITIVE MACHINE ───────────────────────────────────── */
+.sequencer-controls {
+  display: flex;
+  gap: 8px;
+}
+.control-btn {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1.5px solid rgba(0, 0, 0, 0.5);
+  color: #64748b;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--bevel-light);
+  transition: var(--trans-fast);
+}
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+  color: #e2e8f0;
+}
+.control-btn.play-btn {
+  background: linear-gradient(to bottom, var(--color-accent) 0%, rgba(var(--color-accent-rgb), 0.75) 100%);
+  color: #030508;
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 6px rgba(var(--color-accent-rgb), 0.25);
+}
+.control-btn.play-btn:hover {
+  box-shadow: 0 0 15px var(--color-accent);
+}
+.control-btn.play-btn-active {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+}
+
+.sequencer-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sequencer-channels-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Dynamic slider playhead sweep bar vertical lines */
+.sequencer-channels-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 2.5px;
+  height: 100%;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent), 0 0 4px #fff;
+  z-index: 100;
+  pointer-events: none;
+  left: 0%;
+  display: none;
+  transition: left 0.04s linear;
+}
+.sequencer-channels-container.playing::after {
+  display: block;
+}
+
+.sequencer-lane {
+  display: flex;
+  align-items: center;
+  padding-bottom: 3px;
+}
+
+/* ── DAW MIXER CHANNEL CONTROLS ─────────────────────────────────────────── */
+.lane-controls {
+  width: 165px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.channel-mute-btn {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid #000;
+  background: #2a2e3d; /* Inactive grey */
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
+  transition: var(--trans-fast);
+  flex-shrink: 0;
+}
+.channel-mute-btn.active {
+  background: #10b981 !important; /* Bright green LED unmuted */
+  box-shadow: 0 0 8px #10b981, inset 0 1px 1px #fff !important;
+  border-color: #10b981 !important;
+}
+
+.channel-knob-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: ns-resize;
+  position: relative;
+  flex-shrink: 0;
+}
+.channel-knob-ring {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #12141a;
+  background: radial-gradient(circle at 35% 35%, #2a2e3d, #151720, #08090d);
+  position: relative;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.45);
+}
+.channel-knob-dial {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  width: 1.5px;
+  height: 8px;
+  background: var(--color-accent);
+  border-radius: 0.5px;
+  transform-origin: bottom center;
+  margin-left: -0.75px;
+  box-shadow: 0 0 3px var(--color-accent);
+  transition: var(--trans-dial);
+}
+.channel-knob-tip {
+  font-size: 0.5rem;
+  font-weight: 800;
+  color: #64748b;
+  margin-top: 1px;
+  letter-spacing: 0.2px;
+}
+.theme-lofi-gold .channel-knob-tip {
+  color: #4b5563;
+}
+
+.channel-select-btn {
+  width: 68px;
+  height: 23px;
+  border: 1.5px solid rgba(0,0,0,0.7);
+  background: linear-gradient(to bottom, #323540 0%, #151720 100%);
+  border-radius: 4px;
+  color: #9ca3af;
+  font-family: var(--font-main);
+  font-weight: 900;
+  font-size: 0.68rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  box-shadow: var(--bevel-light);
+  transition: var(--trans-fast);
+  flex-shrink: 0;
+}
+.channel-select-btn:hover {
+  color: #ffffff;
+  background: linear-gradient(to bottom, #424656 0%, #1f212a 100%);
+}
+.channel-select-btn.active {
+  color: #ffffff !important;
+  border-color: var(--color-accent) !important;
+  background: linear-gradient(to bottom, #424656 0%, #1e293b 100%) !important;
+  box-shadow: 0 0 8px rgba(var(--color-accent-rgb), 0.25) !important;
+}
+
+.lane-steps {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 6px;
+}
+
+/* FL Studio Rectangular Step buttons */
+.step-dot {
+  aspect-ratio: 1.6;
+  border-radius: 3.5px;
+  border: 2px solid #050608;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.03);
+  transition: var(--trans-fast);
+}
+
+/* Light Grey retro plastic blocks: Steps 1-4 & 9-12 */
+.step-dot:nth-child(16n+1), .step-dot:nth-child(16n+2), .step-dot:nth-child(16n+3), .step-dot:nth-child(16n+4),
+.step-dot:nth-child(16n+9), .step-dot:nth-child(16n+10), .step-dot:nth-child(16n+11), .step-dot:nth-child(16n+12) {
+  background: linear-gradient(to bottom, #9ca3af 0%, #4b5563 100%);
+}
+/* Dark Charcoal plastic blocks: Steps 5-8 & 13-16 */
+.step-dot:nth-child(16n+5), .step-dot:nth-child(16n+6), .step-dot:nth-child(16n+7), .step-dot:nth-child(16n+8),
+.step-dot:nth-child(16n+13), .step-dot:nth-child(16n+14), .step-dot:nth-child(16n+15), .step-dot:nth-child(16n+16) {
+  background: linear-gradient(to bottom, #374151 0%, #111827 100%);
+}
+
+.step-dot:hover {
+  filter: brightness(1.2);
+}
+
+/* ACTIVE toggled DAW steps - Brilliant neon green toggle glow! */
+.step-dot.active {
+  background: linear-gradient(to bottom, var(--color-accent) 0%, rgba(var(--color-accent-rgb), 0.75) 100%) !important;
+  border-color: #ffffff !important;
+  box-shadow: 
+    0 0 10px var(--color-accent),
+    0 0 3px var(--color-accent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Flash overlap trigger under playhead active sweeping indices */
+.step-dot.playhead-active {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 6px #fff;
+}
+.step-dot.playhead-active.active {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--color-accent) 100%) !important;
+  box-shadow: 0 0 18px var(--color-accent), 0 0 6px #ffffff !important;
+}
+
+/* Markers timing line numbers indicators */
+.sequencer-timeline-markers {
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+.marker-spacer {
+  width: 95px;
+}
+.markers-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+.markers-list span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+/* ── HIGHLY TACTILE PIANO SYNTH KEYBED ───────────────────────────────────── */
+/* ── HIGHLY TACTILE PIANO SYNTH KEYBED & DAW CONSOLE ───────────────────────── */
+.synth-keybed-container {
+  border-top: 1.5px solid rgba(0, 0, 0, 0.45);
+  padding-top: 14px;
+  margin-top: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.keybed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+.keybed-title {
+  font-family: var(--font-raj);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-second);
+  letter-spacing: 1px;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.daw-tabs {
+  display: flex;
+  gap: 6px;
+}
+.daw-tab {
+  background: #0b0f19;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #57657a;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+}
+.daw-tab:hover {
+  color: #94a3b8;
+  border-color: rgba(255, 255, 255, 0.15);
+  background: #0f1524;
+}
+.daw-tab.active {
+  background: #141c2e;
+  color: var(--color-accent);
+  border-color: rgba(34, 197, 94, 0.25);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 12px rgba(34, 197, 94, 0.1);
+}
+.daw-tab.active::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  margin-left: 6px;
+  box-shadow: 
+    0 0 6px var(--color-accent),
+    0 0 2px var(--color-accent);
+}
+
+/* ── PIANO ROLL GRID STYLING ─────────────────────────────────────────────── */
+.piano-roll-wrapper {
+  background: radial-gradient(circle at top left, rgba(16, 24, 39, 0.95), rgba(8, 12, 21, 0.98));
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    inset 0 4px 20px rgba(0, 0, 0, 0.95),
+    0 8px 32px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+  height: 228px; /* Perfect spacing depth */
+}
+.piano-roll-grid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 2.5px;
+}
+.piano-roll-row {
+  display: flex;
+  flex: 1;
+  gap: 3px;
+  align-items: center;
+}
+.note-label {
+  width: 52px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 5px;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 2px 4px rgba(0,0,0,0.5);
+  user-select: none;
+  transition: all 0.2s ease;
+}
+.note-label.black-key-label {
+  background: linear-gradient(135deg, #090d16 0%, #111827 100%);
+  color: var(--color-accent);
+  border-color: rgba(34, 197, 94, 0.18);
+  box-shadow: 
+    inset 0 1px 0 rgba(34, 197, 94, 0.05),
+    0 2px 4px rgba(0,0,0,0.6);
+}
+.piano-roll-cells-container {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  gap: 2.5px;
+}
+.piano-roll-cell {
+  flex: 1;
+  background: rgba(17, 24, 39, 0.35);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.piano-roll-cell.black-row {
+  background: rgba(15, 23, 42, 0.58);
+}
+.piano-roll-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: rgba(34, 197, 94, 0);
+  transition: background 0.15s ease;
+}
+.piano-roll-cell:hover::before {
+  background: rgba(34, 197, 94, 0.15);
+}
+.piano-roll-cell.active {
+  background: linear-gradient(to bottom, #22c55e 0%, #10b981 40%, #047857 100%) !important;
+  border: 1.5px solid #4ade80 !important;
+  box-shadow: 
+    0 0 14px rgba(34, 197, 94, 0.95),
+    0 0 4px rgba(34, 197, 94, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3) !important;
+  z-index: 5;
+  animation: noteTriggerGlow 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+@keyframes noteTriggerGlow {
+  0% {
+    filter: brightness(1.6) contrast(1.2);
+    transform: scale(0.96);
+  }
+  100% {
+    filter: brightness(1) contrast(1);
+    transform: scale(1);
+  }
+}
+.piano-roll-cell.playhead-active {
+  background: rgba(34, 197, 94, 0.08) !important;
+  border-left: 1.5px solid rgba(34, 197, 94, 0.6) !important;
+  border-right: 1.5px solid rgba(34, 197, 94, 0.6) !important;
+  box-shadow: 
+    0 0 8px rgba(34, 197, 94, 0.3),
+    inset 0 0 6px rgba(34, 197, 94, 0.1);
+}
+.piano-roll-cell.playhead-active.active {
+  background: linear-gradient(to bottom, #4ade80 0%, #22c55e 40%, #065f46 100%) !important;
+  border: 1.5px solid #86efac !important;
+  box-shadow: 
+    0 0 20px #22c55e,
+    0 0 8px rgba(34, 197, 94, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Glassmorphic Empty/Intro state for drums selection */
+.piano-roll-empty-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background: rgba(10, 15, 26, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px dashed rgba(34, 197, 94, 0.18);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8);
+  animation: bannerEntrance 0.3s ease-out;
+}
+@keyframes bannerEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.piano-roll-empty-banner p {
+  color: #64748b;
+  font-size: 0.72rem;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  line-height: 1.45;
+}
+.piano-roll-empty-banner span.neon-text {
+  color: var(--color-accent);
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+.keys-list.hidden, .piano-roll-wrapper.hidden {
+  display: none !important;
+}
+
+/* Keybed enclosure module panel box shadow */
+.keys-list {
+  display: flex;
+  height: 98px;
+  background: #06080b;
+  padding: 4px;
+  border-radius: 8px;
+  border: 3px solid rgba(0, 0, 0, 0.7);
+  position: relative;
+  box-shadow: 
+    inset 0 4px 12px rgba(0, 0, 0, 0.9), 
+    0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Premium Ivory Key styling */
+.synth-key-pad {
+  flex: 1;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 80%, #cbd5e1 100%);
+  border: 1.5px solid #94a3b8;
+  border-radius: 0 0 6px 6px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.3),
+    inset 0 3px 0 #ffffff,
+    inset 0 -4px 6px -2px #cbd5e1;
+  transition: all 0.1s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+.synth-key-pad:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 85%, #b4c6e7 100%);
+}
+
+.synth-key-pad .key-char {
+  font-family: var(--font-led);
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+.synth-key-pad .key-note {
+  font-size: 0.65rem;
+  color: #475569;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+/* 3D sliding compression on play */
+.synth-key-pad:active, .synth-key-pad.triggered {
+  background: linear-gradient(to bottom, #cbd5e1 0%, #94a3b8 100%) !important;
+  transform: translateY(4px) scaleY(0.96);
+  box-shadow: 
+    0 1px 2px rgba(0,0,0,0.3),
+    inset 0 3px 5px rgba(0,0,0,0.5),
+    0 0 15px rgba(var(--color-accent-rgb), 0.4);
+  border-color: #475569;
+  border-bottom: 3.5px solid var(--color-accent);
+}
+
+/* Floating Black keybeds overlays */
+.synth-key-pad.black-key {
+  position: absolute;
+  background: linear-gradient(to bottom, #334155 0%, #0f172a 80%, #020617 100%);
+  border: 2px solid #020617;
+  border-radius: 0 0 5px 5px;
+  height: 58px;
+  width: 32px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 6px;
+  box-shadow: 
+    0 6px 10px rgba(0,0,0,0.55),
+    inset 0 2px 2px rgba(255,255,255,0.08);
+}
+.synth-key-pad.black-key:hover {
+  background: linear-gradient(to bottom, #475569 0%, #1e293b 80%, #0f172a 100%);
+}
+.synth-key-pad.black-key .key-char {
+  color: #f8fafc;
+}
+.synth-key-pad.black-key .key-note {
+  color: #94a3b8;
+}
+
+.synth-key-pad.black-key:active, .synth-key-pad.black-key.triggered {
+  background: linear-gradient(to bottom, #0f172a 0%, #020617 100%) !important;
+  height: 55px;
+  transform: translateY(2px) scaleY(0.95);
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(0,0,0,0.7),
+    0 0 12px rgba(var(--color-accent-rgb), 0.3);
+  border-bottom: 3px solid var(--color-accent);
+}
+
+/* ── BOTTOM DOCK: TACTILE MIXING DESK ───────────────────────────────────── */
+.studio-bottom-deck {
+  height: 168px;
+  display: grid;
+  grid-template-columns: 560px 1fr 340px;
+  gap: 18px;
+}
+
+.deck-panel {
+  background: var(--bg-panel);
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.panel-tag {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--color-second);
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px rgba(var(--color-second-rgb), 0.1);
+}
+
+.eq-workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 145px;
+  gap: 16px;
+  align-items: center;
+}
+
+.knobs-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.eq-knob-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: ns-resize;
+}
+
+/* Hardware Potentiometer design */
+.knob-ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3.5px solid #282b36;
+  background: radial-gradient(circle at 35% 35%, #2a2e3d 0%, #12141a 80%, #08090d 100%);
+  position: relative;
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.06);
+  transition: border-color var(--trans-fast);
+}
+.eq-knob-container:hover .knob-ring {
+  border-color: rgba(var(--color-accent-rgb), 0.45);
+}
+
+/* Ridged indicator needle cap line */
+.knob-dial {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 3.5px;
+  height: 17px;
+  background: var(--color-accent);
+  border-radius: 2px;
+  transform-origin: bottom center;
+  margin-left: -1.75px;
+  box-shadow: 0 0 8px var(--color-accent);
+  transition: var(--trans-dial);
+}
+
+.knob-label {
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #64748b;
+  letter-spacing: 0.4px;
+}
+.theme-lofi-gold .knob-label {
+  color: #555c68;
+}
+.knob-value {
+  font-family: var(--font-led);
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--color-accent);
+  text-shadow: 0 0 6px rgba(var(--color-accent-rgb), 0.5);
+}
+
+/* ── DYNAMIC XY KAOSS HOLOGRAPHIC PAD ───────────────────────────────────── */
+.xy-pad-box {
+  background: #020306;
+  border: 1.5px solid rgba(var(--color-accent-rgb), 0.3);
+  border-radius: 10px;
+  height: 100px;
+  position: relative;
+  cursor: crosshair;
+  overflow: hidden;
+  box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.95);
+  transition: var(--trans-smooth);
+}
+.xy-pad-box:hover {
+  border-color: rgba(var(--color-accent-rgb), 0.6);
+  box-shadow: 
+    inset 0 4px 15px rgba(0, 0, 0, 0.95),
+    0 0 10px rgba(var(--color-accent-rgb), 0.15);
+}
+
+/* Pulsating oscilloscopic radar lines background */
+.xy-grid-mesh {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle, rgba(var(--color-accent-rgb), 0.06) 1.2px, transparent 1.2px),
+    linear-gradient(rgba(var(--color-accent-rgb), 0.03) 1.2px, transparent 1.2px),
+    linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.03) 1.2px, transparent 1.2px);
+  background-size: 100% 100%, 14px 14px, 14px 14px;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.xy-grid-mesh::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--color-accent-rgb), 0.12);
+}
+
+/* Pointer following coordinates */
+.xy-crosshair {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid var(--color-accent);
+  box-shadow: 
+    0 0 12px var(--color-accent), 
+    0 0 25px var(--color-accent);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  transition: all 0.06s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* Kaoss visual ripple sweep ring styling dynamically injected by JS */
+.xy-ripple {
+  position: absolute;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: xy-ripple-fade 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+@keyframes xy-ripple-fade {
+  0% { width: 0; height: 0; opacity: 1; border-color: rgba(var(--color-accent-rgb), 0.8); }
+  100% { width: 140px; height: 140px; opacity: 0; border-color: rgba(var(--color-accent-rgb), 0.0); }
+}
+
+.xy-pad-overlay-label {
+  position: absolute;
+  bottom: 6px;
+  left: 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.6px;
+}
+.xy-coords-display {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--color-accent);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* ── REAL-TIME MULTI MODE EQUALIZER SPECTRUM ────────────────────────────── */
+.visualizer-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.visualizer-header-row .panel-tag {
+  margin-bottom: 0;
+}
+
+.vis-mode-btn {
+  background: rgba(0,0,0,0.35);
+  border: 1.5px solid rgba(0,0,0,0.5);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: var(--bevel-light);
+  transition: var(--trans-fast);
+}
+.vis-mode-btn:hover {
+  background: rgba(var(--color-accent-rgb), 0.12);
+  border-color: var(--color-accent);
+}
+
+.canvas-box {
+  flex: 1;
+  background: var(--bg-display);
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.65);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.85);
+  overflow: hidden;
+  position: relative;
+}
+#studio-visualizer {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── VOICE MICROPHONE SAMPLE RECORDER ────────────────────────────────────── */
+.recorder-container {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  border: 1.5px solid rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 15px;
+  box-shadow: var(--bevel-light);
+}
+
+.record-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4b5563;
+}
+.record-pulse-dot.recording {
+  background-color: #ef4444;
+  box-shadow: 0 0 12px #ef4444;
+  animation: rec-blink 0.75s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+}
+@keyframes rec-blink {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+.recorder-details h4 {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: #f8fafc;
+}
+.recorder-details p {
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.record-btn-action {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1.5px solid rgba(0,0,0,0.5);
+  color: #64748b;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--bevel-light);
+  transition: var(--trans-fast);
+}
+.record-btn-action:hover {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.25);
+}
+.record-btn-action.recording {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* ── SYSTEM TOAST POPUPS ────────────────────────────────────────────────── */
+#studio-toast-container {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  z-index: 10000;
+}
+.studio-toast {
+  background: #0c0f17;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-left: 4.5px solid var(--color-accent);
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 11px 20px;
+  border-radius: 8px;
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.75), 
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  margin-top: 10px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ── RESPONSIVE SCREEN ADJUSTMENTS (Live-Hosting Production Overhaul) ────── */
+
+/* A. Laptop Screens & Smaller Displays (992px to 1340px) */
+@media (max-width: 1340px) {
+  .studio-wrapper {
+    width: 98vw;
+    height: auto;
+    min-height: 96vh;
+    padding: 18px;
+    border-left-width: 12px;
+    border-right-width: 12px;
+  }
+  
+  .studio-main-grid {
+    grid-template-columns: 420px 1fr;
+    gap: 16px;
+    height: auto;
+  }
+  
+  .studio-bottom-deck {
+    grid-template-columns: 1.3fr 1fr 1fr;
+    height: auto;
+    gap: 16px;
+  }
+  
+  .eq-workspace {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .xy-pad-box {
+    height: 90px;
+  }
+}
+
+/* B. Medium Tablets & Small Laptops (768px to 991px) */
+@media (max-width: 991px) {
+  body {
+    overflow-y: auto;
+    padding: 16px 0;
+  }
+  
+  .studio-wrapper {
+    width: 98vw;
+    height: auto;
+    min-height: 100vh;
+    padding: 14px;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    border-radius: 14px;
+  }
+  
+  .studio-header {
+    height: auto;
+    flex-direction: column;
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .studio-brand {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .global-audio-dashboard {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .dashboard-control {
+    min-width: 130px;
+    flex: 1;
+  }
+  
+  .studio-theme-dials {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .studio-main-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 16px;
+  }
+  
+  .launchpad-grid {
+    grid-template-columns: repeat(4, 1fr);
+    aspect-ratio: 1.8;
+  }
+  
+  .studio-bottom-deck {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 16px;
+  }
+  
+  .eq-workspace {
+    grid-template-columns: 1fr 140px;
+    gap: 16px;
+  }
+  
+  .xy-pad-box {
+    height: 100px;
+  }
+  
+  .recorder-panel {
+    grid-column: span 1;
+  }
+}
+
+/* C. Smartphones & Small Devices (< 767px) */
+@media (max-width: 767px) {
+  body {
+    padding: 8px 0;
+  }
+  
+  .studio-wrapper {
+    width: 100vw;
+    margin: 0;
+    border-left-width: 0px !important; /* Hide wood panels on tiny screens to save 100% viewport spacing */
+    border-right-width: 0px !important;
+    border-radius: 0px;
+    padding: 10px;
+    box-shadow: none;
+  }
+  
+  .studio-header {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .studio-brand h1 {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+  }
+  
+  .global-audio-dashboard {
+    gap: 8px;
+  }
+  
+  .dashboard-control {
+    min-width: calc(50% - 4px);
+    padding: 4px 10px;
+  }
+  
+  .digital-value {
+    font-size: 0.95rem;
+  }
+  
+  .theme-btn {
+    padding: 5px 8px;
+    font-size: 0.65rem;
+  }
+  
+  .card-header {
+    height: 42px;
+    padding: 0 12px;
+  }
+  
+  .card-header h2 {
+    font-size: 0.85rem;
+  }
+  
+  .card-body {
+    padding: 10px;
+  }
+  
+  /* Silicon Launchpad layout compact settings */
+  .launchpad-grid {
+    gap: 8px;
+  }
+  
+  .launchpad-pad {
+    border-radius: 8px;
+    padding: 6px;
+    aspect-ratio: 1.1;
+  }
+  
+  .pad-label {
+    font-size: 0.68rem !important;
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+  
+  .pad-id-tag {
+    top: 4px;
+    left: 6px;
+    font-size: 0.5rem;
+  }
+  
+  .launchpad-legend {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    padding-top: 8px;
+    margin-top: 10px;
+  }
+  
+  /* CRITICAL: Enable smooth horizontal swiping on mobile for the 16-step Sequencer so it never squashes! */
+  .sequencer-body {
+    padding: 10px;
+  }
+  
+  .sequencer-channels-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) rgba(0,0,0,0.5);
+  }
+  
+  .sequencer-channels-container::-webkit-scrollbar {
+    height: 4px;
+  }
+  .sequencer-channels-container::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 2px;
+  }
+  
+  .sequencer-lane {
+    min-width: 580px; /* Lock min-width for grid cell ratios readability */
+  }
+  
+  .sequencer-timeline-markers {
+    min-width: 580px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .lane-label {
+    width: 75px;
+  }
+  
+  .instrument-name {
+    font-size: 0.72rem;
+  }
+  
+  .synth-keybed-container {
+    padding-top: 10px;
+  }
+  
+  /* Scrollable piano keybed on narrow smartphones */
+  .keys-list {
+    height: 80px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .synth-key-pad {
+    min-width: 48px;
+    padding-bottom: 4px;
+  }
+  
+  .synth-key-pad.black-key {
+    width: 20px;
+    height: 44px;
+  }
+  
+  .synth-key-pad[data-key="D"] {
+    left: calc(2 * 48px - 10px);
+  }
+  .synth-key-pad[data-key="H"] {
+    left: calc(4 * 48px - 10px);
+  }
+  
+  .synth-key-pad .key-char {
+    font-size: 0.65rem;
+  }
+  
+  .synth-key-pad .key-note {
+    font-size: 0.58rem;
+  }
+  
+  /* Mixing Desk stack adjustments */
+  .studio-bottom-deck {
+    gap: 12px;
+  }
+  
+  .deck-panel {
+    padding: 10px 12px;
+  }
+  
+  .eq-workspace {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .knobs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+  }
+  
+  .eq-knob-container {
+    width: 100%;
+  }
+  
+  .knob-ring {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .knob-dial {
+    height: 14px;
+  }
+  
+  .knob-label {
+    font-size: 0.58rem;
+  }
+  
+  .knob-value {
+    font-size: 0.58rem;
+  }
+  
+  .xy-pad-box {
+    height: 85px;
+    grid-column: span 3; /* occupies full width in mobile grid matrix */
+  }
+  
+  .visualizer-panel {
+    height: 140px;
+  }
+  
+  .recorder-container {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .recorder-details h4 {
+    font-size: 0.78rem;
+  }
+  
+  .recorder-details p {
+    font-size: 0.6rem;
+  }
+  
+  .record-btn-action {
+    padding: 6px 10px;
+    font-size: 0.62rem;
+  }
+  
+  #studio-toast-container {
+    right: 15px;
+    bottom: 20px;
+    left: 15px;
+  }
+  
+  .studio-toast {
+    font-size: 0.78rem;
+    padding: 8px 14px;
+  }
+}
+

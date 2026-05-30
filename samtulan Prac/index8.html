@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Samtulan - Login</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#13a4ec",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101c22",
+            "pale-blue": "#e0f2fe",
+            "soft-green": "#d1fae5",
+          },
+          fontFamily: {
+            display: ["Inter"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-black dark:text-white">
+<div class="flex min-h-screen items-center justify-center bg-pale-blue dark:bg-background-dark p-4">
+<div class="w-full max-w-md">
+<div class="mb-8 text-center">
+<h1 class="text-4xl font-bold text-primary">Samtulan</h1>
+<p class="mt-2 text-black/60 dark:text-white/60">
+          Focus on learning, not distractions.
+        </p>
+</div>
+<div class="rounded-xl bg-background-light dark:bg-gray-800 p-8 shadow-lg">
+<h2 class="mb-6 text-center text-2xl font-bold text-black dark:text-white">
+          Log In
+        </h2>
+<form class="space-y-6">
+<div>
+<label class="text-sm font-medium text-black/80 dark:text-white/80" for="email">Email or Username</label>
+<input class="mt-1 w-full h-12 px-4 rounded-lg bg-background-light dark:bg-gray-700 border border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40" id="email" placeholder="you@example.com" type="email"/>
+</div>
+<div>
+<div class="flex items-center justify-between">
+<label class="text-sm font-medium text-black/80 dark:text-white/80" for="password">Password</label>
+<a class="text-sm font-medium text-primary hover:underline" href="#">Forgot Password?</a>
+</div>
+<input class="mt-1 w-full h-12 px-4 rounded-lg bg-background-light dark:bg-gray-700 border border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:outline-none text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40" id="password" placeholder="••••••••" type="password"/>
+</div>
+<div>
+<button class="w-full h-12 px-4 rounded-lg bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors hover:bg-primary/90" type="submit">
+              Log In
+            </button>
+</div>
+</form>
+<p class="mt-8 text-center text-sm text-black/60 dark:text-white/60">
+          Don't have an account?
+          <a class="font-medium text-primary hover:underline" href="#">Sign up</a>
+</p>
+</div>
+</div>
+</div>
+
+</body></html>

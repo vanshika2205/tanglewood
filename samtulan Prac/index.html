@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Samtulan — Minimal Learning Videos</title>
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0b1220; --muted:#556; --accent:#0066ff; --card:#f7f9fc;
+    }
+    [data-theme="dark"]{ --bg:#0b0f14; --fg:#e6eef8; --muted:#9fb4d6; --accent:#4ea8ff; --card:#0f1720 }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg); color:var(--fg);}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid rgba(0,0,0,0.06);background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent)}
+    header .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#00c6ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    .title{font-size:18px;font-weight:700}
+    .subtitle{font-size:12px;color:var(--muted)}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{border:0;padding:8px 12px;border-radius:8px;background:var(--card);cursor:pointer;font-weight:600}
+    .toggle{display:inline-flex;align-items:center;padding:6px;border-radius:999px;background:var(--card);gap:8px}
+
+    main{display:grid;grid-template-columns:320px 1fr;gap:18px;padding:18px}
+    /* Sidebar */
+    .sidebar{padding:12px;border-radius:12px;background:var(--card);height:calc(100vh - 116px);overflow:auto}
+    .search{display:flex;gap:8px;margin-bottom:12px}
+    input.search-input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--fg)}
+    .categories{display:grid;grid-template-columns:1fr;gap:8px}
+    .cat{padding:10px;border-radius:8px;cursor:pointer}
+    .cat:hover{background:rgba(0,0,0,0.04)}
+    .bookmarks{margin-top:14px}
+    .bookmark-item{display:flex;justify-content:space-between;padding:8px;border-radius:8px}
+
+    /* Player area */
+    .player-area{display:flex;flex-direction:column;gap:12px}
+    .video-card{padding:12px;border-radius:12px;background:var(--card)}
+    .video-frame{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:black}
+    iframe, video{width:100%;height:100%;border:0}
+    .meta{display:flex;justify-content:space-between;align-items:center;padding-top:8px}
+    .meta .left{max-width:70%}
+    .meta h2{margin:0;font-size:18px}
+    .meta p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+    .actions{display:flex;gap:8px}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);background:transparent}
+
+    /* Grid of videos */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:10px;border-radius:10px}
+    .thumb{width:100%;height:120px;background:#111;border-radius:8px;display:block;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .card h3{margin:8px 0 0;font-size:14px}
+    .card p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+
+    footer{padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04);font-size:13px;color:var(--muted)}
+
+    /* Focus mode */
+    .focus .sidebar,.focus header, footer{display:none}
+    .focus main{grid-template-columns:1fr}
+
+    /* Small screens */
+    @media(max-width:880px){main{grid-template-columns:1fr;}
+      .sidebar{height:auto;order:2}
+      .player-area{order:1}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <div class="title">Samtulan</div>
+        <div class="subtitle">Balanced, purposeful learning</div>
+      </div>
+    </div>
+    <div class="controls">
+      <div style="font-size:13px;color:var(--muted)">Today: <span id="watch-timer">0m 0s</span></div>
+      <div class="toggle btn" id="theme-toggle">Toggle theme</div>
+      <button class="btn" id="focus-toggle">Focus mode</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <aside class="sidebar" id="sidebar">
+      <div class="search">
+        <input class="search-input" id="search" placeholder="Search topics or titles..." />
+        <button class="btn" id="clear-search">Clear</button>
+      </div>
+
+      <div class="categories">
+        <div class="cat" data-cat="all">All</div>
+        <div class="cat" data-cat="coding">Coding</div>
+        <div class="cat" data-cat="science">Science</div>
+        <div class="cat" data-cat="fitness">Fitness</div>
+        <div class="cat" data-cat="diy">DIY</div>
+      </div>
+
+      <div class="bookmarks">
+        <h4 style="margin-top:12px">Watch Later</h4>
+        <div id="bookmarks-list"></div>
+      </div>
+    </aside>
+
+    <section class="player-area" id="player-area">
+      <div class="video-card">
+        <div class="video-frame" id="video-frame">
+          <!-- default player is a YouTube embed; enablejsapi=1 so we can track playback -->
+          <iframe id="player" src="https://www.youtube.com/embed/3MZ8fz9w1s4?enablejsapi=1&rel=0" allow="autoplay; encrypted-media; fullscreen" title="Samtulan player"></iframe>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <h2 id="video-title">The Power of Purposive Learning — Sample</h2>
+            <p id="video-desc">A short sample description emphasizing mindful watching.</p>
+          </div>
+          <div class="actions">
+            <button class="chip" id="bookmark-btn">+ Watch Later</button>
+            <button class="chip" id="next-btn">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong>Browse</strong>
+          <div style="font-size:13px;color:var(--muted)"><span id="items-count">0</span> videos</div>
+        </div>
+        <div class="grid" id="videos-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built for focused learning — no endless feeds. Demo prototype.
+  </footer>
+
+  <script>
+    // ---------- Demo dataset ----------
+    const VIDEOS = [
+      {id:'3MZ8fz9w1s4',title:'TED-Ed: The habit of purposeful practice',cat:'coding',desc:'Short intro to deliberate practice',thumb:'https://i.ytimg.com/vi/3MZ8fz9w1s4/hqdefault.jpg'},
+      {id:'sBws8MSXN7A',title:'freeCodeCamp: JavaScript Basics',cat:'coding',desc:'Beginner friendly JS tutorial',thumb:'https://i.ytimg.com/vi/sBws8MSXN7A/hqdefault.jpg'},
+      {id:'RgW6t3m0t0Q',title:'Kurzgesagt: The origin of everything',cat:'science',desc:'Big ideas explained',thumb:'https://i.ytimg.com/vi/RgW6t3m0t0Q/hqdefault.jpg'},
+      {id:'od7f4H5w9NI',title:'Khan Academy: Intro to Algebra',cat:'science',desc:'Math fundamentals',thumb:'https://i.ytimg.com/vi/od7f4H5w9NI/hqdefault.jpg'},
+      {id:'Uo2ZQZ3F08g',title:'Yoga With Adriene: 10-min Morning Flow',cat:'fitness',desc:'Start your day with movement',thumb:'https://i.ytimg.com/vi/Uo2ZQZ3F08g/hqdefault.jpg'},
+      {id:'abc123local',title:'Local: Sample Focused Lecture',cat:'coding',desc:'Local sample video (fallback)',thumb:'https://via.placeholder.com/480x270?text=Local+Video'},
+      {id:'DIY1',title:'DIY: Simple Woodworking Tips',cat:'diy',desc:'Small projects at home',thumb:'https://i.ytimg.com/vi/DIY1/hqdefault.jpg'}
+    ];
+
+    // ---------- UI wiring ----------
+    const grid = document.getElementById('videos-grid');
+    const itemsCount = document.getElementById('items-count');
+    const titleEl = document.getElementById('video-title');
+    const descEl = document.getElementById('video-desc');
+    const playerIframe = document.getElementById('player');
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const bookmarksList = document.getElementById('bookmarks-list');
+    const watchTimerEl = document.getElementById('watch-timer');
+    const themeToggle = document.getElementById('theme-toggle');
+    const focusToggle = document.getElementById('focus-toggle');
+    const mainEl = document.getElementById('main');
+
+    // Populate grid
+    function renderGrid(filter='all',q=''){
+      grid.innerHTML='';
+      const list = VIDEOS.filter(v=> (filter==='all' || v.cat===filter) && (q==='' || (v.title+v.desc+v.cat).toLowerCase().includes(q.toLowerCase())) );
+      itemsCount.textContent = list.length;
+      list.forEach(v=>{
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <a class="thumb" data-id="${v.id}" href="#" title="${v.title}"><img src="${v.thumb}" alt="${v.title}"></a>
+          <h3>${v.title}</h3>
+          <p>${v.desc}</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    renderGrid();
+
+    // Search and categories
+    document.getElementById('search').addEventListener('input', e=> renderGrid(document.querySelector('.cat.active')?.dataset.cat||'all', e.target.value));
+    document.getElementById('clear-search').addEventListener('click', ()=>{document.getElementById('search').value=''; renderGrid();});
+
+    document.querySelectorAll('.cat').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        document.querySelectorAll('.cat').forEach(c=>c.classList.remove('active'));
+        el.classList.add('active');
+        renderGrid(el.dataset.cat, document.getElementById('search').value);
+      });
+    });
+    // activate 'All'
+    document.querySelector('.cat[data-cat="all"]').classList.add('active');
+
+    // Play video when clicking thumb
+    grid.addEventListener('click', async (e)=>{
+      const a = e.target.closest('[data-id]');
+      if(!a) return;
+      e.preventDefault();
+      const id = a.dataset.id;
+      loadVideoById(id);
+    });
+
+    // Load video
+    function loadVideoById(id){
+      const v = VIDEOS.find(x=>x.id===id);
+      if(!v) return;
+      titleEl.textContent = v.title;
+      descEl.textContent = v.desc;
+      // if it looks like a YouTube id (simple heuristic), use embed
+      if(id.match(/^[a-zA-Z0-9_-]{6,}$/) && !id.startsWith('abc')){
+        playerIframe.src = `https://www.youtube.com/embed/${id}?enablejsapi=1&rel=0`;
+      } else {
+        // local sample: replace iframe with a <video> element for demo
+        const frame = document.getElementById('video-frame');
+        frame.innerHTML = `<video id="local-player" controls src="/sample1.mp4"></video>`;
+      }
+      // update bookmark button label
+      updateBookmarkBtn(id);
+      // re-init YT players when src changes (will be handled by onYouTubeIframeAPIReady)
+      setTimeout(initYouTubePlayers,100);
+    }
+
+    // Next button cycles to next in current filtered list
+    document.getElementById('next-btn').addEventListener('click', ()=>{
+      const cur = VIDEOS.findIndex(x=>x.title===titleEl.textContent);
+      const next = VIDEOS[(cur+1) % VIDEOS.length];
+      loadVideoById(next.id);
+    });
+
+    // ---------- Bookmarks (localStorage) ----------
+    function getBookmarks(){
+      return JSON.parse(localStorage.getItem('samtulan_bookmarks')||'[]');
+    }
+    function saveBookmarks(list){ localStorage.setItem('samtulan_bookmarks', JSON.stringify(list)); renderBookmarks(); }
+    function renderBookmarks(){
+      const list = getBookmarks();
+      bookmarksList.innerHTML = '';
+      if(list.length===0) { bookmarksList.innerHTML = '<div style="color:var(--muted);font-size:13px">No bookmarks yet.</div>'; return; }
+      list.forEach(b=>{
+        const el = document.createElement('div'); el.className='bookmark-item';
+        el.innerHTML = `<div style="max-width:70%">${b.title}</div><div><button class='btn small' data-id='${b.id}'>Open</button> <button class='btn small' data-del='${b.id}'>✕</button></div>`;
+        bookmarksList.appendChild(el);
+      });
+    }
+    bookmarksList.addEventListener('click', e=>{
+      const id = e.target.dataset.id;
+      const del = e.target.dataset.del;
+      if(id) loadVideoById(id);
+      if(del){ const newList = getBookmarks().filter(x=>x.id!==del); saveBookmarks(newList); }
+    });
+    function updateBookmarkBtn(currentId){ const list = getBookmarks(); bookmarkBtn.dataset.id = currentId; const exists = list.some(x=>x.id===currentId); bookmarkBtn.textContent = exists? 'Bookmarked' : '+ Watch Later'; }
+    bookmarkBtn.addEventListener('click', ()=>{
+      const id = bookmarkBtn.dataset.id || VIDEOS[0].id;
+      const v = VIDEOS.find(x=>x.id===id);
+      if(!v) return;
+      const list = getBookmarks();
+      if(list.some(x=>x.id===id)) return; // already
+      list.push({id:v.id,title:v.title,cat:v.cat}); saveBookmarks(list);
+      updateBookmarkBtn(id);
+    });
+    renderBookmarks();
+
+    // ---------- Theme toggle (persisted) ----------
+    function applyTheme(theme){ document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('samtulan_theme', theme); }
+    themeToggle.addEventListener('click', ()=>{ const cur = document.documentElement.getAttribute('data-theme')||'light'; applyTheme(cur==='light'?'dark':'light'); });
+    applyTheme(localStorage.getItem('samtulan_theme')||'light');
+
+    // ---------- Focus mode ----------
+    focusToggle.addEventListener('click', ()=>{
+      if(document.body.classList.contains('focus')){ document.body.classList.remove('focus'); focusToggle.textContent='Focus mode'; }
+      else { document.body.classList.add('focus'); focusToggle.textContent='Exit focus'; }
+    });
+
+    // ---------- Watch timer (per-day) ----------
+    // We'll track seconds watched when the player is PLAYING. Use YouTube IFrame API for yt players and native events for <video>.
+    let watchStart = null; // timestamp when play started
+    function todayKey(){ const d = new Date(); return 'samtulan_watch_' + d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); }
+    function getTodaySeconds(){ return parseInt(localStorage.getItem(todayKey())||'0',10); }
+    function saveTodaySeconds(s){ localStorage.setItem(todayKey(), String(s)); }
+    function formatSec(s){ const m = Math.floor(s/60); const sec = s%60; return m+'m '+sec+'s'; }
+    function startWatch(){ if(watchStart) return; watchStart = Date.now(); }
+    function stopWatch(){ if(!watchStart) return; const elapsed = Math.floor((Date.now()-watchStart)/1000); watchStart=null; const existing = getTodaySeconds(); saveTodaySeconds(existing + elapsed); updateWatchDisplay(); }
+    function updateWatchDisplay(){ watchTimerEl.textContent = formatSec(getTodaySeconds()); }
+    updateWatchDisplay();
+
+    // ---------- YouTube IFrame API integration ----------
+    // load api
+    var YTplayers = [];
+    function initYouTubePlayers(){
+      // remove existing players array to avoid duplicates
+      YTplayers.forEach(p=>{ try{ p.destroy && p.destroy(); }catch(e){} }); YTplayers = [];
+      // find iframes with youtube src
+      const iframes = document.querySelectorAll('iframe[src*="youtube.com/embed/"]');
+      if(iframes.length===0) return;
+      if(typeof YT==='undefined' || typeof YT.Player==='undefined'){
+        // load script dynamically
+        const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.body.appendChild(s);
+        // onYouTubeIframeAPIReady will be called by the API when ready
+        window.onYouTubeIframeAPIReady = ()=>{ initYouTubePlayers(); };
+        return;
+      }
+      iframes.forEach((ifr, idx)=>{
+        // ensure enablejsapi=1 is present
+        if(!ifr.src.includes('enablejsapi=1')) ifr.src += (ifr.src.includes('?')? '&':'?') + 'enablejsapi=1';
+        const player = new YT.Player(ifr, {
+          events: {
+            'onStateChange': function(e){
+              if(e.data===YT.PlayerState.PLAYING) startWatch();
+              if(e.data===YT.PlayerState.PAUSED || e.data===YT.PlayerState.ENDED) stopWatch();
+            }
+          }
+        });
+        YTplayers.push(player);
+      });
+    }
+    // init first time
+    initYouTubePlayers();
+
+    // Also support native <video> elements (local fallback)
+    document.addEventListener('play', e=>{ if(e.target.tagName==='VIDEO') startWatch(); }, true);
+    document.addEventListener('pause', e=>{ if(e.target.tagName==='VIDEO') stopWatch(); }, true);
+    document.addEventListener('ended', e=>{ if(e.target.tagName==='VIDEO') stopWatch(); }, true);
+
+    // Save any running watch time before unload
+    window.addEventListener('beforeunload', ()=>{ stopWatch(); });
+
+    // Initialize first video title match with iframe default
+    loadVideoById(VIDEOS[0].id);
+
+    // small accessibility: keyboard shortcuts
+    window.addEventListener('keydown', e=>{
+      if(e.key==='f') focusToggle.click();
+      if(e.key==='t') themeToggle.click();
+    });
+
+  </script>
+</body>
+</html>

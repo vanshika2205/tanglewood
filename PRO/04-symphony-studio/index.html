@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Symphony Studio: An ultra-premium, interactive launchpad, beat machine, and step sequencer built with HTML5 Web Audio API, real-time canvas visualizers, custom circular EQ dials, and direct microphone sample recording.">
+  <title>SYMPHONY STUDIO // Audio Workspace</title>
+  
+  <!-- Google Fonts: Orbitron for digital numbers, Rajdhani for structural knobs, Fira Code for logs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-acid-teal">
+
+  <!-- Interactive cosmic background particles layer -->
+  <canvas id="cosmic-canvas"></canvas>
+
+  <!-- CRT scanline overlay details -->
+  <div class="crt-overlay"></div>
+  <div class="neon-grid-bg"></div>
+
+  <!-- Main Symphony Workspace Wrapper -->
+  <div class="studio-wrapper">
+
+    <!-- TOP SECTION: SYMPHONY STUDIO DAW TRANSPORT TOOLBAR -->
+    <header class="studio-header daw-toolbar">
+      <div class="studio-brand">
+        <div class="status-dot pulsing" id="status-dot"></div>
+        <div class="brand-text">
+          <h1>SYMPHONY STUDIO</h1>
+          <p class="brand-tag">PRO DAW SEQUENCE ENGINE v5.0</p>
+        </div>
+      </div>
+
+      <!-- Transport Buttons (Play, Stop, Record) & Modes -->
+      <div class="daw-transport-controls">
+        <div class="pat-song-toggle">
+          <button class="pat-btn active" id="btn-pat-mode" title="Pattern Mode">PAT</button>
+          <button class="song-btn" id="btn-song-mode" title="Song Mode">SONG</button>
+        </div>
+
+        <button id="btn-daw-play" class="daw-trans-btn play" title="Play Sequence">▶</button>
+        <button id="btn-daw-stop" class="daw-trans-btn stop" title="Stop Sequence">■</button>
+        <button id="btn-daw-rec" class="daw-trans-btn rec" title="Record Microphone">●</button>
+        
+        <!-- Metronome Toggle -->
+        <button id="btn-daw-metro" class="daw-trans-btn metro active" title="Toggle Metronome Click">🔕</button>
+      </div>
+
+      <!-- Glowing LED Counter (Bar : Beat : Step) -->
+      <div class="daw-lcd-screen">
+        <div class="lcd-value" id="lcd-time-display">001 : 01 : 00</div>
+        <div class="lcd-label">BAR : BEAT : STEP</div>
+      </div>
+
+      <!-- Global BPM & Volume Sliders in DAW rack style -->
+      <div class="global-audio-dashboard">
+        <div class="dashboard-control daw-rack">
+          <label>TEMPO</label>
+          <div class="daw-digital-box">
+            <span class="digital-value" id="bpm-display">120</span>
+            <span class="value-unit">BPM</span>
+            <input type="range" id="bpm-slider" min="60" max="200" value="120" class="daw-slider-mini">
+          </div>
+        </div>
+
+        <div class="dashboard-control daw-rack">
+          <label>MASTER</label>
+          <div class="daw-digital-box">
+            <span class="digital-value" id="vol-display">80</span>
+            <span class="value-unit">%</span>
+            <input type="range" id="vol-slider" min="0" max="100" value="80" class="daw-slider-mini">
+          </div>
+        </div>
+
+        <!-- Preloaded Sound Kits -->
+        <div class="dashboard-control select-control daw-rack">
+          <label>SOUND KIT</label>
+          <div class="custom-select">
+            <select id="sound-kit-select">
+              <option value="acid-techno">ACID TECHNO KIT</option>
+              <option value="lofi-chill">LO-FI CHILL CHORD KIT</option>
+              <option value="retro-synth">RETRO SYNTHWAVE KIT</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Studio Themes Dials -->
+      <div class="studio-theme-dials">
+        <button class="theme-btn active" data-theme="acid-teal" title="Acid Cyber-Teal">TEAL</button>
+        <button class="theme-btn" data-theme="retro-pink" title="Retro Synthwave-Pink">PINK</button>
+        <button class="theme-btn" data-theme="lofi-gold" title="Cozy Warm-Gold">GOLD</button>
+      </div>
+    </header>
+
+    <!-- MIDDLE SECTION: TWO-COLUMN MAIN WORKSPACE -->
+    <main class="studio-main-grid">
+
+      <!-- COLUMN 1: THE 4x4 LAUNCHPAD MATRIX -->
+      <section class="studio-card launchpad-card">
+        <div class="card-header">
+          <div class="card-header-icon">🎛️</div>
+          <h2>TACTICAL SOUND LAUNCHPAD</h2>
+          <div class="card-badge">DRAG & DROP IMPORT</div>
+        </div>
+
+        <div class="card-body">
+          <div class="launchpad-grid" id="launchpad-grid">
+            <!-- 16 Pads generated dynamically by JS with gorgeous neon indicators -->
+            <!-- Columns: Drums, Bass, Melodies, FX sweeps -->
+          </div>
+          <div class="launchpad-legend">
+            <span class="legend-dot color-drum">DRUMS</span>
+            <span class="legend-dot color-bass">BASSLINE</span>
+            <span class="legend-dot color-lead">SYNTH LEAD</span>
+            <span class="legend-dot color-fx">FX SWEEPS</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 2: 4-CHANNEL 16-STEP BEATMAKER GRID -->
+      <section class="studio-card sequencer-card">
+        <div class="card-header">
+          <div class="card-header-icon">🥁</div>
+          <h2>16-STEP GRID DRUM SEQUENCER</h2>
+          <div class="sequencer-controls">
+            <button id="btn-sequencer-play" class="control-btn play-btn" title="Start Sequencer">
+              <svg id="svg-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <svg id="svg-stop" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="hidden"><rect x="6" y="6" width="12" height="12" rx="1"></rect></svg>
+              <span id="sequencer-play-label">START MACHINE</span>
+            </button>
+            <button id="btn-sequencer-clear" class="control-btn secondary-btn" title="Clear Grid">WIPE</button>
+          </div>
+        </div>
+
+        <div class="card-body sequencer-body">
+          <!-- Sequencer Channels Lane Grid (FL Studio Channel Rack) -->
+          <div class="sequencer-channels-container">
+            
+            <!-- Lane 1: Vocal Kick -->
+            <div class="sequencer-lane" data-instrument="kick">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="kick" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="kick" data-param="pan" title="Track Panning (Left/Right)">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-kick" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="kick" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-kick" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn active" id="btn-select-kick">V-KICK</button>
+              </div>
+              <div class="lane-steps" id="steps-kick">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 2: Spit Snare -->
+            <div class="sequencer-lane" data-instrument="snare">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="snare" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="snare" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-snare" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="snare" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-snare" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-snare">S-SNARE</button>
+              </div>
+              <div class="lane-steps" id="steps-snare">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 3: Dental Hi-Hat -->
+            <div class="sequencer-lane" data-instrument="hihat">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="hihat" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="hihat" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-hihat" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="hihat" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-hihat" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-hihat">D-HAT</button>
+              </div>
+              <div class="lane-steps" id="steps-hihat">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 4: Tongue Percussion -->
+            <div class="sequencer-lane" data-instrument="perc">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="perc" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="perc" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-perc" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="perc" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-perc" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-perc">T-PERC</button>
+              </div>
+              <div class="lane-steps" id="steps-perc">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 5: Melodic Sub Bassline -->
+            <div class="sequencer-lane" data-instrument="bass">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="bass" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="bass" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-bass" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="bass" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-bass" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-bass">SUB-BASS</button>
+              </div>
+              <div class="lane-steps" id="steps-bass">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 6: Chord Progression Pad -->
+            <div class="sequencer-lane" data-instrument="synth">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="synth" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="synth" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-synth" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="synth" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-synth" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-synth">CHORD-PAD</button>
+              </div>
+              <div class="lane-steps" id="steps-synth">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 7: Soaring Retro Lead -->
+            <div class="sequencer-lane" data-instrument="lead">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="lead" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="lead" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-lead" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="lead" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-lead" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-lead">RETRO-LEAD</button>
+              </div>
+              <div class="lane-steps" id="steps-lead">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+            <!-- Lane 8: Acid TB-303 Arpeggiator -->
+            <div class="sequencer-lane" data-instrument="acid">
+              <div class="lane-controls">
+                <button class="channel-mute-btn active" data-channel="acid" title="Mute/Unmute Track"></button>
+                <div class="channel-knob-container" data-channel="acid" data-param="pan" title="Track Panning">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-pan-acid" style="transform: rotate(135deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">PAN</span>
+                </div>
+                <div class="channel-knob-container" data-channel="acid" data-param="vol" title="Track Volume">
+                  <div class="channel-knob-ring">
+                    <div class="channel-knob-dial" id="knob-vol-acid" style="transform: rotate(200deg);"></div>
+                  </div>
+                  <span class="channel-knob-tip">VOL</span>
+                </div>
+                <button class="channel-select-btn" id="btn-select-acid">ACID-303</button>
+              </div>
+              <div class="lane-steps" id="steps-acid">
+                <!-- 16 steps -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sequencer steps numbers indicator bar -->
+          <div class="sequencer-timeline-markers">
+            <div class="marker-spacer"></div>
+            <div class="markers-list">
+              <span>01</span><span>02</span><span>03</span><span>04</span>
+              <span>05</span><span>06</span><span>07</span><span>08</span>
+              <span>09</span><span>10</span><span>11</span><span>12</span>
+              <span>13</span><span>14</span><span>15</span><span>16</span>
+            </div>
+          </div>
+
+          <!-- FL Studio Piano Roll & Interactive Live Keyboard -->
+          <div class="synth-keybed-container">
+            <div class="keybed-header">
+              <h3 class="keybed-title" id="keybed-title-text">🎹 SYMPHONY PIANO ROLL (ACTIVE: SUB-BASS)</h3>
+              <div class="daw-tabs">
+                <button class="daw-tab active" id="tab-piano-roll" title="Step Melody Composer">PIANO ROLL</button>
+                <button class="daw-tab" id="tab-live-keys" title="Live Keypad Synthesizer">LIVE KEYBOARD</button>
+              </div>
+            </div>
+            
+            <!-- Piano Roll Composer Container -->
+            <div class="piano-roll-wrapper" id="piano-roll-container">
+              <div class="piano-roll-grid" id="piano-roll-grid">
+                <!-- Injected dynamically by JS: 8 scale note rows x 16 steps -->
+              </div>
+            </div>
+
+            <!-- Keyboard keys list -->
+            <div class="keys-list hidden" id="synth-keys-list">
+              <!-- 8 musical white/black keys injected dynamically by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM SECTION: EQUALIZER DIALS, DYNAMIC CANVAS SPECTRUM & MIC RECORDER -->
+    <footer class="studio-bottom-deck">
+      
+      <!-- EQ Filter Knobs Panel (Left Side of Deck) -->
+      <div class="deck-panel eq-panel">
+        <h3 class="panel-tag">LIVE MASTER FILTERS & XY PAD</h3>
+        <div class="eq-workspace">
+          <!-- Dial Dials Row -->
+          <div class="knobs-row">
+            <!-- Knob 1: Biquad Lowpass filter -->
+            <div class="eq-knob-container" data-knob="cutoff">
+              <div class="knob-ring">
+                <div class="knob-dial" id="knob-cutoff" style="transform: rotate(180deg);"></div>
+              </div>
+              <span class="knob-label">FILTER CUTOFF</span>
+              <span class="knob-value" id="val-cutoff">Max</span>
+            </div>
+
+            <!-- Knob 2: Biquad Resonance Q -->
+            <div class="eq-knob-container" data-knob="resonance">
+              <div class="knob-ring">
+                <div class="knob-dial" id="knob-resonance" style="transform: rotate(0deg);"></div>
+              </div>
+              <span class="knob-label">RESONANCE</span>
+              <span class="knob-value" id="val-resonance">Low</span>
+            </div>
+
+            <!-- Knob 3: Low Shelf Peaking Bass -->
+            <div class="eq-knob-container" data-knob="bass">
+              <div class="knob-ring">
+                <div class="knob-dial" id="knob-bass" style="transform: rotate(90deg);"></div>
+              </div>
+              <span class="knob-label">BASS BOOST</span>
+              <span class="knob-value" id="val-bass">Flat</span>
+            </div>
+
+            <!-- Knob 4: High Shelf Peaking Treble -->
+            <div class="eq-knob-container" data-knob="treble">
+              <div class="knob-ring">
+                <div class="knob-dial" id="knob-treble" style="transform: rotate(90deg);"></div>
+              </div>
+              <span class="knob-label">TREBLE BRIGHT</span>
+              <span class="knob-value" id="val-treble">Flat</span>
+            </div>
+
+            <!-- Knob 5: Algorithmic Reverb Send -->
+            <div class="eq-knob-container" data-knob="reverb">
+              <div class="knob-ring">
+                <div class="knob-dial" id="knob-reverb" style="transform: rotate(45deg);"></div>
+              </div>
+              <span class="knob-label">REVERB ROOM</span>
+              <span class="knob-value" id="val-reverb">15%</span>
+            </div>
+          </div>
+
+          <!-- Futuristic drag-controlled XY Pad -->
+          <div class="xy-pad-box" id="xy-filter-pad">
+            <div class="xy-grid-mesh"></div>
+            <div class="xy-crosshair" id="xy-crosshair"></div>
+            <span class="xy-pad-overlay-label">XY KAOSS CONTROLLER</span>
+            <span class="xy-coords-display" id="xy-coords-text">X: Max | Y: Min</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-Time Audio Canvas Spectrum (Center of Deck) -->
+      <div class="deck-panel visualizer-panel">
+        <div class="visualizer-header-row">
+          <h3 class="panel-tag">LIVE EQUALIZER SPECTRUM</h3>
+          <button id="btn-toggle-vis-mode" class="vis-mode-btn" title="Toggle visualizer style">MODE: BARS</button>
+        </div>
+        <div class="canvas-box">
+          <canvas id="studio-visualizer"></canvas>
+        </div>
+      </div>
+
+      <!-- Microphone custom sample recorder (Right Side of Deck) -->
+      <div class="deck-panel recorder-panel">
+        <h3 class="panel-tag">CUSTOM SAMPLE RECORDER</h3>
+        <div class="recorder-container">
+          <div class="record-pulse-dot" id="record-pulse"></div>
+          
+          <div class="recorder-details">
+            <h4 id="rec-status-title">RECORD AN AUDIO CLIP</h4>
+            <p id="rec-status-desc">Use microphone to trigger custom loop stem</p>
+          </div>
+
+          <button id="btn-record-audio" class="record-btn-action" title="Start Recording Microphone">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+              <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"></path>
+            </svg>
+            <span id="record-action-label">RECORD</span>
+          </button>
+        </div>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <!-- Master JavaScript engine script -->
+  <script src="app.js"></script>
+</body>
+</html>

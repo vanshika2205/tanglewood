@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Infinite Vibes: An ultra-premium, interactive music player and Web Audio visualizer featuring custom dynamic mood gradients, a spinning 3D vinyl record, real-time frequency visualizer styles, and synced scrolling lyrics.">
+  <title>Infinite Vibes // Premium Audio Visualizer</title>
+  <!-- Google Fonts: Outfit for sleek typography, Inter for smooth lyrics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Dynamic ambient glowing background layer -->
+  <div class="ambient-glow" id="ambient-glow"></div>
+  <div class="stars-overlay"></div>
+
+  <!-- App Wrapper -->
+  <div class="app-wrapper">
+    
+    <!-- Top Branding Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>INFINITE VIBES</h1>
+          <p>CYBER ACOUSTIC SOUNDSPACE</p>
+        </div>
+      </div>
+      
+      <!-- Visualizer & Sound Mixer Info Toggles -->
+      <div class="header-actions">
+        <button id="btn-toggle-visualizer" class="action-badge" title="Switch Visualizer Style">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20V10M18 20V4M6 20v-4M10 20v-8M14 20v-6"></path>
+          </svg>
+          <span>Visualizer: Bars</span>
+        </button>
+        <button id="btn-open-mixer" class="action-badge" title="Ambient Sound Mixer">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+            <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"></path>
+          </svg>
+          <span>Ambience Mixer</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="main-container">
+      
+      <!-- Left Chamber: Turntable and Canvas Visualizer -->
+      <section class="visual-chamber" aria-label="Visualizer Chamber">
+        
+        <!-- Turntable Deck -->
+        <div class="turntable-deck">
+          <div class="turntable-platter">
+            <!-- Vinyl Record -->
+            <div class="vinyl-record" id="vinyl-record">
+              <!-- Grooves of vinyl -->
+              <div class="vinyl-groove groove-1"></div>
+              <div class="vinyl-groove groove-2"></div>
+              <div class="vinyl-groove groove-3"></div>
+              <div class="vinyl-groove groove-4"></div>
+              <div class="vinyl-groove groove-5"></div>
+              <!-- Vinyl Center Label (rotating cover art) -->
+              <div class="vinyl-label">
+                <img id="track-art" src="" alt="Album Art" class="track-art-img">
+                <div class="center-spindle"></div>
+              </div>
+              <div class="vinyl-shine"></div>
+            </div>
+            
+            <!-- Phonograph Tonearm / Needle -->
+            <div class="tonearm-assembly" id="tonearm-assembly">
+              <div class="tonearm-base">
+                <div class="tonearm-base-gold"></div>
+              </div>
+              <div class="tonearm-shaft"></div>
+              <div class="tonearm-headshell">
+                <div class="cartridge"></div>
+                <div class="stylus-needle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glowing Real-Time Web Audio Canvas -->
+        <div class="canvas-wrapper">
+          <canvas id="audio-visualizer"></canvas>
+        </div>
+      </section>
+
+      <!-- Right Chamber: Sidebar Lyric Lounge & Playlist Queue -->
+      <section class="sidebar-container" aria-label="Content Lounge">
+        
+        <!-- Tab Selectors -->
+        <nav class="sidebar-tabs">
+          <button id="tab-lyrics" class="tab-btn active">LYRICS</button>
+          <button id="tab-playlist" class="tab-btn">PLAYLIST</button>
+        </nav>
+
+        <!-- Dynamic Content Window -->
+        <div class="sidebar-content">
+          
+          <!-- Lyrics View (Active by default) -->
+          <div id="panel-lyrics" class="content-panel active">
+            <div class="lyric-scroller" id="lyric-scroller">
+              <div class="lyric-pad-top"></div>
+              <!-- Lyrics lines will be populated by JS dynamically -->
+              <div class="lyrics-list" id="lyrics-list">
+                <div class="lyric-line placeholder">Play a song to load synced lyrics...</div>
+              </div>
+              <div class="lyric-pad-bottom"></div>
+            </div>
+          </div>
+
+          <!-- Playlist View -->
+          <div id="panel-playlist" class="content-panel">
+            <div class="playlist-manager">
+              
+              <!-- Premium YouTube Streaming Search Bar -->
+              <div class="search-bar-container">
+                <input type="text" id="yt-search-input" placeholder="🔍 Search YouTube & stream any track...">
+                <button id="btn-yt-search" class="search-btn" title="Search Track">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Search Results Panel Overlay -->
+              <div id="yt-search-results" class="yt-search-results hidden">
+                <div class="search-results-header">
+                  <span>STREAM SEARCH RESULTS</span>
+                  <button id="btn-close-results" class="close-results-btn">&times;</button>
+                </div>
+                <div id="yt-results-list" class="yt-results-list">
+                  <!-- Search items populate here -->
+                </div>
+              </div>
+
+              <div class="playlist-header">
+                <h3>VIBE TRACKS</h3>
+                <span class="track-count" id="track-count">4 Tracks</span>
+              </div>
+              
+              <!-- Core Track List -->
+              <div class="track-list" id="track-list">
+                <!-- Track items will be populated by JS -->
+              </div>
+
+              <!-- Premium File Upload Zone -->
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-prompt">
+                  <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"></path>
+                  </svg>
+                  <h4>DRAG & DROP YOUR VIBE</h4>
+                  <p>Or click to import local .mp3 / .wav file</p>
+                  <input type="file" id="file-input" accept="audio/*" class="file-input-hidden">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Audio Control Hub -->
+    <footer class="player-dock">
+      <!-- Media Info / Song Name (Left Side of Dock) -->
+      <div class="now-playing-summary">
+        <div class="now-playing-art-mini">
+          <img id="mini-track-art" src="" alt="Album Art">
+        </div>
+        <div class="now-playing-meta">
+          <h2 id="player-track-title">Lofi Dreamscape</h2>
+          <p id="player-track-artist">Chillhop Horizons</p>
+        </div>
+      </div>
+
+      <!-- Main Playback & Progress Controls (Center of Dock) -->
+      <div class="center-player-controls">
+        <div class="playback-buttons">
+          <!-- Shuffle Button -->
+          <button id="btn-shuffle" class="control-btn mini-btn" title="Shuffle Playback">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btn-prev" class="control-btn" title="Previous Track">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="19 20 9 12 19 4 19 20"></polygon>
+              <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
+          </button>
+          
+          <!-- Master Play/Pause Button -->
+          <button id="btn-play-pause" class="control-btn play-btn" title="Play / Pause">
+            <!-- SVG Play Icon (active by default, changes dynamically to pause) -->
+            <svg id="play-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg id="pause-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="hidden">
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+            </svg>
+          </button>
+          
+          <!-- Next Button -->
+          <button id="btn-next" class="control-btn" title="Next Track">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="5" x2="19" y2="19"></line>
+            </svg>
+          </button>
+          
+          <!-- Repeat Button -->
+          <button id="btn-repeat" class="control-btn mini-btn" title="Repeat Track">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14M7 23 3 19 7 15"></path>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Sleek Slider Seeking Area -->
+        <div class="progress-bar-area">
+          <span class="time-display" id="time-current">0:00</span>
+          <div class="slider-wrapper" id="progress-slider-wrapper">
+            <div class="slider-track">
+              <div class="slider-fill" id="progress-fill"></div>
+              <div class="slider-thumb" id="progress-thumb"></div>
+            </div>
+            <input type="range" id="seek-slider" min="0" max="100" value="0" step="0.1" aria-label="Audio Seek Track">
+          </div>
+          <span class="time-display" id="time-total">0:00</span>
+        </div>
+      </div>
+
+      <!-- Volume, Mixer & Full Screen Options (Right Side of Dock) -->
+      <div class="right-player-controls">
+        <div class="volume-box">
+          <button id="btn-mute" class="control-btn icon-only" title="Mute/Unmute">
+            <svg id="volume-high" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <svg id="volume-muted" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+          <div class="slider-wrapper volume-slider-wrapper">
+            <div class="slider-track">
+              <div class="slider-fill" id="volume-fill" style="width: 80%;"></div>
+              <div class="slider-thumb" id="volume-thumb" style="left: 80%;"></div>
+            </div>
+            <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="Volume Slider">
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Overlay Popups & Panel Containers -->
+    <!-- Cozy Ambience Mixer Popup -->
+    <div class="mixer-modal" id="mixer-modal">
+      <div class="mixer-modal-content">
+        <div class="mixer-header">
+          <h3>🌧️ COZY AMBIENCE MIXER</h3>
+          <button id="btn-close-mixer" class="close-btn">&times;</button>
+        </div>
+        <p class="mixer-desc">Blend dynamic ambient background sounds to customize your study/relaxation room vibe.</p>
+        
+        <div class="mixer-sliders">
+          <!-- Rain Ambience -->
+          <div class="mixer-channel">
+            <div class="channel-label">
+              <span>🌧️ Rainy Storm</span>
+              <span class="channel-percent" id="lbl-vol-rain">Off</span>
+            </div>
+            <div class="slider-wrapper">
+              <div class="slider-track">
+                <div class="slider-fill" id="rain-fill" style="width: 0%;"></div>
+                <div class="slider-thumb" id="rain-thumb" style="left: 0%;"></div>
+              </div>
+              <input type="range" id="ambient-rain" min="0" max="100" value="0" class="ambient-slider">
+            </div>
+          </div>
+          
+          <!-- Cafe Ambience -->
+          <div class="mixer-channel">
+            <div class="channel-label">
+              <span>☕ Cafe Chatter</span>
+              <span class="channel-percent" id="lbl-vol-cafe">Off</span>
+            </div>
+            <div class="slider-wrapper">
+              <div class="slider-track">
+                <div class="slider-fill" id="cafe-fill" style="width: 0%;"></div>
+                <div class="slider-thumb" id="cafe-thumb" style="left: 0%;"></div>
+              </div>
+              <input type="range" id="ambient-cafe" min="0" max="100" value="0" class="ambient-slider">
+            </div>
+          </div>
+          
+          <!-- Fireplace Ambience -->
+          <div class="mixer-channel">
+            <div class="channel-label">
+              <span>🔥 Fire Crackle</span>
+              <span class="channel-percent" id="lbl-vol-fire">Off</span>
+            </div>
+            <div class="slider-wrapper">
+              <div class="slider-track">
+                <div class="slider-fill" id="fire-fill" style="width: 0%;"></div>
+                <div class="slider-thumb" id="fire-thumb" style="left: 0%;"></div>
+              </div>
+              <input type="range" id="ambient-fire" min="0" max="100" value="0" class="ambient-slider">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio Elements -->
+  <!-- Master Audio Target -->
+  <audio id="main-audio" crossorigin="anonymous"></audio>
+  
+  <!-- Ambience Tracks (Uses royalty-free looping ambient audio files, or generated web synthesizers if offline) -->
+  <audio id="audio-rain" loop></audio>
+  <audio id="audio-cafe" loop></audio>
+  <audio id="audio-fire" loop></audio>
+
+  <!-- Script Engine -->
+  <script src="app.js"></script>
+</body>
+</html>

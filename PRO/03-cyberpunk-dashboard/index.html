@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cyberpunk Dashboard & Task Hub: An ultra-premium, interactive sci-fi productivity center with live canvas background matrix, synthesized Web Audio FX, simulated diagnostic engines, and an interactive typing terminal.">
+  <title>CYBER-DASH // Tactical Operations</title>
+  
+  <!-- Google Fonts: Orbitron for digital readouts, Fira Code for terminal, Rajdhani for structural details -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-cyan-magenta">
+
+  <!-- Interactive HTML5 Canvas Layer (Neural Nodes / Matrix digital rain) -->
+  <canvas id="cyber-canvas"></canvas>
+
+  <!-- CRT Screen Glare & Scanline Filter Overlay -->
+  <div class="crt-scanlines"></div>
+  <div class="glass-flicker"></div>
+
+  <!-- Main Cyberpunk Interface Framework -->
+  <div class="hud-wrapper">
+    
+    <!-- TOP SECTION: SYSTEM STATUS BAR -->
+    <header class="hud-header">
+      <div class="header-corner-decor left-decor"></div>
+      
+      <!-- Brand & Coordinates -->
+      <div class="brand-sector">
+        <div class="neon-blink-indicator active"></div>
+        <div class="brand-details">
+          <h1>SYSTEM OPERATOR: <span class="username">VANSHIKA</span></h1>
+          <p class="coords-display">TERMINAL STATE // <span id="system-coords">COORD_30.12.N_78.02.E</span></p>
+        </div>
+      </div>
+      
+      <!-- Live Digital Clock & Uptime -->
+      <div class="status-clock-sector">
+        <div class="digital-clock" id="digital-clock">00:00:00</div>
+        <div class="system-uptime">UPTIME: <span id="uptime-counter">00:00:00</span></div>
+      </div>
+
+      <!-- Controls Dock: Sound Mixer, Canvas Toggle, Theme Selector -->
+      <div class="header-controls">
+        <!-- Canvas Toggle Switch -->
+        <button id="btn-toggle-canvas" class="hud-badge-btn" title="Switch Canvas Mode">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span id="canvas-mode-label">Canvas: Neural Web</span>
+        </button>
+
+        <!-- Ambient Sound Synthesizer Switch -->
+        <button id="btn-toggle-ambient" class="hud-badge-btn" title="Synthesize Cyber Ambient Theme">
+          <svg id="svg-sound-off" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg id="svg-sound-on" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span id="sound-mode-label">Ambient Synth: Muted</span>
+        </button>
+
+        <!-- Theme Color Grid Selector -->
+        <div class="theme-grid-selector">
+          <button class="theme-dot cyan-magenta active" data-theme="cyan-magenta" title="Cyber Pink & Cyan"></button>
+          <button class="theme-dot toxic-green" data-theme="toxic-green" title="Toxic Hacker Green"></button>
+          <button class="theme-dot amber-gold" data-theme="amber-gold" title="Amber Alert Gold"></button>
+          <button class="theme-dot hazard-yellow" data-theme="hazard-yellow" title="Industrial Hazard"></button>
+        </div>
+      </div>
+      
+      <div class="header-corner-decor right-decor"></div>
+    </header>
+
+    <!-- MIDDLE SECTION: THREE-COLUMN HUD OPERATIONS GRID -->
+    <main class="hud-grid-workspace">
+
+      <!-- COLUMN 1: SYSTEM MONITOR & DIAGNOSTICS (Left Wing) -->
+      <section class="hud-panel left-panel" aria-label="System Diagnostics">
+        <div class="panel-header">
+          <div class="panel-icon">⚙️</div>
+          <h2>DIAGNOSTIC STATUS</h2>
+          <div class="status-indicator-green">STABLE</div>
+        </div>
+        
+        <div class="panel-body">
+          
+          <!-- Tactical Core Temp Alert -->
+          <div class="diagnostic-widget warning-widget" id="temp-widget">
+            <div class="widget-header">
+              <span class="widget-title">💥 CORE TEMPERATURE</span>
+              <span class="widget-value" id="val-core-temp">48.2 °C</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill warning-fill" id="fill-core-temp" style="width: 48.2%;"></div>
+            </div>
+            <p class="widget-sub-tag">OVERHEAT PROTOCOL: STANDBY</p>
+          </div>
+
+          <!-- Network Ping Gauge -->
+          <div class="diagnostic-widget">
+            <div class="widget-header">
+              <span class="widget-title">📡 HOST NET PING</span>
+              <span class="widget-value" id="val-ping">24 ms</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="fill-ping" style="width: 24%;"></div>
+            </div>
+          </div>
+
+          <!-- Dynamic CPU Load Matrix -->
+          <div class="diagnostic-widget">
+            <div class="widget-header">
+              <span class="widget-title">💻 CORE CPU WORKLOAD</span>
+              <span class="widget-value" id="val-cpu">18%</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="fill-cpu" style="width: 18%;"></div>
+            </div>
+
+            <!-- Mini CPU Multi-cores grid -->
+            <div class="mini-cores-grid">
+              <div class="core-box">
+                <span class="core-label">C1</span>
+                <div class="core-pulse-bar" id="cpu-core-1" style="height: 15%;"></div>
+              </div>
+              <div class="core-box">
+                <span class="core-label">C2</span>
+                <div class="core-pulse-bar" id="cpu-core-2" style="height: 42%;"></div>
+              </div>
+              <div class="core-box">
+                <span class="core-label">C3</span>
+                <div class="core-pulse-bar" id="cpu-core-3" style="height: 25%;"></div>
+              </div>
+              <div class="core-box">
+                <span class="core-label">C4</span>
+                <div class="core-pulse-bar" id="cpu-core-4" style="height: 9%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Memory Heap Widget -->
+          <div class="diagnostic-widget">
+            <div class="widget-header">
+              <span class="widget-title">💿 PHYSICAL MEMORY HEAP</span>
+              <span class="widget-value" id="val-ram">3.4 GB / 16.0 GB</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="fill-ram" style="width: 21.25%;"></div>
+            </div>
+          </div>
+
+          <!-- Firewall / Security Log ticker -->
+          <div class="security-ticker-box">
+            <h3>🛡️ NETWORK SECURITY GATEWAY:</h3>
+            <div class="ticker-scroller" id="ticker-scroller">
+              <!-- Dynamically populated rows -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- COLUMN 2: COMMAND SHELL & LIVE TERMINAL (Center Stage) -->
+      <section class="hud-panel center-panel" aria-label="Command Operations Console">
+        <div class="panel-header">
+          <div class="panel-icon">💻</div>
+          <h2>TACTICAL OPERATIONS TERMINAL</h2>
+          <div class="status-indicator-blue">CLI ACTIVE</div>
+        </div>
+
+        <div class="panel-body terminal-body">
+          <!-- CRT Terminal Output Area -->
+          <div class="terminal-scroller" id="terminal-scroller">
+            <div class="terminal-welcome-text">
+              <pre class="terminal-ascii-art">
+██████╗██╗   ██╗██████╗ ███████╗██████╗ 
+██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗
+██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝
+██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗
+╚██████╗   ██║   ██████╔╝███████╗██║  ██║
+ ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
+              </pre>
+              <p class="welcome-desc">CYBERNETIC DASHBOARD PROTOCOL v8.04 [MAINFRAME INITIALIZED]</p>
+              <p class="welcome-desc">Welcome Operator <span style="color: var(--neon-accent);">Vanshika</span>. Type <span class="cmd-highlight">help</span> to check available network commands.</p>
+              <div class="terminal-spacer"></div>
+            </div>
+            <div id="terminal-output">
+              <!-- Custom terminal commands logs inject here -->
+            </div>
+            
+            <!-- Floating terminal prompt anchor line -->
+            <div class="terminal-prompt-line">
+              <span class="terminal-prompt">[guest@cyber-dash]:~$</span>
+              <form id="terminal-form" class="terminal-form">
+                <input type="text" id="terminal-input" placeholder="Initiate operations..." autocomplete="off" autofocus>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 3: TASK VAULT & SCHEDULER (Right Wing) -->
+      <section class="hud-panel right-panel" aria-label="Task Management Vault">
+        <div class="panel-header">
+          <div class="panel-icon">📋</div>
+          <h2>COGNITIVE NEURAL MATRIX</h2>
+          <div class="status-indicator-orange" id="task-completion-rate">TASKS: 0%</div>
+        </div>
+
+        <div class="panel-body task-vault-body">
+          
+          <!-- Task filter tabs -->
+          <div class="task-filters">
+            <button class="filter-tab active" data-filter="all">ALL DESTRUCTS</button>
+            <button class="filter-tab" data-filter="sec">SECURITY</button>
+            <button class="filter-tab" data-filter="net">NETWORK</button>
+            <button class="filter-tab" data-filter="db">DATABASE</button>
+            <button class="filter-tab" data-filter="sys">SYSTEM</button>
+          </div>
+
+          <!-- List box of dynamically created Task Cards -->
+          <div class="task-list-scroller" id="task-list-scroller">
+            <div class="empty-task-prompt" id="empty-task-prompt">
+              <div class="empty-icon-deco">⚡</div>
+              <h3>NO SYSTEM DESTRUCTS STAGED</h3>
+              <p>Initialize a task vector in the operations portal below or via command shell line commands!</p>
+            </div>
+            <!-- Cards will be populated here -->
+          </div>
+
+          <!-- Staging Portal: Add Task form -->
+          <div class="task-staging-portal">
+            <h3>🛠️ INITIATE TASK OBJECT:</h3>
+            <form id="task-add-form" class="task-add-form">
+              <div class="form-row-main">
+                <input type="text" id="task-title-input" placeholder="Execute new task module..." required autocomplete="off">
+                <button type="submit" class="hud-action-btn" title="Initiate Task Vector">INITIATE</button>
+              </div>
+              
+              <div class="form-row-sub">
+                <!-- Category Select -->
+                <div class="select-wrapper">
+                  <select id="task-category-select">
+                    <option value="sys">Category: SYSTEM</option>
+                    <option value="sec">Category: SECURITY</option>
+                    <option value="net">Category: NETWORK</option>
+                    <option value="db">Category: DATABASE</option>
+                  </select>
+                </div>
+
+                <!-- Priority Select -->
+                <div class="select-wrapper">
+                  <select id="task-priority-select">
+                    <option value="low">Priority: MINIMAL</option>
+                    <option value="medium" selected>Priority: NORMAL</option>
+                    <option value="high">Priority: SEVERE</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM DECK: TERMINAL CONTROL FOOTER -->
+    <footer class="hud-footer">
+      <div class="system-logs-ticker">
+        <span class="ticker-badge">LIVE STATUS STREAM</span>
+        <div class="ticker-text" id="live-footer-log">Mainframe nodes successfully verified. Awaiting commands...</div>
+      </div>
+
+      <div class="credits-dock">
+        <span>SECURITY SIGNATURE: <span class="badge-tag">SEC-V8.04-ACTIVE</span></span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Master JavaScript engine -->
+  <script src="app.js"></script>
+</body>
+</html>

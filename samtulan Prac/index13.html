@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini YouTube</title>
+</head>
+<body>
+
+<h2>Upload Video</h2>
+<input type="file" id="fileInput" />
+<button onclick="uploadVideo()">Upload</button>
+
+<h2>Videos</h2>
+<div id="videos"></div>
+
+<script>
+async function uploadVideo() {
+  const file = document.getElementById("fileInput").files[0];
+  const formData = new FormData();
+  formData.append("video", file);
+
+  await fetch("http://localhost:5000/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  loadVideos();
+}
+
+async function loadVideos() {
+  const res = await fetch("http://localhost:5000/videos");
+  const data = await res.json();
+
+  const container = document.getElementById("videos");
+  container.innerHTML = "";
+
+  data.forEach(file => {
+    const video = document.createElement("video");
+    video.src = `http://localhost:5000/videos/${file}`;
+    video.controls = true;
+    video.width = 300;
+    container.appendChild(video);
+  });
+}
+
+loadVideos();
+</script>
+
+</body>
+</html>

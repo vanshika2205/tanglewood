@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samtulan AI</title>
+<style>
+body { font-family: Arial; margin:0; background:#f5f5f5; }
+header { padding:10px; background:#111; color:white; display:flex; justify-content:space-between; }
+.container { display:flex; }
+.sidebar { width:200px; background:#eee; padding:10px; }
+.main { flex:1; padding:10px; }
+.video-card { background:white; padding:10px; margin:10px 0; border-radius:8px; }
+.badge { font-size:12px; padding:2px 6px; border-radius:5px; }
+.verified { background:green; color:white; }
+.sensitive { background:orange; color:white; }
+.flagged { background:red; color:white; }
+</style>
+</head>
+<body>
+<header>
+<h2>Samtulan</h2>
+<button onclick="toggleTheme()">Toggle Theme</button>
+</header>
+
+<div class="container">
+<div class="sidebar">
+<input id="search" placeholder="Search" oninput="renderVideos()" />
+</div>
+<div class="main" id="videos"></div>
+</div>
+
+<script>
+let videos = [
+{title:"JS Basics", description:"learn javascript", source:"", likes:10, reports:0},
+{title:"Fake cure for disease", description:"fake cure", source:"", likes:2, reports:6},
+{title:"Science facts", description:"real science", source:"nasa", likes:20, reports:0}
+];
+
+const harmfulWords = ["fake cure","kill","hate"];
+
+function analyze(video){
+let score=0;
+let text=(video.title+video.description).toLowerCase();
+
+let harmful=false;
+harmfulWords.forEach(w=>{ if(text.includes(w)) harmful=true; });
+
+if(video.source) score+=40;
+if(!harmful) score+=30;
+score+=video.likes*2;
+score-=video.reports*10;
+
+video.trustScore=score;
+
+if(harmful || video.reports>=5){ video.sensitivity="flagged"; }
+else if(!video.source){ video.sensitivity="sensitive"; }
+else{ video.sensitivity="verified"; }
+}
+
+function renderVideos(){
+videos.forEach(analyze);
+
+videos.sort((a,b)=>b.trustScore-a.trustScore);
+
+let q=document.getElementById("search").value.toLowerCase();
+
+let html="";
+videos.filter(v=>v.title.toLowerCase().includes(q)).forEach(v=>{
+html+=`<div class="video-card">
+<h3>${v.title}</h3>
+<p>${v.description}</p>
+<p>Score: ${v.trustScore}</p>
+<span class="badge ${v.sensitivity}">${v.sensitivity}</span>
+<button onclick="report('${v.title}')">Report</button>
+</div>`;
+});
+
+document.getElementById("videos").innerHTML=html;
+}
+
+function report(title){
+let v=videos.find(x=>x.title===title);
+v.reports++;
+renderVideos();
+}
+
+function toggleTheme(){
+if(document.body.style.background=="black"){
+document.body.style.background="#f5f5f5";
+document.body.style.color="black";
+}else{
+document.body.style.background="black";
+document.body.style.color="white";
+}
+}
+
+renderVideos();
+</script>
+</body>
+</html>

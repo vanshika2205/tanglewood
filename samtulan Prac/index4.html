@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Samtulan - Upload Video</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#A8DADC",
+              "background-light": "#F1FAEE",
+              "background-dark": "#102220",
+              "text-primary-light": "#2d3748",
+              "text-primary-dark": "#F1FAEE",
+              "text-secondary-light": "#6A9C89",
+              "text-secondary-dark": "#B5D5C5",
+              "border-light": "#dbe6e5",
+              "border-dark": "#2d3748",
+              "accent": "#6A9C89"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<header class="w-full bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="max-w-5xl mx-auto px-4">
+<div class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark py-3">
+<div class="flex items-center gap-4 text-text-primary-light dark:text-text-primary-dark">
+<div class="size-6 text-accent">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Samtulan</h2>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm font-medium leading-normal hover:text-accent dark:hover:text-primary transition-colors" href="#">Back to My Channel</a>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-text-primary-light text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
+<span class="truncate">Upload</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA25keb4G3S4lnZ9ptaM_U9Iqm72M1ZLNgIoGq3h4IzV7bH5I7Ig0vSN_hbrrJdt6Vb1gO_bDSJumsad_XMG8EFFKeK4YKSiIUmKK72s_lkaycDAWRgYYnGMOaNkgaMBF1osMWX2a9-rxzZO0_JwcRO6XrCix4zJBst-AfDiraJoHrcaGI4h6zBqJqpj-PSGVSqlmf5CO77pODOUp-jlA4xKGTY-W-MYs0Sz6EWxiXBTILFqnrWP9gfd3kyvo2Re7Z68gF6amcp3A");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 px-4">
+<div class="layout-content-container flex flex-col w-full max-w-3xl flex-1 gap-8">
+<div class="flex flex-wrap justify-between gap-3">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-4xl font-black leading-tight tracking-[-0.033em]">Upload Your Video</p>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal">Share your knowledge with the Samtulan community</p>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<section>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 border-b border-border-light dark:border-border-dark mb-4">Video File</h2>
+<div class="flex flex-col">
+<div class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark px-6 py-14">
+<div class="flex max-w-[480px] flex-col items-center gap-2">
+<p class="text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">Drag &amp; drop video file to upload</p>
+<p class="text-sm font-normal leading-normal max-w-[480px] text-center">Your video will be private until you publish it.</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-gray-700 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+<span class="truncate">Select Video File</span>
+</button>
+</div>
+</div>
+<!-- Example Progress Bar State (commented out by default)
+                        <div class="flex flex-col gap-3 pt-4">
+                            <div class="flex gap-6 justify-between"><p class="text-base font-medium leading-normal">Uploading...</p></div>
+                            <div class="rounded-full bg-border-light dark:bg-border-dark h-2"><div class="h-2 rounded-full bg-accent" style="width: 75%;"></div></div>
+                            <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal leading-normal">pomodoro-technique.mp4</p>
+                        </div>
+                        -->
+</section>
+<section>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 border-b border-border-light dark:border-border-dark mb-6">Video Details</h2>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium" for="video-title">Title <span class="text-red-500">*</span></label>
+<input class="w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark/50 p-2 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="video-title" name="video-title" placeholder="e.g., How to Master the Pomodoro Technique" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium" for="video-description">Description</label>
+<textarea class="w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark/50 p-2 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="video-description" name="video-description" placeholder="Provide a summary of your video's content..." rows="5"></textarea>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium" for="video-category">Category <span class="text-red-500">*</span></label>
+<select class="w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark/50 p-2 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="video-category" name="video-category">
+<option>Select a category</option>
+<option value="study-tips">Study Tips</option>
+<option value="coding">Coding</option>
+<option value="skill-development">Skill Development</option>
+<option value="productivity">Productivity Hacks</option>
+</select>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 border-b border-border-light dark:border-border-dark mb-6">Credibility</h2>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium" for="source-reference">Source/Reference <span class="text-red-500">*</span></label>
+<textarea class="w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark/50 p-2 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="source-reference" name="source-reference" placeholder="e.g., Based on 'The 7 Habits of Highly Effective People' by Stephen Covey. Add links or citations here." rows="4"></textarea>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mt-1">Please acknowledge your sources to maintain credibility and trust within the community.</p>
+</div>
+</section>
+<div class="flex justify-end pt-6">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-text-primary-light text-base font-bold leading-normal tracking-[0.015em] disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed dark:disabled:bg-gray-700 dark:disabled:text-gray-400 hover:opacity-90 transition-opacity" disabled="">
+<span class="truncate">Submit for Review</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

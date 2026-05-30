@@ -1,0 +1,146 @@
+
+> samtulan@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.3
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/24) ...
+Stream error: q [Error]: Dynamic server usage: Route /api/videos/stream couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at Object.get (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:37835)
+    at d (/Users/vanshika/Downloads/samtulan2/.next/server/app/api/videos/stream/route.js:1:699)
+    at /Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:34672
+    at /Users/vanshika/Downloads/samtulan2/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/vanshika/Downloads/samtulan2/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062) {
+  description: "Route /api/videos/stream couldn't be rendered statically because it accessed `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (6/24) 
+   Generating static pages (12/24) 
+ ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/create-channel". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/159.js:1:30602)
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/159.js:1:41599)
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/506.js:1:5652)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64853)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+
+Error occurred prerendering page "/create-channel". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: isModern is not defined
+    at wI (/Users/vanshika/Downloads/samtulan2/.next/server/app/admin/content/page.js:1:321972)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680) {
+  digest: '3696779916'
+}
+ReferenceError: BellIcon is not defined
+    at u (/Users/vanshika/Downloads/samtulan2/.next/server/app/creator/page.js:1:4341)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680) {
+  digest: '169340444'
+}
+
+Error occurred prerendering page "/admin/content". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: isModern is not defined
+    at wI (/Users/vanshika/Downloads/samtulan2/.next/server/app/admin/content/page.js:1:321972)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+   Generating static pages (18/24) 
+ReferenceError: useRef is not defined
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/app/profile/page.js:1:2455)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680) {
+  digest: '3609884409'
+}
+
+Error occurred prerendering page "/profile". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: useRef is not defined
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/app/profile/page.js:1:2455)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+
+Error occurred prerendering page "/creator". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: BellIcon is not defined
+    at u (/Users/vanshika/Downloads/samtulan2/.next/server/app/creator/page.js:1:4341)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+ ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/upload". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/159.js:1:30602)
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/159.js:1:41599)
+    at c (/Users/vanshika/Downloads/samtulan2/.next/server/chunks/506.js:1:5652)
+    at nj (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+    at nD (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66680)
+    at nN (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64853)
+    at nB (/Users/vanshika/Downloads/samtulan2/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67538)
+
+Error occurred prerendering page "/upload". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ ✓ Generating static pages (24/24)
+
+> Export encountered errors on following paths:
+	/admin/content/page: /admin/content
+	/create-channel/page: /create-channel
+	/creator/page: /creator
+	/profile/page: /profile
+	/upload/page: /upload

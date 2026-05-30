@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box1{
+            height: 121px;
+            width: 121px;
+            background-color:blueviolet ;
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: animateY ease-out alternate 1s infinite;
+        }
+
+        .box2{
+            height: 121px;
+            width: 121px;
+            background-color:lightcoral;
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: animateY ease-out alternate 1s infinite;
+            animation-delay: 1s;
+            margin-left: 170px;
+        }
+
+         .box3{
+            height: 121px;
+            width: 121px;
+            background-color:yellowgreen;
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: animateX 3s linear infinite,animateY ease-out alternate 1s infinite;
+            /* animation: animateY ease-out alternate 1s infinite; */
+            animation-delay: 1s;
+            /* margin-left: 150px; */
+        }
+          
+          .box4{
+            height: 121px;
+            width: 121px;
+            background-color:rgb(17, 92, 133);
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation:animateX 3s linear infinite,animateY ease-out alternate 1s infinite;
+            /* animateT 3S linear infinite,animateY ease-out alternate 1s infinite; */
+            animation-delay: 1s;
+            /* margin-left: 450px; */
+            animation-direction: reverse;
+        }
+
+        .box5{
+            height: 121px;
+            width: 121px;
+            background-color:rgb(159, 18, 53);
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: animateY ease-out alternate 1s infinite;
+            animation-delay: 0.5s;
+            margin-left: 650px;
+        }
+
+        .box6{
+            height: 121px;
+            width: 121px;
+            background-color:rgb(39, 17, 2);
+            border-radius: 70px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation:  identifier 3s  infinite, animateY ease-out alternate 1s infinite  ;
+            animation-delay: 0.4s;
+            margin-left: 350px;
+            /* margin-left:200px; */
+            /* filter: hue-rotate(30deg); */
+            /* transform: translate(-350px,350px) to (450px,450px); */
+            
+        }
+
+        .container{
+            position: relative;
+            height: 80vh;
+            width: 80vw;
+            background-color: cornflowerblue;
+        }
+
+        @keyframes animateX{
+            from{
+                left: 0%;
+            }
+            to{
+                left: 100%;
+
+            }
+
+        }
+
+        @keyframes animateY{
+            from{
+                bottom: 0%;
+
+            }
+            to{
+                bottom: 100%;
+            }
+        }
+
+        /* @keyframes animateT{
+            from{
+                left: 100%;
+            }
+            to{
+                left: 0%;
+            }
+        } */
+
+        @keyframes identifier {
+            from{
+                left: 0%;
+                transform: translate(-120deg);
+               background-color: gold;
+            }
+            
+            50% {
+                transform: translateY(0px); 
+                background-color: rgb(39, 17, 2);
+                animation: animatepause 2s;
+            }
+            to{
+                left: 30%;
+                transform: translate(60deg);
+               background-color: lightslategrey;
+            }
+
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <div class="box4"></div>
+        <div class="box5"></div>
+        <div class="box6"></div>
+    </div>
+    
+</body>
+</html>

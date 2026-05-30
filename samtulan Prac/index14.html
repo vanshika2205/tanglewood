@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reels App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login">
+  <h2>Login</h2>
+  <input id="username" placeholder="Enter name"/>
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="app" style="display:none;">
+  <h2>Upload Video</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadVideo()">Upload</button>
+
+  <h2>Feed</h2>
+  <div id="feed"></div>
+</div>
+
+<script>
+async function login() {
+  const username = document.getElementById("username").value;
+
+  await fetch("http://localhost:5000/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ username })
+  });
+
+  document.getElementById("login").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  loadVideos();
+}
+
+async function uploadVideo() {
+  const file = document.getElementById("fileInput").files[0];
+  const formData = new FormData();
+  formData.append("video", file);
+
+  await fetch("http://localhost:5000/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  loadVideos();
+}
+
+async function loadVideos() {
+  const res = await fetch("http://localhost:5000/videos");
+  const data = await res.json();
+
+  const feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  data.forEach(file => {
+    const video = document.createElement("video");
+    video.src = `http://localhost:5000/videos/${file}`;
+    video.controls = true;
+    video.className = "video";
+    feed.appendChild(video);
+  });
+}
+</script>
+
+</body>
+</html>
