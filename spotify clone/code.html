@@ -1,26 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="code.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify - Web Player: Music for everyone</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Figtree Font (Spotify web player font vibe) -->
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="code.css">
 </head>
 <body>
 
-<div id="main">
+  <div id="main-container">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <a href="#">
+          <img src="assets/logo.png" alt="Spotify Logo" class="logo-img" id="spotify-logo">
+          <span class="logo-text">Spotify</span>
+        </a>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <ul>
+          <li class="menu-item active" onclick="switchTab('home')" id="tab-home">
+            <a href="#"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+          </li>
+          <li class="menu-item" onclick="switchTab('search')" id="tab-search">
+            <a href="#"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a>
+          </li>
+          <li class="menu-item" onclick="switchTab('library')" id="tab-library">
+            <a href="#"><i class="fa-solid fa-book"></i> <span>Your Library</span></a>
+          </li>
+        </ul>
+      </nav>
 
-    <div id="box1">
-          <img id="logo1" src="assets/logo.png" >
-          <img id="logo4" src="assets/logo4.png" >
-    </div>
+      <div class="sidebar-actions">
+        <button class="action-btn"><i class="fa-solid fa-plus"></i> Create Playlist</button>
+        <button class="action-btn liked-songs-btn"><i class="fa-solid fa-heart"></i> Liked Songs</button>
+      </div>
 
-    <div id = "box2"></div>
-    <div id = "box3"></div>
+      <hr class="sidebar-divider">
 
-</div>
+      <div class="sidebar-playlists">
+        <ul class="playlist-list">
+          <li><a href="#">Chill Vibes</a></li>
+          <li><a href="#">Coding Session</a></li>
+          <li><a href="#">Rock Classics</a></li>
+          <li><a href="#">Sunset Lo-Fi</a></li>
+          <li><a href="#">Focus & Chill</a></li>
+          <li><a href="#">Midnight Melodies</a></li>
+        </ul>
+      </div>
+    </aside>
 
+    <!-- Main Content Dashboard -->
+    <main class="content-dashboard">
+      <!-- Main Dashboard Sticky Header -->
+      <header class="dashboard-header">
+        <div class="header-nav">
+          <button class="nav-arrow" aria-label="Go Back"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="nav-arrow" aria-label="Go Forward"><i class="fa-solid fa-chevron-right"></i></button>
+          
+          <!-- Search Bar Container (Visible on Search Tab) -->
+          <div class="search-bar-container" id="header-search-bar">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-input" placeholder="What do you want to listen to?" oninput="handleSearch(this.value)">
+            <button class="clear-search-btn" onclick="clearSearch()" id="clear-search" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+
+        <div class="header-user">
+          <a href="https://github.com/vanshika2205" target="_blank" class="user-capsule">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="User Profile Image" class="user-avatar">
+            <span>Vanshika Bansal</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Scrollable Body -->
+      <div class="dashboard-body">
+        
+        <!-- Welcome Greeting Panel -->
+        <section class="greeting-section">
+          <h2 id="greeting-text">Good Afternoon</h2>
+          
+          <!-- 6 Grid Item Tiles -->
+          <div class="greeting-grid" id="greeting-grid">
+            <!-- Rendered Dynamically via Javascript -->
+          </div>
+        </section>
+
+        <!-- Recommended / Trending Section -->
+        <section class="section-container" id="trending-section">
+          <div class="section-title-bar">
+            <h2>Trending Tracks</h2>
+            <a href="#" class="see-all">Show all</a>
+          </div>
+          
+          <div class="songs-grid" id="songs-grid">
+            <!-- Rendered Dynamically via Javascript -->
+          </div>
+        </section>
+
+        <!-- Favorite Artists Section -->
+        <section class="section-container" id="artists-section">
+          <div class="section-title-bar">
+            <h2>Popular Artists</h2>
+            <a href="#" class="see-all">Show all</a>
+          </div>
+          
+          <div class="artists-grid">
+            <div class="artist-card">
+              <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=200&auto=format&fit=crop" alt="Artist Profile" class="artist-img">
+              <h3 class="artist-name">Justin Bieber</h3>
+              <p class="artist-role">Artist</p>
+            </div>
+            <div class="artist-card">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop" alt="Artist Profile" class="artist-img">
+              <h3 class="artist-name">The Weeknd</h3>
+              <p class="artist-role">Artist</p>
+            </div>
+            <div class="artist-card">
+              <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop" alt="Artist Profile" class="artist-img">
+              <h3 class="artist-name">Ed Sheeran</h3>
+              <p class="artist-role">Artist</p>
+            </div>
+            <div class="artist-card">
+              <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=200&auto=format&fit=crop" alt="Artist Profile" class="artist-img">
+              <h3 class="artist-name">Harry Styles</h3>
+              <p class="artist-role">Artist</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Bottom Playback Footer Bar -->
+    <footer class="player-bar">
+      <!-- Left side: Song details -->
+      <div class="track-details" id="track-details">
+        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=150&auto=format&fit=crop" alt="Album Cover" class="track-cover" id="player-cover">
+        <div class="track-info">
+          <span class="track-name" id="player-title">Blinding Lights</span>
+          <span class="track-artist" id="player-artist">The Weeknd</span>
+        </div>
+        <button class="track-like-btn" id="player-like-btn"><i class="fa-regular fa-heart"></i></button>
+      </div>
+
+      <!-- Center: Playback controls -->
+      <div class="player-controls">
+        <div class="control-buttons">
+          <button class="control-btn" id="btn-shuffle" title="Shuffle"><i class="fa-solid fa-shuffle"></i></button>
+          <button class="control-btn" id="btn-prev" title="Previous"><i class="fa-solid fa-backward-step"></i></button>
+          <button class="play-pause-btn" id="btn-play-pause" title="Play"><i class="fa-solid fa-play"></i></button>
+          <button class="control-btn" id="btn-next" title="Next"><i class="fa-solid fa-forward-step"></i></button>
+          <button class="control-btn" id="btn-repeat" title="Repeat"><i class="fa-solid fa-repeat"></i></button>
+        </div>
+        
+        <div class="progress-bar-container">
+          <span class="time-lbl" id="time-elapsed">0:00</span>
+          <div class="progress-bar-track" id="progress-track">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+            <div class="progress-bar-thumb" id="progress-thumb"></div>
+          </div>
+          <span class="time-lbl" id="track-duration">6:12</span>
+        </div>
+      </div>
+
+      <!-- Right side: Volume controls & options -->
+      <div class="player-options">
+        <button class="option-btn"><i class="fa-solid fa-microphone"></i></button>
+        <button class="option-btn" id="queue-trigger" title="Queue"><i class="fa-solid fa-list-ul"></i></button>
+        
+        <div class="volume-control">
+          <button class="option-btn" id="volume-icon-btn"><i class="fa-solid fa-volume-high"></i></button>
+          <div class="volume-slider-track" id="volume-track">
+            <div class="volume-slider-fill" id="volume-fill"></div>
+            <div class="volume-slider-thumb" id="volume-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="audio-player" style="display: none;"></audio>
+
+  <!-- Core JavaScript Controller -->
+  <script src="script.js"></script>
 </body>
-</html> 
-
-
+</html>
